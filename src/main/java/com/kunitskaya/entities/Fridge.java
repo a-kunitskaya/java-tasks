@@ -1,44 +1,50 @@
 package com.kunitskaya.entities;
 
+import com.kunitskaya.entities.data.HomeLocation;
+
 import java.util.Objects;
 
-public class Fridge extends HouseholdAppliance
-{
-	private int temperature;
+public class Fridge extends HouseholdAppliance {
+    private int freezingTemperature;
 
-	public int getTemperature()
-	{
-		return temperature;
-	}
+    public Fridge(int powerConsumption, String color, HomeLocation location, int freezingTemperature) {
+        super(powerConsumption, color, location);
+        this.freezingTemperature = freezingTemperature;
+    }
 
-	public void setTemperature(int temperature)
-	{
-		this.temperature = temperature;
-	}
-	@Override
-	public boolean equals(Object o)
-	{
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-		if (!super.equals(o))
-			return false;
-		Fridge fridge = (Fridge) o;
-		return temperature == fridge.temperature;
-	}
+    public Fridge(int powerConsumption) {
+        super(powerConsumption);
+    }
 
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(super.hashCode(), temperature);
-	}
+    public int getFreezingTemperature() {
+        return freezingTemperature;
+    }
 
-	@Override
-	public String toString()
-	{
-		return "Fridge{" +
-				"temperature=" + temperature +
-				'}';
-	}
+    public void setFreezingTemperature(int freezingTemperature) {
+        this.freezingTemperature = freezingTemperature;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
+        Fridge fridge = (Fridge) o;
+        return freezingTemperature == fridge.freezingTemperature;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), freezingTemperature);
+    }
+
+    @Override
+    public String toString() {
+        return "Fridge{" +
+                "freezingTemperature=" + freezingTemperature +
+                '}';
+    }
 }
