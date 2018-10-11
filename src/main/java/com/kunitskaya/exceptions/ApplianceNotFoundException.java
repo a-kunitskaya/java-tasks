@@ -1,11 +1,8 @@
 package com.kunitskaya.exceptions;
 
-/**
- * Custom final unchecked exception
- */
-public final class ApplianceNotFoundException extends CustomUncheckedException {
+public final class ApplianceNotFoundException extends CustomException {
 
-    public ApplianceNotFoundException(String errorMessage){
+    public ApplianceNotFoundException(String errorMessage) {
         super(errorMessage);
     }
 }

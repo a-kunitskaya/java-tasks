@@ -5,6 +5,7 @@ import com.kunitskaya.domain.HouseholdAppliance;
 import com.kunitskaya.domain.Kettle;
 import com.kunitskaya.domain.TvSet;
 import com.kunitskaya.domain.data.HomeLocation;
+import com.kunitskaya.exceptions.ApplianceNotFoundException;
 import com.kunitskaya.service.HouseholdApplianceFinder;
 import com.kunitskaya.service.HouseholdAppliancesSorter;
 import com.kunitskaya.service.PowerConsumptionCounter;
@@ -34,8 +35,13 @@ public class Main {
         PowerConsumptionCounter.countPowerConsumption(appliances);
 
         HouseholdApplianceFinder finder = new HouseholdApplianceFinder();
-        finder.findApplianceByColor(appliances, "WHITE");
-        finder.findApplianceByLocation(appliances, HomeLocation.LIVING_ROOM);
+
+        try {
+            finder.findApplianceByColor(appliances, "WHITE");
+            finder.findApplianceByLocation(appliances, HomeLocation.LIVING_ROOM);
+        } catch (ApplianceNotFoundException e) {
+            e.printStackTrace();
+        }
 
         new HouseholdAppliancesSorter().sortByPowerConsumption(appliances);
     }
