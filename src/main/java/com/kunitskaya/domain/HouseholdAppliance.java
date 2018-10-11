@@ -1,7 +1,7 @@
-package com.kunitskaya.entities;
+package com.kunitskaya.domain;
 
-import com.kunitskaya.entities.data.HomeLocation;
-import com.kunitskaya.entities.data.Pluginable;
+import com.kunitskaya.domain.data.HomeLocation;
+import com.kunitskaya.domain.data.Pluginable;
 
 import java.util.Objects;
 

@@ -1,6 +1,6 @@
 package com.kunitskaya.service;
 
-import com.kunitskaya.entities.HouseholdAppliance;
+import com.kunitskaya.domain.HouseholdAppliance;
 
 import java.util.Comparator;
 import java.util.List;

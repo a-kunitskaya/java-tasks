@@ -1,10 +1,10 @@
 package com.kunitskaya;
 
-import com.kunitskaya.entities.Fridge;
-import com.kunitskaya.entities.HouseholdAppliance;
-import com.kunitskaya.entities.Kettle;
-import com.kunitskaya.entities.TvSet;
-import com.kunitskaya.entities.data.HomeLocation;
+import com.kunitskaya.domain.Fridge;
+import com.kunitskaya.domain.HouseholdAppliance;
+import com.kunitskaya.domain.Kettle;
+import com.kunitskaya.domain.TvSet;
+import com.kunitskaya.domain.data.HomeLocation;
 import com.kunitskaya.service.HouseholdApplianceFinder;
 import com.kunitskaya.service.HouseholdAppliancesSorter;
 import com.kunitskaya.service.PowerConsumptionCounter;
