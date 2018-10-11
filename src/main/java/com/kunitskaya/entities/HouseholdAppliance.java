@@ -56,7 +56,7 @@ public abstract class HouseholdAppliance implements Pluginable {
     }
 
     @Override
-    public final boolean plugIn() {
+    public boolean plugIn() {
         String applianceName = this.getClass().getSimpleName();
         LOGGER.info("Plugging in " + applianceName);
 
@@ -67,7 +67,7 @@ public abstract class HouseholdAppliance implements Pluginable {
     }
 
     @Override
-    public final boolean unplug() {
+    public boolean unplug() {
         String applianceName = this.getClass().getSimpleName();
         LOGGER.info("Unplugging " + applianceName);
 
