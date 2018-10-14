@@ -6,6 +6,8 @@ import com.kunitskaya.domain.Kettle;
 import com.kunitskaya.domain.TvSet;
 import com.kunitskaya.domain.data.HomeLocation;
 import com.kunitskaya.exceptions.ApplianceNotFoundException;
+import com.kunitskaya.reflection.ClassInstantiator;
+import com.kunitskaya.reflection.ReflectionExecutor;
 import com.kunitskaya.service.HouseholdApplianceFinder;
 import com.kunitskaya.service.HouseholdAppliancesSorter;
 import com.kunitskaya.service.PowerConsumptionCounter;
@@ -44,5 +46,13 @@ public class Main {
         }
 
         new HouseholdAppliancesSorter().sortByPowerConsumption(appliances);
+
+        //M2 - Task 2 - Reflection API usage
+        ReflectionExecutor.executeReflectionMethods();
+
+
+
+
+
     }
 }

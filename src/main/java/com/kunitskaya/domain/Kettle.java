@@ -16,6 +16,10 @@ public class Kettle extends HouseholdAppliance {
         super(powerConsumption);
     }
 
+    public Kettle() {
+        super();
+    }
+
     public double getVolume() {
         return volume;
     }
@@ -45,6 +49,6 @@ public class Kettle extends HouseholdAppliance {
     public String toString() {
         return "Kettle{" +
                 "volume=" + volume +
-                '}';
+                "} " + super.toString();
     }
 }

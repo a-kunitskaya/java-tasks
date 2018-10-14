@@ -16,6 +16,9 @@ public class TvSet extends HouseholdAppliance {
         super(powerConsumption);
     }
 
+    public TvSet(){
+        super();
+    }
     public double getDisplaySize() {
         return displaySize;
     }
@@ -45,6 +48,6 @@ public class TvSet extends HouseholdAppliance {
     public String toString() {
         return "TvSet{" +
                 "displaySize=" + displaySize +
-                '}';
+                "} " + super.toString();
     }
 }

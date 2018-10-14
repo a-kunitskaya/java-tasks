@@ -16,6 +16,10 @@ public class Fridge extends HouseholdAppliance {
         super(powerConsumption);
     }
 
+    public Fridge() {
+        super();
+    }
+
     public int getFreezingTemperature() {
         return freezingTemperature;
     }
@@ -45,6 +49,6 @@ public class Fridge extends HouseholdAppliance {
     public String toString() {
         return "Fridge{" +
                 "freezingTemperature=" + freezingTemperature +
-                '}';
+                "} " + super.toString();
     }
 }
