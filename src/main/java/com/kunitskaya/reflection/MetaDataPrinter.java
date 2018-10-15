@@ -18,14 +18,14 @@ public class MetaDataPrinter {
         Constructor<?>[] constructors = clazz.getConstructors();
         int modifiers = clazz.getModifiers();
 
-        System.out.println("Class name: " + name + "\n");
-        System.out.println("Super class name: " + superName + "\n");
-        System.out.println("Fields: " + Arrays.toString(fields) + "\n");
-        System.out.println("Methods: " + Arrays.toString(methods) + "\n");
-        System.out.println("Interfaces: " + Arrays.toString(interfaces) + "\n");
-        System.out.println("Annotations: " + Arrays.toString(annotations) + "\n");
-        System.out.println("Constructors: " + Arrays.toString(constructors) + "\n");
-        System.out.println("Modifiers: " + modifiers + "\n");
+        System.out.println("Class name: " + name + "\n"
+                + "Super class name: " + superName + "\n"
+                + "Fields: " + Arrays.toString(fields) + "\n"
+                + "Methods: " + Arrays.toString(methods) + "\n"
+                + "Interfaces: " + Arrays.toString(interfaces) + "\n"
+                + "Annotations: " + Arrays.toString(annotations) + "\n"
+                + "Constructors: " + Arrays.toString(constructors) + "\n"
+                + "Modifiers: " + modifiers + "\n");
 
 
     }
