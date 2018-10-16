@@ -1,6 +1,7 @@
-package com.kunitskaya.service;
+package com.kunitskaya.service.implementation;
 
-import com.kunitskaya.domain.HouseholdAppliance;
+import com.kunitskaya.domain.appliances.HouseholdAppliance;
+import com.kunitskaya.service.Sortable;
 
 import java.util.Comparator;
 import java.util.List;

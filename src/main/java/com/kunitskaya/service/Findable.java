@@ -1,7 +1,7 @@
 package com.kunitskaya.service;
 
-import com.kunitskaya.domain.HouseholdAppliance;
-import com.kunitskaya.domain.data.HomeLocation;
+import com.kunitskaya.domain.appliances.HouseholdAppliance;
+import com.kunitskaya.domain.HomeLocation;
 import com.kunitskaya.exceptions.ApplianceNotFoundException;
 
 import java.util.List;

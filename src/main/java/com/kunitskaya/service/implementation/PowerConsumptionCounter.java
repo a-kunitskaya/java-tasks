@@ -1,6 +1,6 @@
-package com.kunitskaya.service;
+package com.kunitskaya.service.implementation;
 
-import com.kunitskaya.domain.HouseholdAppliance;
+import com.kunitskaya.domain.appliances.HouseholdAppliance;
 
 import java.util.Arrays;
 import java.util.List;

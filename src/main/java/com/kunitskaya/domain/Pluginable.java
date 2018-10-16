@@ -1,4 +1,4 @@
-package com.kunitskaya.domain.data;
+package com.kunitskaya.domain;
 
 public interface Pluginable {
     boolean plugIn();

@@ -1,14 +1,14 @@
 package com.kunitskaya;
 
-import com.kunitskaya.domain.Fridge;
-import com.kunitskaya.domain.HouseholdAppliance;
-import com.kunitskaya.domain.Kettle;
-import com.kunitskaya.domain.TvSet;
-import com.kunitskaya.domain.data.HomeLocation;
+import com.kunitskaya.domain.appliances.Fridge;
+import com.kunitskaya.domain.appliances.HouseholdAppliance;
+import com.kunitskaya.domain.appliances.Kettle;
+import com.kunitskaya.domain.appliances.TvSet;
+import com.kunitskaya.domain.HomeLocation;
 import com.kunitskaya.exceptions.ApplianceNotFoundException;
-import com.kunitskaya.service.HouseholdApplianceFinder;
-import com.kunitskaya.service.HouseholdAppliancesSorter;
-import com.kunitskaya.service.PowerConsumptionCounter;
+import com.kunitskaya.service.implementation.HouseholdApplianceFinder;
+import com.kunitskaya.service.implementation.HouseholdAppliancesSorter;
+import com.kunitskaya.service.implementation.PowerConsumptionCounter;
 
 import java.util.Arrays;
 import java.util.List;
