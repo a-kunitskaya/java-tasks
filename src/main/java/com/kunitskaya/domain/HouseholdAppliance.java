@@ -23,7 +23,8 @@ public abstract class HouseholdAppliance implements Pluginable {
         this.powerConsumption = powerConsumption;
     }
 
-    public HouseholdAppliance(){}
+    public HouseholdAppliance() {
+    }
 
     public int getPowerConsumption() {
         return powerConsumption;
@@ -108,4 +109,3 @@ public abstract class HouseholdAppliance implements Pluginable {
                 '}';
     }
 }
-

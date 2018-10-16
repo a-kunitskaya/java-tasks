@@ -8,7 +8,6 @@ import com.kunitskaya.domain.data.HomeLocation;
 /**
  * Shows Reflection API usage
  * Created to avoid calling all these methods directly from main
- *
  */
 public class ReflectionExecutor {
 
@@ -18,8 +17,9 @@ public class ReflectionExecutor {
         HouseholdAppliance kettle = ClassInstantiator.instantiate(Kettle.class, 200);
         HouseholdAppliance fridge = ClassInstantiator.instantiate(Fridge.class);
 
-        HouseholdAppliance modelFrigge = new Fridge(100, "red", HomeLocation.LIVING_ROOM, -4);
+        HouseholdAppliance modelFridge = new Fridge(100, "red", HomeLocation.LIVING_ROOM, -4);
+        FieldsManipulator.fillInFieldsWithReflection(modelFridge, fridge);
 
-        FieldsManipulator.fillInFieldsWithReflection(modelFrigge, fridge);
+        MetaDataPrinter.printMetaData(HouseholdAppliance.class);
     }
 }
