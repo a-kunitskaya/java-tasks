@@ -16,6 +16,15 @@ public class Fridge extends HouseholdAppliance {
         super(powerConsumption);
     }
 
+    public Fridge(int powerConsumption, int freezingTemperature) {
+        super(powerConsumption);
+        if (freezingTemperature > 0) {
+            throw new IllegalArgumentException("Freezing temperature can't be > 0");
+        } else {
+            this.freezingTemperature = freezingTemperature;
+        }
+    }
+
     public int getFreezingTemperature() {
         return freezingTemperature;
     }

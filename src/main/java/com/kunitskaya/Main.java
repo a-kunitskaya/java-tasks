@@ -6,10 +6,9 @@ import com.kunitskaya.domain.appliances.HouseholdAppliance;
 import com.kunitskaya.domain.appliances.Kettle;
 import com.kunitskaya.domain.appliances.TvSet;
 import com.kunitskaya.exceptions.ApplianceNotFoundException;
-import com.kunitskaya.service.implementation.ByColorFinder;
-import com.kunitskaya.service.implementation.ByLocationFinder;
-import com.kunitskaya.service.implementation.PowerConsumptionCounter;
-import com.kunitskaya.service.implementation.SorterByPowerConsumption;
+import com.kunitskaya.exceptions.ByTemperatureApplianceNotFoundException;
+import com.kunitskaya.exceptions.NotSupportedApplianceTypeException;
+import com.kunitskaya.service.implementation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +24,7 @@ public class Main {
         LOGGER.info(String.format(PLUGIN_MESSAGE, Fridge.class.getSimpleName()));
         fridge.plugIn();
 
-        TvSet tvSet = new TvSet(200, "black", HomeLocation.KITCHEN, 55);
+        TvSet tvSet = new TvSet(200, "black", HomeLocation.LIVING_ROOM, 55);
         LOGGER.info(String.format(PLUGIN_MESSAGE, TvSet.class.getSimpleName()));
         tvSet.plugIn();
 
@@ -44,10 +43,13 @@ public class Main {
         //Since fridge is unplugged it does not consume power anymore
         PowerConsumptionCounter.countPowerConsumption(appliances);
 
-        String color = "WHITE";
         try {
+            String color = "WHITE";
             List appliancesWithColor = new ByColorFinder(color).find(appliances);
             List appliancesWithLocation = new ByLocationFinder(HomeLocation.LIVING_ROOM).find(appliances);
+            if (appliancesWithColor.size() != 0 && appliancesWithLocation.size() != 0) {
+                LOGGER.info("Some appliances were found by color and location!");
+            }
         } catch (ApplianceNotFoundException e) {
             e.printStackTrace();
         }
@@ -60,5 +62,13 @@ public class Main {
         LOGGER.info("Order of items in a sorted list:");
         appliances.forEach(a -> LOGGER.info(a.getClass().getSimpleName() + ", power consumption: " + a.getPowerConsumption()));
 
+        try {
+            int freezingTemperature = -3;
+            List appliancesWithTemperature = new ByTemperatureFinder(freezingTemperature).find(appliances);
+        } catch (NotSupportedApplianceTypeException | ByTemperatureApplianceNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            LOGGER.info("Expected exception - NotSupportedApplianceTypeException");
+        }
     }
 }

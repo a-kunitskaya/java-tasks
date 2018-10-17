@@ -2,7 +2,6 @@ package com.kunitskaya.service.implementation;
 
 import com.kunitskaya.domain.HomeLocation;
 import com.kunitskaya.domain.appliances.HouseholdAppliance;
-import com.kunitskaya.exceptions.ByColorApplianceNotFoundException;
 import com.kunitskaya.exceptions.ByLocationNotFoundException;
 import com.kunitskaya.service.Findable;
 
@@ -19,7 +18,7 @@ public class ByLocationFinder implements Findable {
     }
 
     @Override
-    public List find(List<HouseholdAppliance> appliances) throws ByColorApplianceNotFoundException, ByLocationNotFoundException {
+    public List find(List<HouseholdAppliance> appliances) throws ByLocationNotFoundException {
         List<HouseholdAppliance> filteredAppliances = appliances.stream()
                                                                 .filter(a -> a.getLocation().equals(location))
                                                                 .collect(Collectors.toList());
