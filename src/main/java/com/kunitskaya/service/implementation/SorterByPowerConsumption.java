@@ -1,16 +1,16 @@
 package com.kunitskaya.service.implementation;
 
 import com.kunitskaya.domain.appliances.HouseholdAppliance;
-import com.kunitskaya.service.Sortable;
+import com.kunitskaya.service.Sorter;
 
 import java.util.Comparator;
 import java.util.List;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
-public class HouseholdAppliancesSorter implements Sortable {
+public class SorterByPowerConsumption implements Sorter {
     @Override
-    public void sortByPowerConsumption(List<HouseholdAppliance> appliances) {
+    public void sort(List<HouseholdAppliance> appliances) {
         LOGGER.info("Order of items in unsorted list:");
         appliances.forEach(a -> LOGGER.info(a.getClass().getSimpleName() + ", power consumption: " + a.getPowerConsumption()));
 

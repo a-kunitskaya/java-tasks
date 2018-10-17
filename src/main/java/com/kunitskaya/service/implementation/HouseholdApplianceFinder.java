@@ -12,8 +12,8 @@ import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class HouseholdApplianceFinder implements Findable {
 
-    @Override
-    public List<HouseholdAppliance> findApplianceByColor(List<HouseholdAppliance> appliances, String color) throws ApplianceNotFoundException {
+
+    public List<HouseholdAppliance> find(List<HouseholdAppliance> appliances, String color) throws ApplianceNotFoundException {
         List<HouseholdAppliance> filteredAppliances = appliances.stream()
                                                                 .filter(a -> a.getColor().equalsIgnoreCase(color))
                                                                 .collect(Collectors.toList());
@@ -26,7 +26,6 @@ public class HouseholdApplianceFinder implements Findable {
         }
     }
 
-    @Override
     public List<HouseholdAppliance> findApplianceByLocation(List<HouseholdAppliance> appliances, HomeLocation location) throws ApplianceNotFoundException {
         List<HouseholdAppliance> filteredAppliances = appliances.stream()
                                                                 .filter(a -> a.getLocation().equals(location))
@@ -38,5 +37,10 @@ public class HouseholdApplianceFinder implements Findable {
         } else {
             throw new ApplianceNotFoundException("No appliance is found by location: " + location.name());
         }
+    }
+
+    @Override
+    public List find(List<HouseholdAppliance> appliances) throws ApplianceNotFoundException {
+        return null;
     }
 }

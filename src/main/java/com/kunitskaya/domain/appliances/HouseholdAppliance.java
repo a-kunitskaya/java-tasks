@@ -1,26 +1,43 @@
 package com.kunitskaya.domain.appliances;
 
 import com.kunitskaya.domain.HomeLocation;
-import com.kunitskaya.domain.Pluginable;
+import com.kunitskaya.domain.Pluggable;
 
 import java.util.Objects;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
-public abstract class HouseholdAppliance implements Pluginable {
+public abstract class HouseholdAppliance implements Pluggable {
+    public static final String PLUGIN_MESSAGE = "Plugging in %s instance...";
+    public static final String UNPLUG_MESSAGE = "Unplugging %s instance...";
+
     private int powerConsumption;
     private boolean isPluggedIn;
     private String color;
     private HomeLocation location;
 
     public HouseholdAppliance(int powerConsumption, String color, HomeLocation location) {
-        this.powerConsumption = powerConsumption;
-        this.color = color;
+        if (powerConsumption <= 0) {
+            throw new IllegalArgumentException("Power consumption can't be < or = 0");
+        } else {
+            this.powerConsumption = powerConsumption;
+        }
+
+        String nonDigitPattern = "\\D+";
+        if (color.isEmpty() || color.matches(nonDigitPattern)) {
+            throw new IllegalArgumentException("Color should consist of > 0 word characters");
+        } else {
+            this.color = color;
+        }
         this.location = location;
     }
 
     public HouseholdAppliance(int powerConsumption) {
-        this.powerConsumption = powerConsumption;
+        if (powerConsumption <= 0) {
+            throw new IllegalArgumentException("Power consumption can't be < or = 0");
+        } else {
+            this.powerConsumption = powerConsumption;
+        }
     }
 
     public int getPowerConsumption() {
@@ -28,7 +45,11 @@ public abstract class HouseholdAppliance implements Pluginable {
     }
 
     public void setPowerConsumption(int powerConsumption) {
-        this.powerConsumption = powerConsumption;
+        if (powerConsumption <= 0) {
+            throw new IllegalArgumentException("Power consumption can't be < or = 0");
+        } else {
+            this.powerConsumption = powerConsumption;
+        }
     }
 
     public boolean isPluggedIn() {
@@ -58,8 +79,6 @@ public abstract class HouseholdAppliance implements Pluginable {
     @Override
     public final boolean plugIn() {
         String applianceName = this.getClass().getSimpleName();
-        LOGGER.info("Plugging in " + applianceName);
-
         setPluggedIn(true);
 
         LOGGER.info(applianceName + " is plugged in");
@@ -69,8 +88,6 @@ public abstract class HouseholdAppliance implements Pluginable {
     @Override
     public final boolean unplug() {
         String applianceName = this.getClass().getSimpleName();
-        LOGGER.info("Unplugging " + applianceName);
-
         setPluggedIn(false);
         setPowerConsumption(0);
 

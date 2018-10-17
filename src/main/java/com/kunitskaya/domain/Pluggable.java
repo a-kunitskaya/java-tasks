@@ -1,6 +1,6 @@
 package com.kunitskaya.domain;
 
-public interface Pluginable {
+public interface Pluggable {
     boolean plugIn();
 
     boolean unplug();
