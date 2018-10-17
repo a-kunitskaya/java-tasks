@@ -8,8 +8,8 @@ import com.kunitskaya.domain.appliances.TvSet;
 import com.kunitskaya.exceptions.ApplianceNotFoundException;
 import com.kunitskaya.service.implementation.ByColorFinder;
 import com.kunitskaya.service.implementation.ByLocationFinder;
-import com.kunitskaya.service.implementation.SorterByPowerConsumption;
 import com.kunitskaya.service.implementation.PowerConsumptionCounter;
+import com.kunitskaya.service.implementation.SorterByPowerConsumption;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,12 +20,12 @@ import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class Main {
     public static void main(String[] args) {
-        Fridge fridge = new Fridge(250, "white", HomeLocation.KITCHEN, 3);
+        Fridge fridge = new Fridge(250, "Fridge", HomeLocation.KITCHEN, 3);
 
         LOGGER.info(String.format(PLUGIN_MESSAGE, Fridge.class.getSimpleName()));
         fridge.plugIn();
 
-        TvSet tvSet = new TvSet(200, "black", HomeLocation.LIVING_ROOM, 55);
+        TvSet tvSet = new TvSet(200, "black", HomeLocation.KITCHEN, 55);
         LOGGER.info(String.format(PLUGIN_MESSAGE, TvSet.class.getSimpleName()));
         tvSet.plugIn();
 
@@ -44,8 +44,9 @@ public class Main {
         //Since fridge is unplugged it does not consume power anymore
         PowerConsumptionCounter.countPowerConsumption(appliances);
 
+        String color = "WHITE";
         try {
-            List appliancesWithColor = new ByColorFinder("WHITE").find(appliances);
+            List appliancesWithColor = new ByColorFinder(color).find(appliances);
             List appliancesWithLocation = new ByLocationFinder(HomeLocation.LIVING_ROOM).find(appliances);
         } catch (ApplianceNotFoundException e) {
             e.printStackTrace();
@@ -58,7 +59,6 @@ public class Main {
 
         LOGGER.info("Order of items in a sorted list:");
         appliances.forEach(a -> LOGGER.info(a.getClass().getSimpleName() + ", power consumption: " + a.getPowerConsumption()));
-
 
     }
 }

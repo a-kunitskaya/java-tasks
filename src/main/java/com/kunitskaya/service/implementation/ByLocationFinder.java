@@ -2,7 +2,8 @@ package com.kunitskaya.service.implementation;
 
 import com.kunitskaya.domain.HomeLocation;
 import com.kunitskaya.domain.appliances.HouseholdAppliance;
-import com.kunitskaya.exceptions.ApplianceNotFoundException;
+import com.kunitskaya.exceptions.ByColorApplianceNotFoundException;
+import com.kunitskaya.exceptions.ByLocationNotFoundException;
 import com.kunitskaya.service.Findable;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class ByLocationFinder implements Findable {
     }
 
     @Override
-    public List find(List<HouseholdAppliance> appliances) throws ApplianceNotFoundException {
+    public List find(List<HouseholdAppliance> appliances) throws ByColorApplianceNotFoundException, ByLocationNotFoundException {
         List<HouseholdAppliance> filteredAppliances = appliances.stream()
                                                                 .filter(a -> a.getLocation().equals(location))
                                                                 .collect(Collectors.toList());
@@ -27,7 +28,7 @@ public class ByLocationFinder implements Findable {
             filteredAppliances.forEach(appliance -> LOGGER.info("Found " + appliance.getClass().getSimpleName() + " by location " + location.name()));
             return filteredAppliances;
         } else {
-            throw new ApplianceNotFoundException("No appliance is found by location: " + location.name());
+            throw new ByLocationNotFoundException(ByLocationNotFoundException.getErrorMessage(location.name()));
         }
     }
 }

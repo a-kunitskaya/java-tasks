@@ -1,7 +1,7 @@
 package com.kunitskaya.service.implementation;
 
 import com.kunitskaya.domain.appliances.HouseholdAppliance;
-import com.kunitskaya.exceptions.ApplianceNotFoundException;
+import com.kunitskaya.exceptions.ByColorApplianceNotFoundException;
 import com.kunitskaya.service.Findable;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public class ByColorFinder implements Findable {
     }
 
     @Override
-    public List find(List<HouseholdAppliance> appliances) throws ApplianceNotFoundException {
+    public List find(List<HouseholdAppliance> appliances) throws ByColorApplianceNotFoundException {
         List<HouseholdAppliance> filteredAppliances = appliances.stream()
                                                                 .filter(a -> a.getColor().equalsIgnoreCase(color))
                                                                 .collect(Collectors.toList());
@@ -26,7 +26,7 @@ public class ByColorFinder implements Findable {
             filteredAppliances.forEach(appliance -> LOGGER.info("Found " + appliance.getClass().getSimpleName() + " by color " + color));
             return filteredAppliances;
         } else {
-            throw new ApplianceNotFoundException("No appliance is found by color: " + color);
+            throw new ByColorApplianceNotFoundException(ByColorApplianceNotFoundException.getErrorMessage(color));
         }
     }
 }

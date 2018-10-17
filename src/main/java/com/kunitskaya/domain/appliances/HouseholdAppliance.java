@@ -17,14 +17,14 @@ public abstract class HouseholdAppliance implements Pluggable {
     private HomeLocation location;
 
     public HouseholdAppliance(int powerConsumption, String color, HomeLocation location) {
-        if (powerConsumption <= 0) {
-            throw new IllegalArgumentException("Power consumption can't be < or = 0");
+        if (powerConsumption < 0) {
+            throw new IllegalArgumentException("Power consumption can't be < 0");
         } else {
             this.powerConsumption = powerConsumption;
         }
 
         String nonDigitPattern = "\\D+";
-        if (color.isEmpty() || color.matches(nonDigitPattern)) {
+        if (color.isEmpty() || !color.matches(nonDigitPattern)) {
             throw new IllegalArgumentException("Color should consist of > 0 word characters");
         } else {
             this.color = color;
@@ -33,8 +33,8 @@ public abstract class HouseholdAppliance implements Pluggable {
     }
 
     public HouseholdAppliance(int powerConsumption) {
-        if (powerConsumption <= 0) {
-            throw new IllegalArgumentException("Power consumption can't be < or = 0");
+        if (powerConsumption < 0) {
+            throw new IllegalArgumentException("Power consumption can't be < 0");
         } else {
             this.powerConsumption = powerConsumption;
         }
@@ -45,8 +45,8 @@ public abstract class HouseholdAppliance implements Pluggable {
     }
 
     public void setPowerConsumption(int powerConsumption) {
-        if (powerConsumption <= 0) {
-            throw new IllegalArgumentException("Power consumption can't be < or = 0");
+        if (powerConsumption < 0) {
+            throw new IllegalArgumentException("Power consumption can't be < 0");
         } else {
             this.powerConsumption = powerConsumption;
         }
