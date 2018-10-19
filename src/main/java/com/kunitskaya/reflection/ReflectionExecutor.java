@@ -4,6 +4,11 @@ import com.kunitskaya.domain.Fridge;
 import com.kunitskaya.domain.HouseholdAppliance;
 import com.kunitskaya.domain.Kettle;
 import com.kunitskaya.domain.data.HomeLocation;
+import com.kunitskaya.service.HouseholdAppliancesSorter;
+import com.kunitskaya.service.PowerConsumptionCounter;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Shows Reflection API usage
@@ -21,5 +26,20 @@ public class ReflectionExecutor {
         FieldsManipulator.fillInFieldsWithReflection(modelFridge, fridge);
 
         MetaDataPrinter.printMetaData(HouseholdAppliance.class);
+
+        MethodsExecutor.executeMethod("plugIn", fridge);
+        MethodsExecutor.executeMethod("unplug", fridge);
+
+        List instances = Arrays.asList(kettle, fridge);
+        Class[] paramTypes = new Class[]{List.class};
+        Object[] args = new Object[]{instances};
+
+        //TODO: change to sort method from branch M1_Core
+
+        MethodsExecutor.executeMethod("sortByPowerConsumption", new HouseholdAppliancesSorter(), paramTypes, args);
+
+        //TODO: add find methods from branch M1_Core
+
+        MethodsExecutor.executeMethod("countPowerConsumption", PowerConsumptionCounter.class, paramTypes, args);
     }
 }

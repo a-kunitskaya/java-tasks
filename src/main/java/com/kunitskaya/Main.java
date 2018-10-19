@@ -6,7 +6,6 @@ import com.kunitskaya.domain.Kettle;
 import com.kunitskaya.domain.TvSet;
 import com.kunitskaya.domain.data.HomeLocation;
 import com.kunitskaya.exceptions.ApplianceNotFoundException;
-import com.kunitskaya.reflection.ClassInstantiator;
 import com.kunitskaya.reflection.ReflectionExecutor;
 import com.kunitskaya.service.HouseholdApplianceFinder;
 import com.kunitskaya.service.HouseholdAppliancesSorter;
@@ -49,8 +48,6 @@ public class Main {
 
         //M2 - Task 2 - Reflection API usage
         ReflectionExecutor.executeReflectionMethods();
-
-
 
 
 
