@@ -119,4 +119,3 @@ public abstract class HouseholdAppliance implements Pluginable {
                 '}';
     }
 }
-

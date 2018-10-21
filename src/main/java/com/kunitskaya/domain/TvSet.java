@@ -19,9 +19,10 @@ public class TvSet extends HouseholdAppliance {
         super(powerConsumption);
     }
 
-    public TvSet(){
+    public TvSet() {
         super();
     }
+
     public double getDisplaySize() {
         return displaySize;
     }
