@@ -73,7 +73,7 @@ public class ThisCodeSmellsHandler {
         LOGGER.info("Sorting...");
 
         List<Set> sets = Arrays.asList(annotatedElementSets);
-        sets.sort(Comparator.comparingDouble(Set::size));
+        sets.sort(Comparator.comparingInt(Set::size));
 
         for (Set set : sets) {
             LOGGER.info("Number of elements in set #" + sets.indexOf(set) + ": " + set.size());
