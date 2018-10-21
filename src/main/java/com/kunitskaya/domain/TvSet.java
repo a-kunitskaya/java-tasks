@@ -1,10 +1,13 @@
 package com.kunitskaya.domain;
 
 import com.kunitskaya.domain.data.HomeLocation;
+import com.kunitskaya.service.annotations.UseStackOnly;
 
 import java.util.Objects;
 
 public class TvSet extends HouseholdAppliance {
+
+    @UseStackOnly
     private double displaySize;
 
     public TvSet(int powerConsumption, String color, HomeLocation location, double displaySize) {

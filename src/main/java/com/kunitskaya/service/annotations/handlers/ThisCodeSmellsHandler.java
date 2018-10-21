@@ -8,11 +8,7 @@ import org.reflections.scanners.MethodAnnotationsScanner;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.*;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
@@ -62,9 +58,8 @@ public class ThisCodeSmellsHandler {
         return ref.getFieldsAnnotatedWith(ThisCodeSmells.class);
     }
 
-    public static int[] sortSetsOfAnnotatedElements(Set... annotatedElementSets) {
+    public static List<Set> sortSetsOfAnnotatedElements(Set... annotatedElementSets) {
         int numberOfSets = annotatedElementSets.length;
-        int[] sizes = new int[numberOfSets];
         LOGGER.info("Total number of sets of annotated elements: " + numberOfSets);
 
         for (int i = 0; i < numberOfSets; i++) {
@@ -75,24 +70,18 @@ public class ThisCodeSmellsHandler {
             }
         }
 
-        for (int i = 0; i < sizes.length; i++) {
-            int size = annotatedElementSets[i].size();
-            sizes[i] = size;
-        }
-
         LOGGER.info("Sorting...");
 
-        Set<Set> sortedSets = Arrays.stream(annotatedElementSets).sorted().collect(Collectors.toSet());
+        List<Set> sets = Arrays.asList(annotatedElementSets);
+        sets.sort(Comparator.comparingDouble(Set::size));
 
-
-        for (int i = 0; i < numberOfSets; i++) {
-            LOGGER.info("Number of elements in set #" + i + ": " + sortedSets.toArray().length);
-            if (!annotatedElementSets[i].isEmpty()) {
-                String elementName = sortedSets.getClass().getSimpleName();
+        for (Set set : sets) {
+            LOGGER.info("Number of elements in set #" + sets.indexOf(set) + ": " + set.size());
+            if (!set.isEmpty()) {
+                String elementName = set.toArray()[0].getClass().getSimpleName();
                 LOGGER.info("Elements type: " + elementName);
             }
         }
-
-        return sizes;
+        return sets;
     }
 }
