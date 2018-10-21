@@ -1,6 +1,7 @@
 package com.kunitskaya.domain;
 
 import com.kunitskaya.domain.data.HomeLocation;
+import com.kunitskaya.service.annotations.ThisCodeSmells;
 
 import java.util.Objects;
 

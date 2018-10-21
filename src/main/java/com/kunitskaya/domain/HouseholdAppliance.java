@@ -2,14 +2,20 @@ package com.kunitskaya.domain;
 
 import com.kunitskaya.domain.data.HomeLocation;
 import com.kunitskaya.domain.data.Pluginable;
+import com.kunitskaya.service.annotations.ThisCodeSmells;
 
 import java.util.Objects;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public abstract class HouseholdAppliance implements Pluginable {
+
+    @ThisCodeSmells(reviewer = "David")
     private int powerConsumption;
+
+    @ThisCodeSmells(reviewer = "Robin")
     private boolean isPluggedIn;
+
     private String color;
     private HomeLocation location;
 
@@ -23,7 +29,8 @@ public abstract class HouseholdAppliance implements Pluginable {
         this.powerConsumption = powerConsumption;
     }
 
-    public HouseholdAppliance(){}
+    public HouseholdAppliance() {
+    }
 
     public int getPowerConsumption() {
         return powerConsumption;
@@ -57,6 +64,7 @@ public abstract class HouseholdAppliance implements Pluginable {
         this.location = location;
     }
 
+    @ThisCodeSmells(reviewer = "Jack")
     @Override
     public final boolean plugIn() {
         String applianceName = this.getClass().getSimpleName();
@@ -68,6 +76,7 @@ public abstract class HouseholdAppliance implements Pluginable {
         return isPluggedIn();
     }
 
+    @ThisCodeSmells(reviewer = "Jess")
     @Override
     public final boolean unplug() {
         String applianceName = this.getClass().getSimpleName();

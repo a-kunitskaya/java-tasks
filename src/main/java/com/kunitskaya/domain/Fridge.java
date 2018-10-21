@@ -1,10 +1,14 @@
 package com.kunitskaya.domain;
 
 import com.kunitskaya.domain.data.HomeLocation;
+import com.kunitskaya.service.annotations.ThisCodeSmells;
 
 import java.util.Objects;
 
+@ThisCodeSmells(reviewer = "John")
 public class Fridge extends HouseholdAppliance {
+
+    @ThisCodeSmells()
     private int freezingTemperature;
 
     public Fridge(int powerConsumption, String color, HomeLocation location, int freezingTemperature) {
