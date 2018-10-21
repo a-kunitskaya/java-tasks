@@ -1,5 +1,6 @@
-package com.kunitskaya.domain;
+package com.kunitskaya.domain.appliances;
 
+import com.kunitskaya.domain.HomeLocation;
 import com.kunitskaya.domain.data.HomeLocation;
 import com.kunitskaya.service.annotations.ThisCodeSmells;
 
@@ -18,6 +19,15 @@ public class Fridge extends HouseholdAppliance {
 
     public Fridge(int powerConsumption) {
         super(powerConsumption);
+    }
+
+    public Fridge(int powerConsumption, int freezingTemperature) {
+        super(powerConsumption);
+        if (freezingTemperature > 0) {
+            throw new IllegalArgumentException("Freezing temperature can't be > 0");
+        } else {
+            this.freezingTemperature = freezingTemperature;
+        }
     }
 
     public Fridge() {

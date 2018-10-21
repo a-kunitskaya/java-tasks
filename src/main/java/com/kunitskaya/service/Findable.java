@@ -1,13 +1,13 @@
 package com.kunitskaya.service;
 
-import com.kunitskaya.domain.HouseholdAppliance;
-import com.kunitskaya.domain.data.HomeLocation;
-import com.kunitskaya.exceptions.ApplianceNotFoundException;
+import com.kunitskaya.domain.appliances.HouseholdAppliance;
+import com.kunitskaya.exceptions.ByColorApplianceNotFoundException;
+import com.kunitskaya.exceptions.ByLocationNotFoundException;
+import com.kunitskaya.exceptions.ByTemperatureApplianceNotFoundException;
+import com.kunitskaya.exceptions.NotSupportedApplianceTypeException;
 
 import java.util.List;
 
 public interface Findable {
-    List findApplianceByColor(List<HouseholdAppliance> appliances, String color) throws ApplianceNotFoundException;
-
-    List findApplianceByLocation(List<HouseholdAppliance> appliances, HomeLocation location) throws ApplianceNotFoundException;
+    List find(List<HouseholdAppliance> appliances) throws ByColorApplianceNotFoundException, ByLocationNotFoundException, NotSupportedApplianceTypeException, ByTemperatureApplianceNotFoundException;
 }
