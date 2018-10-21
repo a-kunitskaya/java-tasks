@@ -1,19 +1,17 @@
 package com.kunitskaya.reflection;
 
-import com.kunitskaya.domain.Fridge;
-import com.kunitskaya.domain.HouseholdAppliance;
-import com.kunitskaya.domain.Kettle;
-import com.kunitskaya.domain.data.HomeLocation;
-import com.kunitskaya.service.HouseholdAppliancesSorter;
-import com.kunitskaya.service.PowerConsumptionCounter;
-
-import java.util.Arrays;
-import java.util.List;
-import com.kunitskaya.service.annotations.ThisCodeSmells;
+import com.kunitskaya.domain.HomeLocation;
+import com.kunitskaya.domain.appliances.Fridge;
+import com.kunitskaya.domain.appliances.HouseholdAppliance;
+import com.kunitskaya.domain.appliances.Kettle;
 import com.kunitskaya.service.annotations.handlers.ThisCodeSmellsHandler;
+import com.kunitskaya.service.implementation.PowerConsumptionCounter;
+import com.kunitskaya.service.implementation.SorterByPowerConsumption;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -42,7 +40,7 @@ public class ReflectionExecutor {
 
         //TODO: change to sort method from branch M1_Core
 
-        MethodsExecutor.executeMethod("sortByPowerConsumption", new HouseholdAppliancesSorter(), paramTypes, args);
+        MethodsExecutor.executeMethod("sort", new SorterByPowerConsumption(), paramTypes, args);
 
         //TODO: add find methods from branch M1_Core
 

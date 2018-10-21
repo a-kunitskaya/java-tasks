@@ -2,8 +2,6 @@ package com.kunitskaya.domain.appliances;
 
 import com.kunitskaya.domain.HomeLocation;
 import com.kunitskaya.domain.Pluggable;
-import com.kunitskaya.domain.data.HomeLocation;
-import com.kunitskaya.domain.data.Pluginable;
 import com.kunitskaya.service.annotations.ProdCode;
 import com.kunitskaya.service.annotations.ThisCodeSmells;
 
@@ -14,8 +12,6 @@ import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 public abstract class HouseholdAppliance implements Pluggable {
     public static final String PLUGIN_MESSAGE = "Plugging in %s instance...";
     public static final String UNPLUG_MESSAGE = "Unplugging %s instance...";
-
-public abstract class HouseholdAppliance implements Pluginable {
 
     @ThisCodeSmells(reviewer = "David")
     private int powerConsumption;

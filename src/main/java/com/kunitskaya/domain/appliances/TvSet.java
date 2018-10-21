@@ -1,7 +1,6 @@
 package com.kunitskaya.domain.appliances;
 
 import com.kunitskaya.domain.HomeLocation;
-import com.kunitskaya.domain.data.HomeLocation;
 import com.kunitskaya.service.annotations.UseStackOnly;
 
 import java.util.Objects;

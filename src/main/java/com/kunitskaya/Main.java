@@ -8,11 +8,8 @@ import com.kunitskaya.domain.appliances.TvSet;
 import com.kunitskaya.exceptions.ApplianceNotFoundException;
 import com.kunitskaya.exceptions.ByTemperatureApplianceNotFoundException;
 import com.kunitskaya.exceptions.NotSupportedApplianceTypeException;
-import com.kunitskaya.service.implementation.*;
 import com.kunitskaya.reflection.ReflectionExecutor;
-import com.kunitskaya.service.HouseholdApplianceFinder;
-import com.kunitskaya.service.HouseholdAppliancesSorter;
-import com.kunitskaya.service.PowerConsumptionCounter;
+import com.kunitskaya.service.implementation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -74,7 +71,7 @@ public class Main {
         } finally {
             LOGGER.info("Expected exception - NotSupportedApplianceTypeException");
         }
-        new HouseholdAppliancesSorter().sortByPowerConsumption(appliances);
+        new SorterByPowerConsumption().sort(appliances);
 
         //M2 - Task 2 - Reflection API usage
         ReflectionExecutor.executeReflectionMethods();

@@ -1,9 +1,13 @@
 package com.kunitskaya.reflection;
 
-import com.kunitskaya.domain.HouseholdAppliance;
+
+import com.kunitskaya.domain.appliances.HouseholdAppliance;
+import sun.awt.util.IdentityLinkedList;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
@@ -12,7 +16,6 @@ import static com.kunitskaya.logging.ProjectLogger.LOGGER;
  * Manipulates class fields with reflection
  */
 public class FieldsManipulator {
-
 
     public static void fillInFieldsWithReflection(HouseholdAppliance from, HouseholdAppliance to) {
         Class<? extends HouseholdAppliance> modelClazz = from.getClass();
@@ -25,13 +28,18 @@ public class FieldsManipulator {
             Field[] fields = Stream.concat(Arrays.stream(superFields), Arrays.stream(childFields)).toArray(Field[]::new);
 
             for (Field field : fields) {
-                field.setAccessible(true);
-                try {
-                    field.set(to, field.get(from));
-                    LOGGER.info("Assigned value: " + field.get(from) + " to field: " + field.getName());
-                } catch (IllegalAccessException e) {
-                    LOGGER.error("Could not get access to field " + field.getName());
-                    e.printStackTrace();
+                if(!Modifier.isFinal(field.getModifiers())) {
+                    field.setAccessible(true);
+                    try {
+                        field.set(to, field.get(from));
+                        LOGGER.info("Assigned value: " + field.get(from) + " to field: " + field.getName());
+                    } catch (IllegalAccessException e) {
+                        LOGGER.error("Could not get access to field " + field.getName());
+                        e.printStackTrace();
+                    }
+                }else{
+                    LOGGER.info("Field " + field.getName() + " is final");
+                    continue;
                 }
             }
         } else {

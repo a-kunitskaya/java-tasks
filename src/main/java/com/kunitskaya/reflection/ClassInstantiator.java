@@ -1,6 +1,6 @@
 package com.kunitskaya.reflection;
 
-import com.kunitskaya.domain.HouseholdAppliance;
+import com.kunitskaya.domain.appliances.HouseholdAppliance;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Constructor;
