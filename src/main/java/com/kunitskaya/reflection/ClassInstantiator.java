@@ -40,7 +40,7 @@ public class ClassInstantiator {
      * @return instance of HouseholdAppliance child class
      */
     public static HouseholdAppliance instantiate(Class<?> clazz, int powerConsumption) {
-        HouseholdAppliance instance = null;
+        HouseholdAppliance instance;
         try {
             Class[] paramTypes = new Class[]{int.class};
             Constructor<?> constructor = clazz.getConstructor(paramTypes);
@@ -53,6 +53,6 @@ public class ClassInstantiator {
             LOGGER.error(String.format(ERROR_MESSAGE, clazz.getSimpleName()));
             e.printStackTrace();
         }
-        return instance;
+        return null;
     }
 }

@@ -8,6 +8,7 @@ import com.kunitskaya.exceptions.NotSupportedApplianceTypeException;
 
 import java.util.List;
 
+@FunctionalInterface
 public interface Findable {
     List find(List<HouseholdAppliance> appliances) throws ByColorApplianceNotFoundException, ByLocationNotFoundException, NotSupportedApplianceTypeException, ByTemperatureApplianceNotFoundException;
 }

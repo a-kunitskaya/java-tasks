@@ -5,6 +5,7 @@ import com.kunitskaya.domain.appliances.Fridge;
 import com.kunitskaya.domain.appliances.HouseholdAppliance;
 import com.kunitskaya.domain.appliances.Kettle;
 import com.kunitskaya.service.annotations.handlers.ThisCodeSmellsHandler;
+import com.kunitskaya.service.annotations.runners.ProdCodeRunner;
 import com.kunitskaya.service.implementation.PowerConsumptionCounter;
 import com.kunitskaya.service.implementation.SorterByPowerConsumption;
 
@@ -21,8 +22,6 @@ import java.util.Set;
 public class ReflectionExecutor {
 
     public static void executeReflectionMethods() {
-
-        //M2 - Task 2 - Reflection API usage
         HouseholdAppliance kettle = ClassInstantiator.instantiate(Kettle.class, 200);
         HouseholdAppliance fridge = ClassInstantiator.instantiate(Fridge.class);
 
@@ -38,12 +37,7 @@ public class ReflectionExecutor {
         Class[] paramTypes = new Class[]{List.class};
         Object[] args = new Object[]{instances};
 
-        //TODO: change to sort method from branch M1_Core
-
         MethodsExecutor.executeMethod("sort", new SorterByPowerConsumption(), paramTypes, args);
-
-        //TODO: add find methods from branch M1_Core
-
         MethodsExecutor.executeMethod("countPowerConsumption", PowerConsumptionCounter.class, paramTypes, args);
 
         Set<Class<?>> annotatedClasses = ThisCodeSmellsHandler.getAnnotatedClasses();
@@ -56,6 +50,6 @@ public class ReflectionExecutor {
         MetaDataPrinter.printThisCodeSmellsFields(annotatedFields);
 
         ThisCodeSmellsHandler.sortSetsOfAnnotatedElements(annotatedClasses, annotatedFields, annotatedMethods);
-
+        ProdCodeRunner.runProdCodeMethods();
     }
 }

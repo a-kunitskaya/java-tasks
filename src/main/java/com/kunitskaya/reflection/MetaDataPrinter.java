@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Set;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
+import static com.kunitskaya.service.annotations.handlers.BaseAnnotationHandler.THIS_CODE_SMELLS_ANNOTATION;
 import static com.kunitskaya.service.annotations.handlers.ThisCodeSmellsHandler.FOUND_MESSAGE;
 
 public class MetaDataPrinter {
@@ -38,7 +39,7 @@ public class MetaDataPrinter {
         for (Class<?> clazz : annotatedClasses) {
             ThisCodeSmells annotation = clazz.getAnnotation(ThisCodeSmells.class);
             String type = "class";
-            LOGGER.info(String.format(FOUND_MESSAGE, type, clazz.getSimpleName(), annotation.reviewer(), clazz.getSimpleName()));
+            LOGGER.info(String.format(FOUND_MESSAGE, type, clazz.getSimpleName(), THIS_CODE_SMELLS_ANNOTATION, annotation.reviewer(), clazz.getSimpleName()));
         }
     }
 
@@ -46,7 +47,7 @@ public class MetaDataPrinter {
         for (Method method : annotatedMethods) {
             ThisCodeSmells annotation = method.getAnnotation(ThisCodeSmells.class);
             String type = "method";
-            LOGGER.info(String.format(FOUND_MESSAGE, type, method.getName(), annotation.reviewer(), method.getDeclaringClass().getSimpleName()));
+            LOGGER.info(String.format(FOUND_MESSAGE, type, method.getName(), THIS_CODE_SMELLS_ANNOTATION, annotation.reviewer(), method.getDeclaringClass().getSimpleName()));
         }
     }
 
@@ -54,7 +55,7 @@ public class MetaDataPrinter {
         for (Field field : annotatedFields) {
             ThisCodeSmells annotation = field.getAnnotation(ThisCodeSmells.class);
             String type = "field";
-            LOGGER.info(String.format(FOUND_MESSAGE, type, field.getName(), annotation.reviewer(), field.getDeclaringClass().getSimpleName()));
+            LOGGER.info(String.format(FOUND_MESSAGE, type, field.getName(), THIS_CODE_SMELLS_ANNOTATION, annotation.reviewer(), field.getDeclaringClass().getSimpleName()));
         }
     }
 }

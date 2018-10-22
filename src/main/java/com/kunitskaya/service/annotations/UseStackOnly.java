@@ -8,5 +8,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.CLASS)
 @Target(ElementType.FIELD)
 public @interface UseStackOnly {
-    String name() default "Custom annotation";
+    String name() default "custom annotation";
 }

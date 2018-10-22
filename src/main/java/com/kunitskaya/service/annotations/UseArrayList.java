@@ -8,6 +8,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.METHOD)
 public @interface UseArrayList {
-
-    String name() default "Custom annotation";
+    String name() default "custom annotation";
 }

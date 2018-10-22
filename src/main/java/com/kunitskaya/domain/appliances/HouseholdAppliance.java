@@ -2,7 +2,6 @@ package com.kunitskaya.domain.appliances;
 
 import com.kunitskaya.domain.HomeLocation;
 import com.kunitskaya.domain.Pluggable;
-import com.kunitskaya.service.annotations.ProdCode;
 import com.kunitskaya.service.annotations.ThisCodeSmells;
 
 import java.util.Objects;
@@ -86,7 +85,6 @@ public abstract class HouseholdAppliance implements Pluggable {
     }
 
     @ThisCodeSmells(reviewer = "Jack")
-    @ProdCode
     @Override
     public final boolean plugIn() {
         String applianceName = this.getClass().getSimpleName();

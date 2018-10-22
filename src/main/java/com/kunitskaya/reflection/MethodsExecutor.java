@@ -98,4 +98,28 @@ public class MethodsExecutor {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Invoke a static method without parameters
+     *
+     * @param methodName name as defined in class
+     * @param clazz      class containing method
+     */
+    public static void executeMethod(String methodName, Class<?> clazz) {
+        Method method = null;
+        try {
+            method = clazz.getDeclaredMethod(methodName);
+        } catch (NoSuchMethodException e) {
+            LOGGER.error(String.format(NO_METHOD_FOUND_MESSAGE, methodName, clazz.getSuperclass().getSimpleName()));
+        }
+        try {
+            if (method != null) {
+                method.setAccessible(true);
+                method.invoke(null, (Object[]) null);
+            }
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            LOGGER.error(String.format(COULD_NOT_INVOKE_MESSAGE, methodName));
+            e.printStackTrace();
+        }
+    }
 }
