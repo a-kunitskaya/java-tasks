@@ -1,6 +1,5 @@
 package com.kunitskaya;
 
-import com.kunitskaya.domain.HomeLocation;
 import com.kunitskaya.domain.appliances.Fridge;
 import com.kunitskaya.domain.appliances.HouseholdAppliance;
 import com.kunitskaya.domain.appliances.Kettle;
@@ -32,7 +31,10 @@ public class MainModule2 {
         HouseholdAppliance tvSet = ClassInstantiator.instantiate(TvSet.class);
 
         HouseholdAppliance modelFridge = ClassInstantiator.instantiate(Fridge.class, 300);
-        FieldsManipulator.fillInFieldsWithReflection(modelFridge, fridge);
+
+        if (modelFridge != null) {
+            FieldsManipulator.fillInFieldsWithReflection(modelFridge, fridge);
+        }
 
         MetaDataPrinter.printMetaData(HouseholdAppliance.class);
 
