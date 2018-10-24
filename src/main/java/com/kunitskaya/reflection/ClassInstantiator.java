@@ -13,10 +13,10 @@ public class ClassInstantiator {
     private static final String ERROR_MESSAGE = "Could not instantiate object for class %s";
 
     /**
-     * Instantiates a child to HouseholdAppliance class without parameters
+     * Instantiates an instance of class without parameters
      *
-     * @param clazz - child to HouseholdAppliance class
-     * @return instance of HouseholdAppliance child class
+     * @param clazz target class
+     * @return instance of target class
      */
     public static <T> T instantiate(Class<T> clazz) {
         T instance = null;
@@ -33,22 +33,22 @@ public class ClassInstantiator {
     }
 
     /**
-     * Instantiates a child to HouseholdAppliance class with a parameter
+     * Instantiates an instance of class with a parameter
      *
-     * @param clazz            - child to HouseholdAppliance class
-     * @param powerConsumption - parameter to pass to constructor
-     * @return instance of HouseholdAppliance child class
+     * @param clazz target class
+     * @param param parameter to pass to constructor
+     * @return instance of target class
      */
-    public static <T> T instantiate(Class<T> clazz, int powerConsumption) {
+    public static <T> T instantiate(Class<T> clazz, Object param) {
         T instance;
 
         try {
-            Class[] paramTypes = new Class[]{int.class};
+            Class[] paramTypes = new Class[]{param.getClass()};
 
             Constructor<?> constructor = clazz.getConstructor(paramTypes);
-            Object[] args = new Object[]{powerConsumption};
+            Object[] args = new Object[]{param};
             instance = (T) constructor.newInstance(args);
-            LOGGER.info(String.format(SUCCESS_MESSAGE, clazz.getSimpleName(), powerConsumption));
+            LOGGER.info(String.format(SUCCESS_MESSAGE, clazz.getSimpleName(), param));
             return instance;
 
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {

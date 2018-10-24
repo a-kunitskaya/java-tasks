@@ -9,18 +9,18 @@ import java.util.Objects;
 public class Fridge extends HouseholdAppliance {
 
     @ThisCodeSmells()
-    private int freezingTemperature;
+    private Integer freezingTemperature;
 
-    public Fridge(int powerConsumption, String color, HomeLocation location, int freezingTemperature) {
+    public Fridge(Integer powerConsumption, String color, HomeLocation location, int freezingTemperature) {
         super(powerConsumption, color, location);
         this.freezingTemperature = freezingTemperature;
     }
 
-    public Fridge(int powerConsumption) {
+    public Fridge(Integer powerConsumption) {
         super(powerConsumption);
     }
 
-    public Fridge(int powerConsumption, int freezingTemperature) {
+    public Fridge(Integer powerConsumption, int freezingTemperature) {
         super(powerConsumption);
         if (freezingTemperature > 0) {
             throw new IllegalArgumentException("Freezing temperature can't be > 0");
@@ -33,29 +33,26 @@ public class Fridge extends HouseholdAppliance {
         super();
     }
 
-    public int getFreezingTemperature() {
+    public Integer getFreezingTemperature() {
         return freezingTemperature;
     }
 
-    public void setFreezingTemperature(int freezingTemperature) {
+    public void setFreezingTemperature(Integer freezingTemperature) {
         this.freezingTemperature = freezingTemperature;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        if (!super.equals(o))
-            return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Fridge fridge = (Fridge) o;
-        return freezingTemperature == fridge.freezingTemperature;
+        return Objects.equals(freezingTemperature, fridge.freezingTemperature);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), freezingTemperature);
+
+        return Objects.hash(freezingTemperature);
     }
 
     @Override

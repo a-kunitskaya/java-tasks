@@ -31,7 +31,7 @@ public class MainModule2 {
         HouseholdAppliance fridge = ClassInstantiator.instantiate(Fridge.class);
         HouseholdAppliance tvSet = ClassInstantiator.instantiate(TvSet.class);
 
-        HouseholdAppliance modelFridge = new Fridge(100, "red", HomeLocation.LIVING_ROOM, -4);
+        HouseholdAppliance modelFridge = ClassInstantiator.instantiate(Fridge.class, 300);
         FieldsManipulator.fillInFieldsWithReflection(modelFridge, fridge);
 
         MetaDataPrinter.printMetaData(HouseholdAppliance.class);

@@ -8,14 +8,14 @@ import java.util.Objects;
 public class TvSet extends HouseholdAppliance {
 
     @UseStackOnly
-    private double displaySize;
+    private Double displaySize;
 
-    public TvSet(int powerConsumption, String color, HomeLocation location, double displaySize) {
+    public TvSet(Integer powerConsumption, String color, HomeLocation location, double displaySize) {
         super(powerConsumption, color, location);
         this.displaySize = displaySize;
     }
 
-    public TvSet(int powerConsumption) {
+    public TvSet(Integer powerConsumption) {
         super(powerConsumption);
     }
 
@@ -23,29 +23,26 @@ public class TvSet extends HouseholdAppliance {
         super();
     }
 
-    public double getDisplaySize() {
+    public Double getDisplaySize() {
         return displaySize;
     }
 
-    public void setDisplaySize(double displaySize) {
+    public void setDisplaySize(Double displaySize) {
         this.displaySize = displaySize;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        if (!super.equals(o))
-            return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         TvSet tvSet = (TvSet) o;
-        return Double.compare(tvSet.displaySize, displaySize) == 0;
+        return Objects.equals(displaySize, tvSet.displaySize);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), displaySize);
+
+        return Objects.hash(displaySize);
     }
 
     @Override

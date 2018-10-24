@@ -13,15 +13,15 @@ public abstract class HouseholdAppliance implements Pluggable {
     public static final String UNPLUG_MESSAGE = "Unplugging %s instance...";
 
     @ThisCodeSmells(reviewer = "David")
-    private int powerConsumption;
+    private Integer powerConsumption;
 
     @ThisCodeSmells(reviewer = "Robin")
-    private boolean isPluggedIn;
+    private Boolean isPluggedIn;
 
     private String color;
     private HomeLocation location;
 
-    public HouseholdAppliance(int powerConsumption, String color, HomeLocation location) {
+    public HouseholdAppliance(Integer powerConsumption, String color, HomeLocation location) {
         if (powerConsumption < 0) {
             throw new IllegalArgumentException("Power consumption can't be < 0");
         } else {
@@ -37,7 +37,7 @@ public abstract class HouseholdAppliance implements Pluggable {
         this.location = location;
     }
 
-    public HouseholdAppliance(int powerConsumption) {
+    public HouseholdAppliance(Integer powerConsumption) {
         if (powerConsumption < 0) {
             throw new IllegalArgumentException("Power consumption can't be < 0");
         } else {
@@ -48,11 +48,11 @@ public abstract class HouseholdAppliance implements Pluggable {
     public HouseholdAppliance() {
     }
 
-    public int getPowerConsumption() {
+    public Integer getPowerConsumption() {
         return powerConsumption;
     }
 
-    public void setPowerConsumption(int powerConsumption) {
+    public void setPowerConsumption(Integer powerConsumption) {
         if (powerConsumption < 0) {
             throw new IllegalArgumentException("Power consumption can't be < 0");
         } else {
@@ -60,11 +60,11 @@ public abstract class HouseholdAppliance implements Pluggable {
         }
     }
 
-    public boolean isPluggedIn() {
+    public Boolean isPluggedIn() {
         return isPluggedIn;
     }
 
-    public void setPluggedIn(boolean pluggedIn) {
+    public void setPluggedIn(Boolean pluggedIn) {
         isPluggedIn = pluggedIn;
     }
 
@@ -107,19 +107,18 @@ public abstract class HouseholdAppliance implements Pluggable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        HouseholdAppliance that = (HouseholdAppliance) o;
-        return Double.compare(that.powerConsumption, powerConsumption) == 0 &&
-                isPluggedIn == that.isPluggedIn &&
-                Objects.equals(color, that.color) &&
-                location == that.location;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HouseholdAppliance appliance = (HouseholdAppliance) o;
+        return Objects.equals(powerConsumption, appliance.powerConsumption) &&
+                Objects.equals(isPluggedIn, appliance.isPluggedIn) &&
+                Objects.equals(color, appliance.color) &&
+                location == appliance.location;
     }
 
     @Override
     public int hashCode() {
+
         return Objects.hash(powerConsumption, isPluggedIn, color, location);
     }
 
