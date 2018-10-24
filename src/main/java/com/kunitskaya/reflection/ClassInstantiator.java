@@ -41,8 +41,10 @@ public class ClassInstantiator {
      */
     public static <T> T instantiate(Class<T> clazz, int powerConsumption) {
         T instance;
+
         try {
             Class[] paramTypes = new Class[]{int.class};
+
             Constructor<?> constructor = clazz.getConstructor(paramTypes);
             Object[] args = new Object[]{powerConsumption};
             instance = (T) constructor.newInstance(args);

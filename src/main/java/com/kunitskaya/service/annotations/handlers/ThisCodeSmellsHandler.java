@@ -15,7 +15,14 @@ import java.util.Set;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
-public class ThisCodeSmellsHandler extends BaseAnnotationHandler {
+public class ThisCodeSmellsHandler {
+
+    public static final String NOT_FOUND_MESSAGE = "No annotations of type @%s is found in %s: %s";
+    public static final String FOUND_MESSAGE = "Found %s: %s, annotated with: @%s, value: %s, in class: %s";
+    public static final String THIS_CODE_SMELLS_PACKAGE = "com.kunitskaya";
+    public static final String THIS_CODE_SMELLS_ANNOTATION = ThisCodeSmells.class.getSimpleName();
+
+
     /**
      * @deprecated Replaced by {@link #getAnnotatedClasses()}
      */
@@ -31,19 +38,19 @@ public class ThisCodeSmellsHandler extends BaseAnnotationHandler {
 
     @ProdCode(name = "production code")
     public static Set<Class<?>> getAnnotatedClasses() {
-        Reflections ref = new Reflections(BASE_PACKAGE);
+        Reflections ref = new Reflections(THIS_CODE_SMELLS_PACKAGE);
         return ref.getTypesAnnotatedWith(ThisCodeSmells.class);
     }
 
     @ProdCode(name = "another value")
     public static Set<Method> getAnnotatedMethods() {
-        Reflections ref = new Reflections(BASE_PACKAGE, new MethodAnnotationsScanner());
+        Reflections ref = new Reflections(THIS_CODE_SMELLS_PACKAGE, new MethodAnnotationsScanner());
         return ref.getMethodsAnnotatedWith(ThisCodeSmells.class);
     }
 
     @ProdCode
     public static Set<Field> getAnnotatedFields() {
-        Reflections ref = new Reflections(BASE_PACKAGE, new FieldAnnotationsScanner());
+        Reflections ref = new Reflections(THIS_CODE_SMELLS_PACKAGE, new FieldAnnotationsScanner());
         return ref.getFieldsAnnotatedWith(ThisCodeSmells.class);
     }
 

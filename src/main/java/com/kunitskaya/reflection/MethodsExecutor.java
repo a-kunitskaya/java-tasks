@@ -86,6 +86,6 @@ public class MethodsExecutor {
      * @param clazz      class containing method
      */
     public static void executeMethod(String methodName, Class<?> clazz) {
-       executeMethod(methodName, clazz, null, null);
+        executeMethod(methodName, clazz, null, null);
     }
 }

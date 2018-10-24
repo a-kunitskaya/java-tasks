@@ -8,10 +8,11 @@ import com.kunitskaya.service.annotations.handlers.ProdCodeHandler;
 import java.lang.reflect.Method;
 import java.util.Set;
 
-import static com.kunitskaya.service.annotations.handlers.BaseAnnotationHandler.EXECUTED_MESSAGE;
-import static com.kunitskaya.service.annotations.handlers.BaseAnnotationHandler.PROD_CODE_ANNOTATION;
+import static com.kunitskaya.service.annotations.handlers.ProdCodeHandler.PROD_CODE_ANNOTATION;
 
 public class ProdCodeRunner {
+    public static final String EXECUTED_MESSAGE = "Executed method: %s, annotated with: @%s, value: %s, in class: %s";
+
     public static void runProdCodeMethods() {
         Set<Method> annotatedMethods = ProdCodeHandler.getAnnotatedMethods();
 

@@ -11,8 +11,8 @@ import java.util.Arrays;
 import java.util.Set;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
-import static com.kunitskaya.service.annotations.handlers.BaseAnnotationHandler.THIS_CODE_SMELLS_ANNOTATION;
 import static com.kunitskaya.service.annotations.handlers.ThisCodeSmellsHandler.FOUND_MESSAGE;
+import static com.kunitskaya.service.annotations.handlers.ThisCodeSmellsHandler.THIS_CODE_SMELLS_ANNOTATION;
 
 public class MetaDataPrinter {
     private static final String message = "%s, name: %s, type: %s, modifier: %s";
