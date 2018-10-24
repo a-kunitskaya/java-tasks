@@ -1,9 +1,14 @@
-package com.kunitskaya.reflection;
+package com.kunitskaya;
 
 import com.kunitskaya.domain.HomeLocation;
 import com.kunitskaya.domain.appliances.Fridge;
 import com.kunitskaya.domain.appliances.HouseholdAppliance;
 import com.kunitskaya.domain.appliances.Kettle;
+import com.kunitskaya.domain.appliances.TvSet;
+import com.kunitskaya.reflection.ClassInstantiator;
+import com.kunitskaya.reflection.FieldsManipulator;
+import com.kunitskaya.reflection.MetaDataPrinter;
+import com.kunitskaya.reflection.MethodsExecutor;
 import com.kunitskaya.service.annotations.handlers.ThisCodeSmellsHandler;
 import com.kunitskaya.service.annotations.runners.ProdCodeRunner;
 import com.kunitskaya.service.implementation.PowerConsumptionCounter;
@@ -19,11 +24,12 @@ import java.util.Set;
  * Shows Reflection API usage
  * Created to avoid calling all these methods directly from main
  */
-public class ReflectionExecutor {
+public class MainModule2 {
 
-    public static void executeReflectionMethods() {
+    public static void main(String[] args) {
         HouseholdAppliance kettle = ClassInstantiator.instantiate(Kettle.class, 200);
         HouseholdAppliance fridge = ClassInstantiator.instantiate(Fridge.class);
+        HouseholdAppliance tvSet = ClassInstantiator.instantiate(TvSet.class);
 
         HouseholdAppliance modelFridge = new Fridge(100, "red", HomeLocation.LIVING_ROOM, -4);
         FieldsManipulator.fillInFieldsWithReflection(modelFridge, fridge);
@@ -35,10 +41,11 @@ public class ReflectionExecutor {
 
         List instances = Arrays.asList(kettle, fridge);
         Class[] paramTypes = new Class[]{List.class};
-        Object[] args = new Object[]{instances};
+        Object[] values = new Object[]{instances};
 
-        MethodsExecutor.executeMethod("sort", new SorterByPowerConsumption(), paramTypes, args);
-        MethodsExecutor.executeMethod("countPowerConsumption", PowerConsumptionCounter.class, paramTypes, args);
+        SorterByPowerConsumption sorter = ClassInstantiator.instantiate(SorterByPowerConsumption.class);
+        MethodsExecutor.executeMethod("sort", sorter, paramTypes, values);
+        MethodsExecutor.executeMethod("countPowerConsumption", PowerConsumptionCounter.class, paramTypes, values);
 
         Set<Class<?>> annotatedClasses = ThisCodeSmellsHandler.getAnnotatedClasses();
         MetaDataPrinter.printThisCodeSmellsClasses(annotatedClasses);

@@ -9,36 +9,6 @@ public class MethodsExecutor {
     private static final String NO_METHOD_FOUND_MESSAGE = "Method with name: %s does not exist in class: %s.";
     private static final String COULD_NOT_INVOKE_MESSAGE = "Could not invoke method with name: %s";
 
-    /**
-     * Invoke non-static method without parameters
-     *
-     * @param methodName name as defined in class
-     * @param instance   instance of class containing method
-     */
-    public static void executeMethod(String methodName, Object instance) {
-        Class<?> clazz = instance.getClass();
-        Method method = null;
-        try {
-            method = clazz.getDeclaredMethod(methodName);
-        } catch (NoSuchMethodException e) {
-            LOGGER.error(String.format(NO_METHOD_FOUND_MESSAGE, methodName, clazz.getSimpleName()) + " Searching in parent...");
-            try {
-                method = clazz.getSuperclass().getDeclaredMethod(methodName);
-            } catch (NoSuchMethodException e1) {
-                LOGGER.error(String.format(NO_METHOD_FOUND_MESSAGE, methodName, clazz.getSuperclass().getSimpleName()));
-                e1.printStackTrace();
-            }
-        }
-        try {
-            if (method != null) {
-                method.setAccessible(true);
-                method.invoke(instance, (Object[]) null);
-            }
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            LOGGER.error(String.format(COULD_NOT_INVOKE_MESSAGE, methodName));
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Invoke a non-static method with parameters
@@ -74,6 +44,16 @@ public class MethodsExecutor {
     }
 
     /**
+     * Invoke non-static method without parameters
+     *
+     * @param methodName name as defined in class
+     * @param instance   instance of class containing method
+     */
+    public static void executeMethod(String methodName, Object instance) {
+        executeMethod(methodName, instance, null, null);
+    }
+
+    /**
      * Invoke a static method with parameters
      *
      * @param methodName     name as defined in class
@@ -106,20 +86,6 @@ public class MethodsExecutor {
      * @param clazz      class containing method
      */
     public static void executeMethod(String methodName, Class<?> clazz) {
-        Method method = null;
-        try {
-            method = clazz.getDeclaredMethod(methodName);
-        } catch (NoSuchMethodException e) {
-            LOGGER.error(String.format(NO_METHOD_FOUND_MESSAGE, methodName, clazz.getSuperclass().getSimpleName()));
-        }
-        try {
-            if (method != null) {
-                method.setAccessible(true);
-                method.invoke(null, (Object[]) null);
-            }
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            LOGGER.error(String.format(COULD_NOT_INVOKE_MESSAGE, methodName));
-            e.printStackTrace();
-        }
+       executeMethod(methodName, clazz, null, null);
     }
 }

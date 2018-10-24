@@ -8,7 +8,6 @@ import com.kunitskaya.domain.appliances.TvSet;
 import com.kunitskaya.exceptions.ApplianceNotFoundException;
 import com.kunitskaya.exceptions.ByTemperatureApplianceNotFoundException;
 import com.kunitskaya.exceptions.NotSupportedApplianceTypeException;
-import com.kunitskaya.reflection.ReflectionExecutor;
 import com.kunitskaya.service.implementation.*;
 
 import java.util.Arrays;
@@ -18,8 +17,7 @@ import static com.kunitskaya.domain.appliances.HouseholdAppliance.PLUGIN_MESSAGE
 import static com.kunitskaya.domain.appliances.HouseholdAppliance.UNPLUG_MESSAGE;
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
-@SuppressWarnings(value = "unchecked")
-public class Main {
+public class MainModule1 {
     public static void main(String[] args) {
         Fridge fridge = new Fridge(250, "Fridge", HomeLocation.KITCHEN, 3);
 
@@ -72,13 +70,5 @@ public class Main {
         } finally {
             LOGGER.info("Expected exception - NotSupportedApplianceTypeException");
         }
-
-        //Module 2 tasks 1-5
-        //this assignment is unchecked, generates a warning when passed as parameter to sort()
-        // but suppressed by @SuppressWarnings(value = "unchecked") class annotation
-        List uncheckedAppliancesList = Arrays.asList(fridge, tvSet, kettle);
-        new SorterByPowerConsumption().sort(uncheckedAppliancesList);
-
-        ReflectionExecutor.executeReflectionMethods();
     }
 }

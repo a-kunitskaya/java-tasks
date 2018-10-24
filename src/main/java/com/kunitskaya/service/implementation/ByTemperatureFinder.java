@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 import static com.kunitskaya.exceptions.ByTemperatureApplianceNotFoundException.getErrorMessage;
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
+
+@SuppressWarnings(value = "unchecked")
 public class ByTemperatureFinder implements Findable {
     private int freezingTemperature;
 
@@ -30,13 +32,16 @@ public class ByTemperatureFinder implements Findable {
             }
         }
 
-        List<Fridge> filteredAppliances = appliances.stream()
+        List filteredAppliances = appliances.stream()
                                                     .map(e -> (Fridge) e)
                                                     .filter(a -> a.getFreezingTemperature() == freezingTemperature)
                                                     .collect(Collectors.toList());
 
         if (filteredAppliances.size() != 0) {
             LOGGER.info("Found " + filteredAppliances.size() + " appliances in total by freezing temperature " + freezingTemperature + ":");
+
+            //will produce a warning as no type is defined for List in method return type
+            //but is suppressed by @SuppressWarnings(value = "unchecked") on class level
             filteredAppliances.forEach(appliance -> LOGGER.info("Found " + appliance.getClass().getSimpleName() + " by freezing temperature " + freezingTemperature));
             return filteredAppliances;
         } else {
