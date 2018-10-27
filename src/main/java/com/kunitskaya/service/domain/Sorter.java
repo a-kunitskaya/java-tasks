@@ -1,7 +1,5 @@
 package com.kunitskaya.service.domain;
 
-import com.kunitskaya.domain.appliances.HouseholdAppliance;
-
 import java.util.List;
 
 public interface Sorter<T> {

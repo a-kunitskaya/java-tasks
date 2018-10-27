@@ -14,7 +14,6 @@ import com.kunitskaya.service.annotations.runners.ProdCodeRunner;
 import com.kunitskaya.service.domain.implementation.appliances.PowerConsumptionCounter;
 import com.kunitskaya.service.domain.implementation.appliances.SorterByPowerConsumption;
 
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
