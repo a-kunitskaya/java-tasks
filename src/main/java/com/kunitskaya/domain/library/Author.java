@@ -50,7 +50,7 @@ public class Author {
     @Override
     public int hashCode() {
 
-        return Objects.hash(name, age, books);
+        return Objects.hash(name, age);
     }
 
     @Override

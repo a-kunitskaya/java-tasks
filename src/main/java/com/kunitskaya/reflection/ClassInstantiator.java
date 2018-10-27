@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
@@ -39,16 +40,22 @@ public class ClassInstantiator {
      * @param param parameter to pass to constructor
      * @return instance of target class
      */
-    public static <T> T instantiate(Class<T> clazz, Object param) {
+    public static <T> T instantiate(Class<T> clazz, Object... param) {
         T instance;
 
         try {
-            Class[] paramTypes = new Class[]{param.getClass()};
+            Class[] paramTypes = new Class[param.length];
+            Object[] args = new Object[param.length];
+
+            for (int i = 0; i < param.length; i++) {
+                paramTypes[i] = param[i].getClass();
+                args[i] = param[i];
+            }
 
             Constructor<?> constructor = clazz.getConstructor(paramTypes);
-            Object[] args = new Object[]{param};
+
             instance = (T) constructor.newInstance(args);
-            LOGGER.info(String.format(SUCCESS_MESSAGE, clazz.getSimpleName(), param));
+            LOGGER.info(String.format(SUCCESS_MESSAGE, clazz.getSimpleName(), param.length));
             return instance;
 
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {

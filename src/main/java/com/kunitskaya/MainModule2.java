@@ -1,5 +1,6 @@
 package com.kunitskaya;
 
+import com.kunitskaya.domain.HomeLocation;
 import com.kunitskaya.domain.appliances.Fridge;
 import com.kunitskaya.domain.appliances.HouseholdAppliance;
 import com.kunitskaya.domain.appliances.Kettle;
@@ -13,6 +14,7 @@ import com.kunitskaya.service.annotations.runners.ProdCodeRunner;
 import com.kunitskaya.service.domain.appliances.implementation.PowerConsumptionCounter;
 import com.kunitskaya.service.domain.appliances.implementation.SorterByPowerConsumption;
 
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -23,7 +25,7 @@ import java.util.Set;
 public class MainModule2 {
 
     public static void main(String[] args) {
-        HouseholdAppliance kettle = ClassInstantiator.instantiate(Kettle.class, 200);
+        HouseholdAppliance kettle = ClassInstantiator.instantiate(Kettle.class, 200, "black", HomeLocation.KITCHEN, 3.0);
         HouseholdAppliance fridge = ClassInstantiator.instantiate(Fridge.class);
         HouseholdAppliance tvSet = ClassInstantiator.instantiate(TvSet.class);
 
