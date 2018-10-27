@@ -2,8 +2,8 @@ package com.kunitskaya;
 
 import com.kunitskaya.domain.library.Author;
 import com.kunitskaya.domain.library.Book;
-import com.kunitskaya.service.domain.library.BiggestBookFinder;
-import com.kunitskaya.service.domain.library.SmallestBookFinder;
+import com.kunitskaya.service.domain.implementation.library.BiggestBookFinder;
+import com.kunitskaya.service.domain.implementation.library.SmallestBookFinder;
 
 import java.util.Arrays;
 import java.util.Collections;

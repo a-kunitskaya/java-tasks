@@ -11,8 +11,8 @@ import com.kunitskaya.reflection.MetaDataPrinter;
 import com.kunitskaya.reflection.MethodsExecutor;
 import com.kunitskaya.service.annotations.handlers.ThisCodeSmellsHandler;
 import com.kunitskaya.service.annotations.runners.ProdCodeRunner;
-import com.kunitskaya.service.domain.appliances.implementation.PowerConsumptionCounter;
-import com.kunitskaya.service.domain.appliances.implementation.SorterByPowerConsumption;
+import com.kunitskaya.service.domain.implementation.appliances.PowerConsumptionCounter;
+import com.kunitskaya.service.domain.implementation.appliances.SorterByPowerConsumption;
 
 
 import java.lang.reflect.Field;

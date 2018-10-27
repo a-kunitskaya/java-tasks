@@ -1,4 +1,4 @@
-package com.kunitskaya.service.domain.appliances;
+package com.kunitskaya.service.domain;
 
 import com.kunitskaya.domain.appliances.HouseholdAppliance;
 

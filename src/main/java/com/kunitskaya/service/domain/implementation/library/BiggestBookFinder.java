@@ -1,4 +1,4 @@
-package com.kunitskaya.service.domain.library;
+package com.kunitskaya.service.domain.implementation.library;
 
 import com.kunitskaya.domain.library.Book;
 import com.kunitskaya.service.domain.ObjectFinder;
