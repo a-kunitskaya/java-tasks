@@ -1,10 +1,10 @@
-package com.kunitskaya.service.implementation;
+package com.kunitskaya.service.domain.appliances.implementation;
 
 import com.kunitskaya.domain.appliances.Fridge;
 import com.kunitskaya.domain.appliances.HouseholdAppliance;
 import com.kunitskaya.exceptions.ByTemperatureApplianceNotFoundException;
 import com.kunitskaya.exceptions.NotSupportedApplianceTypeException;
-import com.kunitskaya.service.Findable;
+import com.kunitskaya.service.domain.appliances.Findable;
 
 import java.util.List;
 import java.util.stream.Collectors;

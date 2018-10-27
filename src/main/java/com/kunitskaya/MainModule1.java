@@ -8,7 +8,7 @@ import com.kunitskaya.domain.appliances.TvSet;
 import com.kunitskaya.exceptions.ApplianceNotFoundException;
 import com.kunitskaya.exceptions.ByTemperatureApplianceNotFoundException;
 import com.kunitskaya.exceptions.NotSupportedApplianceTypeException;
-import com.kunitskaya.service.implementation.*;
+import com.kunitskaya.service.domain.appliances.implementation.*;
 
 import java.util.Arrays;
 import java.util.List;

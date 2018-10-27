@@ -1,9 +1,9 @@
-package com.kunitskaya.service.implementation;
+package com.kunitskaya.service.domain.appliances.implementation;
 
 import com.kunitskaya.domain.HomeLocation;
 import com.kunitskaya.domain.appliances.HouseholdAppliance;
 import com.kunitskaya.exceptions.ByLocationNotFoundException;
-import com.kunitskaya.service.Findable;
+import com.kunitskaya.service.domain.appliances.Findable;
 
 import java.util.List;
 import java.util.stream.Collectors;

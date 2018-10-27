@@ -6,8 +6,12 @@ import com.kunitskaya.domain.library.Book;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class MainModule3 {
+    private static String message;
 
     public static void main(String[] args) {
         short age1 = 32;
@@ -18,14 +22,22 @@ public class MainModule3 {
         Author author3 = new Author("Bill", age1);
 
         List<Author> authorsList = Arrays.asList(author1, author2, author3);
-        
+
         Book book1 = new Book("Cat in the hat", 50);
-        Book book2 = new Book("The wizard of OZ", 150);
-        Book book3 = new Book("Winnie the Pooh", 30);
+        Book book2 = new Book("The wizard of OZ", 250);
+        Book book3 = new Book("Winnie the Pooh", 230);
         Book book4 = new Book("Click clack moo", 24);
-        Book book5 = new Book("About a dog and a cat", 56);
+        Book book5 = new Book("About a dog and a cat", 156);
 
         List<Book> booksList = Arrays.asList(book1, book2, book3, book4, book5);
+
+//        author1.setBooks(booksList);
+//        author2.setBooks(Arrays.asList(book2, book3, book5));
+//        author3.setBooks(Collections.singletonList(book3));
+
+        //throws StackOverflowError exception.
+        // Cannot evaluate com.kunitskaya.domain.library.Author.toString()
+
 
         book1.setAuthors(Collections.singletonList(author1));
         book2.setAuthors(Collections.singletonList(author1));
@@ -34,11 +46,29 @@ public class MainModule3 {
         book4.setAuthors(Arrays.asList(author1, author2));
         book5.setAuthors(Arrays.asList(author1, author2));
 
-        author1.setBooks(booksList);
-        author2.setBooks(Arrays.asList(book3, book3, book5));
-        author3.setBooks(Collections.singletonList(book3));
-
         Author[] authors = authorsList.toArray(new Author[0]);
         Book[] books = booksList.toArray(new Book[0]);
+
+        List<Book> booksMoreThan200pages = booksList.stream()
+                                                    .filter(b -> b.getNumberOfPages() > 200)
+                                                    .collect(Collectors.toList());
+
+
+        List<Book> bookMinNumberOfPages;
+        int minNumberOfPages = 0;
+        Book smallestBook;
+
+
+        for (int i = 0; i < booksList.size(); i++) {
+            if (booksList.get(i).getNumberOfPages() < minNumberOfPages) {
+                smallestBook = booksList.get(i);
+            }
+
+
+            message = "Book with title: %s has > 200 pages: %s";
+            booksMoreThan200pages.forEach(b -> {
+                LOGGER.info(String.format(message, b.getTitle(), b.getNumberOfPages()));
+            });
+        }
     }
 }

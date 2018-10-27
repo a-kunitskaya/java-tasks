@@ -1,7 +1,7 @@
-package com.kunitskaya.service.implementation;
+package com.kunitskaya.service.domain.appliances.implementation;
 
 import com.kunitskaya.domain.appliances.HouseholdAppliance;
-import com.kunitskaya.service.Sorter;
+import com.kunitskaya.service.domain.appliances.Sorter;
 import com.kunitskaya.service.annotations.UseArrayList;
 
 import java.util.Comparator;

@@ -1,4 +1,4 @@
-package com.kunitskaya.service;
+package com.kunitskaya.service.domain.appliances;
 
 import com.kunitskaya.domain.appliances.HouseholdAppliance;
 import com.kunitskaya.exceptions.ByColorApplianceNotFoundException;
