@@ -3,14 +3,14 @@ package com.kunitskaya.service.domain.appliances.implementation;
 import com.kunitskaya.domain.HomeLocation;
 import com.kunitskaya.domain.appliances.HouseholdAppliance;
 import com.kunitskaya.exceptions.ByLocationNotFoundException;
-import com.kunitskaya.service.domain.appliances.Findable;
+import com.kunitskaya.service.domain.ObjectsFinder;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
-public class ByLocationFinder implements Findable {
+public class ByLocationFinder implements ObjectsFinder<HouseholdAppliance> {
     private HomeLocation location;
 
     public ByLocationFinder(HomeLocation location) {

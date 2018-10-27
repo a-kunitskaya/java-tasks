@@ -4,6 +4,6 @@ import com.kunitskaya.domain.appliances.HouseholdAppliance;
 
 import java.util.List;
 
-public interface Sorter {
-    void sort(List<HouseholdAppliance> appliances);
+public interface Sorter<T> {
+    void sort(List<T> appliances);
 }

@@ -1,15 +1,15 @@
 package com.kunitskaya.service.domain.appliances.implementation;
 
 import com.kunitskaya.domain.appliances.HouseholdAppliance;
-import com.kunitskaya.service.domain.appliances.Sorter;
 import com.kunitskaya.service.annotations.UseArrayList;
+import com.kunitskaya.service.domain.appliances.Sorter;
 
 import java.util.Comparator;
 import java.util.List;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
-public class SorterByPowerConsumption implements Sorter {
+public class SorterByPowerConsumption implements Sorter<HouseholdAppliance> {
 
     @UseArrayList
     @Override

@@ -2,14 +2,14 @@ package com.kunitskaya.service.domain.appliances.implementation;
 
 import com.kunitskaya.domain.appliances.HouseholdAppliance;
 import com.kunitskaya.exceptions.ByColorApplianceNotFoundException;
-import com.kunitskaya.service.domain.appliances.Findable;
+import com.kunitskaya.service.domain.ObjectsFinder;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
-public class ByColorFinder implements Findable {
+public class ByColorFinder implements ObjectsFinder<HouseholdAppliance> {
     private String color;
 
     public ByColorFinder(String color) {

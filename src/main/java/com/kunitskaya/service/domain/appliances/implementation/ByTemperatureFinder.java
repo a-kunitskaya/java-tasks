@@ -4,7 +4,7 @@ import com.kunitskaya.domain.appliances.Fridge;
 import com.kunitskaya.domain.appliances.HouseholdAppliance;
 import com.kunitskaya.exceptions.ByTemperatureApplianceNotFoundException;
 import com.kunitskaya.exceptions.NotSupportedApplianceTypeException;
-import com.kunitskaya.service.domain.appliances.Findable;
+import com.kunitskaya.service.domain.ObjectsFinder;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +14,7 @@ import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 
 @SuppressWarnings(value = "unchecked")
-public class ByTemperatureFinder implements Findable {
+public class ByTemperatureFinder implements ObjectsFinder<HouseholdAppliance> {
     private int freezingTemperature;
 
     public ByTemperatureFinder(int freezingTemperature) {

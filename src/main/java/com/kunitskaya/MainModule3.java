@@ -23,6 +23,7 @@ public class MainModule3 {
         Author author2 = new Author("Tom", age2);
         Author author3 = new Author("Bill", age1);
 
+
         List<Author> authorsList = Arrays.asList(author1, author2, author3);
 
         Book book1 = new Book("Cat in the hat", 50);
@@ -37,10 +38,6 @@ public class MainModule3 {
         author2.setBooks(Arrays.asList(book1, book2, book3, book5));
         author3.setBooks(Collections.singletonList(book3));
 
-        //throws StackOverflowError exception.
-        // Cannot evaluate com.kunitskaya.domain.library.Author.toString()
-
-
         book1.setAuthors(Collections.singletonList(author1));
         book2.setAuthors(Collections.singletonList(author1));
         book3.setAuthors(Collections.singletonList(author2));
@@ -50,9 +47,6 @@ public class MainModule3 {
 
 
 
-        for (Author a : authorsList){
-            System.out.println(a.getName() + a.getBooks());
-        }
         Author[] authors = authorsList.toArray(new Author[0]);
         Book[] books = booksList.toArray(new Book[0]);
 
