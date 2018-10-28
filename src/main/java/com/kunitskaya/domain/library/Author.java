@@ -43,22 +43,12 @@ public class Author {
         if (o == null || getClass() != o.getClass()) return false;
         Author author = (Author) o;
         return age == author.age &&
-                Objects.equals(name, author.name) &&
-                Objects.equals(books, author.books);
+                Objects.equals(name, author.name);
     }
 
     @Override
     public int hashCode() {
 
         return Objects.hash(name, age);
-    }
-
-    @Override
-    public String toString() {
-        return "Author{" +
-                "name='" + name + '\'' +
-                ", age=" + age +
-                ", books=" + books +
-                '}';
     }
 }

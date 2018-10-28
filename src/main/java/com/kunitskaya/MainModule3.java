@@ -2,6 +2,7 @@ package com.kunitskaya;
 
 import com.kunitskaya.domain.library.Author;
 import com.kunitskaya.domain.library.Book;
+import com.kunitskaya.service.domain.implementation.library.BookPrinter;
 import com.kunitskaya.service.domain.implementation.library.finders.BiggestBookFinder;
 import com.kunitskaya.service.domain.implementation.library.finders.ByPagesBookFinder;
 import com.kunitskaya.service.domain.implementation.library.finders.SingleAuthorBooksFinder;
@@ -59,5 +60,8 @@ public class MainModule3 {
         new ByPagesNumberBooksSorter().sort(booksList);
 
         new ByTitleBooksSorter().sort(booksList);
+
+        BookPrinter.printTitles(booksList);
+        BookPrinter.printDistinctAuthors(booksList);
     }
 }

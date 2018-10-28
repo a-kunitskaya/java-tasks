@@ -17,8 +17,8 @@ public class SingleAuthorBooksFinder implements ObjectsFinder<Book> {
     @Override
     public List<Book> find(List<Book> books) {
         List<Book> booksWithOneAuthor = books.stream()
-                                  .filter(b -> b.getAuthors().size() == 1)
-                                  .collect(Collectors.toList());
+                                             .filter(b -> b.getAuthors().size() == 1)
+                                             .collect(Collectors.toList());
 
         if (booksWithOneAuthor.size() != 0) {
             LOGGER.info(String.format(FOUND_BOOKS_MESSAGE, booksWithOneAuthor.size()));
