@@ -10,7 +10,8 @@ import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 
 public class ByPagesBookFinder implements ObjectsFinder<Book> {
-    private static final String FOUND_BOOKS_MESSAGE = "Found %s books with pages number > than %s:";
+    private static final String FINDING_MESSAGE = "Finding books with pages number > %s...";
+    private static final String FOUND_BOOKS_MESSAGE = "Found %s books with pages number > than %s.";
     private static final String FOUND_BOOK_MESSAGE = "Book with title: %s, pages number: %s";
     private static final String NOT_FOUND_MESSAGE = "No books are found with pages number: %s";
 
@@ -27,16 +28,15 @@ public class ByPagesBookFinder implements ObjectsFinder<Book> {
      */
     @Override
     public List<Book> find(List<Book> books) {
+        LOGGER.info(String.format(FINDING_MESSAGE, minPagesNumber));
+
         List<Book> booksWithPagesNumber = books.stream()
                                                .filter(b -> b.getNumberOfPages() > minPagesNumber)
+                                               .peek(b -> LOGGER.info(String.format(FOUND_BOOK_MESSAGE, b.getTitle(), b.getNumberOfPages())))
                                                .collect(Collectors.toList());
 
         if (booksWithPagesNumber.size() != 0) {
             LOGGER.info(String.format(FOUND_BOOKS_MESSAGE, booksWithPagesNumber.size(), minPagesNumber));
-
-            booksWithPagesNumber.forEach(b -> {
-                LOGGER.info(String.format(FOUND_BOOK_MESSAGE, b.getTitle(), b.getNumberOfPages()));
-            });
         } else {
             LOGGER.error(String.format(NOT_FOUND_MESSAGE, minPagesNumber));
         }

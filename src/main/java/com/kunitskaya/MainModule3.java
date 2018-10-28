@@ -13,6 +13,9 @@ import com.kunitskaya.service.domain.implementation.library.sorters.ByTitleBooks
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class MainModule3 {
     private static String message;
@@ -40,28 +43,31 @@ public class MainModule3 {
         author2.setBooks(Arrays.asList(book4, book5));
         author3.setBooks(Collections.singletonList(book3));
 
-        book1.setAuthors(Collections.singletonList(author1));
-        book2.setAuthors(Collections.singletonList(author1));
-        book3.setAuthors(Arrays.asList(author1, author3));
-        book4.setAuthors(Arrays.asList(author1, author2));
-        book5.setAuthors(Arrays.asList(author1, author2));
-
+        String peekMessage = "Setting book: %s, to author: %s";
+        for (Book book : booksList) {
+            List<Author> authors = authorsList.stream()
+                                              .filter(a -> a.getBooks().contains(book))
+                                              .peek(a -> LOGGER.info(String.format(peekMessage, book.getTitle(), a.getName())))
+                                              .collect(Collectors.toList());
+            book.setAuthors(authors);
+        }
+        
         Author[] authors = authorsList.toArray(new Author[0]);
         Book[] books = booksList.toArray(new Book[0]);
 
         List<Book> booksMoreThan200pages = new ByPagesBookFinder(200).find(booksList);
 
         Book smallestBook = new SmallestBookFinder().find(booksList);
-
         Book biggestBook = new BiggestBookFinder().find(booksList);
-
         List<Book> booksWithOneAuthor = new SingleAuthorBooksFinder().find(booksList);
 
         new ByPagesNumberBooksSorter().sort(booksList);
-
         new ByTitleBooksSorter().sort(booksList);
 
         BookPrinter.printTitles(booksList);
         BookPrinter.printDistinctAuthors(booksList);
+
+        Book biggestAuthorsBook = new BiggestBookFinder().find(author1);
+
     }
 }
