@@ -9,6 +9,9 @@ import com.kunitskaya.exceptions.ApplianceNotFoundException;
 import com.kunitskaya.exceptions.ByTemperatureApplianceNotFoundException;
 import com.kunitskaya.exceptions.NotSupportedApplianceTypeException;
 import com.kunitskaya.service.domain.implementation.appliances.*;
+import com.kunitskaya.service.domain.implementation.appliances.finders.ByColorFinder;
+import com.kunitskaya.service.domain.implementation.appliances.finders.ByLocationFinder;
+import com.kunitskaya.service.domain.implementation.appliances.finders.ByTemperatureFinder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -57,7 +60,7 @@ public class MainModule1 {
         LOGGER.info("Order of items in unsorted list:");
         appliances.forEach(a -> LOGGER.info(a.getClass().getSimpleName() + ", power consumption: " + a.getPowerConsumption()));
 
-        new SorterByPowerConsumption().sort(appliances);
+        new ByPowerConsumptionApplianceSorter().sort(appliances);
 
         LOGGER.info("Order of items in a sorted list:");
         appliances.forEach(a -> LOGGER.info(a.getClass().getSimpleName() + ", power consumption: " + a.getPowerConsumption()));

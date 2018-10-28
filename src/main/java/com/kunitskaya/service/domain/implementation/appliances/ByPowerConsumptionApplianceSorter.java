@@ -9,7 +9,7 @@ import java.util.List;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
-public class SorterByPowerConsumption implements Sorter<HouseholdAppliance> {
+public class ByPowerConsumptionApplianceSorter implements Sorter<HouseholdAppliance> {
 
     @UseArrayList
     @Override

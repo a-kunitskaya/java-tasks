@@ -1,9 +1,11 @@
-package com.kunitskaya.service.domain.implementation.library;
+package com.kunitskaya.service.domain.implementation.library.finders;
 
 import com.kunitskaya.domain.library.Book;
 import com.kunitskaya.service.domain.ObjectFinder;
 
 import java.util.List;
+
+import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class SmallestBookFinder implements ObjectFinder<Book> {
 
@@ -18,6 +20,8 @@ public class SmallestBookFinder implements ObjectFinder<Book> {
                 minNumberOfPages = b.getNumberOfPages();
             }
         }
+
+        LOGGER.info("Book with min number of pages: " + smallestBook.getTitle());
 
         return smallestBook;
     }

@@ -1,4 +1,4 @@
-package com.kunitskaya.service.domain.implementation.appliances;
+package com.kunitskaya.service.domain.implementation.appliances.finders;
 
 import com.kunitskaya.domain.HomeLocation;
 import com.kunitskaya.domain.appliances.HouseholdAppliance;
