@@ -1,5 +1,7 @@
 package com.kunitskaya;
 
+import com.google.common.collect.ImmutableList;
+import com.kunitskaya.domain.collectordomain.A;
 import com.kunitskaya.domain.library.Author;
 import com.kunitskaya.domain.library.Book;
 import com.kunitskaya.service.domain.implementation.library.BookPrinter;
@@ -16,11 +18,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
+import static com.kunitskaya.service.collectors.CustomImmutableListCollector.toCustomImmutablelist;
 
 public class MainModule3 {
-    private static String message;
 
     public static void main(String[] args) {
+
+        //task 4
         short age1 = 32;
         short age2 = 44;
 
@@ -51,7 +55,7 @@ public class MainModule3 {
                                               .collect(Collectors.toList());
             book.setAuthors(authors);
         }
-        
+
         Author[] authors = authorsList.toArray(new Author[0]);
         Book[] books = booksList.toArray(new Book[0]);
 
@@ -68,6 +72,13 @@ public class MainModule3 {
         BookPrinter.printDistinctAuthors(booksList);
 
         Book biggestAuthorsBook = new BiggestBookFinder().find(author1);
+
+        //task 5
+        List<A> aInstances = A.getAInstances(10);
+        ImmutableList<Integer> immutableList = aInstances.stream()
+                                                         .filter(A::hasEvenNumber)
+                                                         .map(i -> i.addNumber(3))
+                                                         .collect(toCustomImmutablelist());
 
     }
 }
