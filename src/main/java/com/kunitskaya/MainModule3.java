@@ -11,10 +11,14 @@ import com.kunitskaya.service.domain.implementation.library.finders.SingleAuthor
 import com.kunitskaya.service.domain.implementation.library.finders.SmallestBookFinder;
 import com.kunitskaya.service.domain.implementation.library.sorters.ByPagesNumberBooksSorter;
 import com.kunitskaya.service.domain.implementation.library.sorters.ByTitleBooksSorter;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.*;
 import java.util.stream.Collectors;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
@@ -80,5 +84,28 @@ public class MainModule3 {
                                                          .map(i -> i.addNumber(3))
                                                          .collect(toCustomImmutablelist());
 
+        //task 2-3
+        A instance = new A("GoodName", 124, true);
+
+        Predicate<A> isEvenNumber = a -> a.hasEvenNumber();
+        LOGGER.info("Predicate: test() result: " +  isEvenNumber.test(instance));
+
+        Consumer<A> namePrinter = m -> LOGGER.info("Consumer accept() result: " + m.getName());
+        namePrinter.accept(instance);
+
+        Supplier<Integer> randomIntSupplier = () -> RandomUtils.nextInt();
+        Integer randomInt = randomIntSupplier.get();
+        LOGGER.info("Supplier: get random int result: " + randomInt);
+
+        Function<A, Integer> adder = a -> a.addNumber(randomInt);
+        LOGGER.info("Function: apply() adding random number to existing: " + adder.apply(instance));
+
+        BiFunction<String, A, Boolean> isNameInString = (s, a) -> StringUtils.containsIgnoreCase(s, a.getName());
+
+        String randomString = RandomStringUtils.randomAlphanumeric(5, 20);
+        Boolean result = isNameInString.apply(randomString, instance);
+        String message = "BiFunction: is name: %s in string: %s? Result of apply(): %s";
+        LOGGER.info(String.format(message, instance.getName(), randomString, String.valueOf(result)));
     }
+
 }
