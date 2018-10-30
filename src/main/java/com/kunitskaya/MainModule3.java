@@ -11,6 +11,7 @@ import com.kunitskaya.service.domain.implementation.library.finders.SingleAuthor
 import com.kunitskaya.service.domain.implementation.library.finders.SmallestBookFinder;
 import com.kunitskaya.service.domain.implementation.library.sorters.ByPagesNumberBooksSorter;
 import com.kunitskaya.service.domain.implementation.library.sorters.ByTitleBooksSorter;
+import com.kunitskaya.service.interfaces.ThreeFunction;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -106,6 +107,12 @@ public class MainModule3 {
         Boolean result = isNameInString.apply(randomString, instance);
         String message = "BiFunction: is name: %s in string: %s? Result of apply(): %s";
         LOGGER.info(String.format(message, instance.getName(), randomString, String.valueOf(result)));
+
+
+        ThreeFunction<Integer, Integer, Integer, Integer> threeFunction = (x, y, z) -> x + y + z;
+        ThreeFunction<Integer, Integer, Integer, Integer> then = threeFunction.andThen(r -> r * 5);
+        int threeFunctionResult = then.apply(1, 3, 2);
+        System.out.println(threeFunctionResult);
     }
 
 }
