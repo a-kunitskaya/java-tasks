@@ -11,4 +11,9 @@ public interface ThreeFunction<T, U, V, R> {
         Objects.requireNonNull(after);
         return (T t, U u, V v) -> after.apply(apply(t, u, v));
     }
+
+    static void printMessage(String t, String u, String v) {
+        String message = "Executing ThreeFunction on objects: %s, %s, %s";
+        System.out.println(String.format(message, t, u, v));
+    }
 }

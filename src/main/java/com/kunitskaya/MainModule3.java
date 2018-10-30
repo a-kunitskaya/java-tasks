@@ -26,6 +26,7 @@ import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 import static com.kunitskaya.service.collectors.CustomImmutableListCollector.toCustomImmutablelist;
 
 public class MainModule3 {
+    private static final String MESSAGE = "Functional interface: %s, result: %s";
 
     public static void main(String[] args) {
 
@@ -36,7 +37,6 @@ public class MainModule3 {
         Author author1 = new Author("Jack", age1);
         Author author2 = new Author("Tom", age2);
         Author author3 = new Author("Bill", age1);
-
 
         List<Author> authorsList = Arrays.asList(author1, author2, author3);
 
@@ -86,33 +86,32 @@ public class MainModule3 {
                                                          .collect(toCustomImmutablelist());
 
         //task 2-3
-        A instance = new A("GoodName", 124, true);
+        A instance1 = new A("instance1", 124, true);
+        A instance2 = new A("instance2", 12, false);
+        A instance3 = new A("instance3", 10, true);
 
         Predicate<A> isEvenNumber = a -> a.hasEvenNumber();
-        LOGGER.info("Predicate: test() result: " +  isEvenNumber.test(instance));
+        LOGGER.info(String.format(MESSAGE, "Predicate", isEvenNumber.test(instance1)));
 
-        Consumer<A> namePrinter = m -> LOGGER.info("Consumer accept() result: " + m.getName());
-        namePrinter.accept(instance);
+        Consumer<A> namePrinter = m -> LOGGER.info(String.format(MESSAGE, "Consumer", m.getName()));
+        namePrinter.accept(instance1);
 
         Supplier<Integer> randomIntSupplier = () -> RandomUtils.nextInt();
-        Integer randomInt = randomIntSupplier.get();
-        LOGGER.info("Supplier: get random int result: " + randomInt);
+        Integer supplierResult = randomIntSupplier.get();
+        LOGGER.info(String.format(MESSAGE, "Supplier", +supplierResult));
 
-        Function<A, Integer> adder = a -> a.addNumber(randomInt);
-        LOGGER.info("Function: apply() adding random number to existing: " + adder.apply(instance));
+        Function<A, Integer> functionResult = a -> a.addNumber(supplierResult);
+        LOGGER.info(String.format(MESSAGE, "Function", functionResult.apply(instance1)));
 
         BiFunction<String, A, Boolean> isNameInString = (s, a) -> StringUtils.containsIgnoreCase(s, a.getName());
-
         String randomString = RandomStringUtils.randomAlphanumeric(5, 20);
-        Boolean result = isNameInString.apply(randomString, instance);
-        String message = "BiFunction: is name: %s in string: %s? Result of apply(): %s";
-        LOGGER.info(String.format(message, instance.getName(), randomString, String.valueOf(result)));
+        Boolean biFunctionResult = isNameInString.apply(randomString, instance1);
+        LOGGER.info(String.format(MESSAGE, "BiFunction", String.valueOf(biFunctionResult)));
 
-
-        ThreeFunction<Integer, Integer, Integer, Integer> threeFunction = (x, y, z) -> x + y + z;
-        ThreeFunction<Integer, Integer, Integer, Integer> then = threeFunction.andThen(r -> r * 5);
-        int threeFunctionResult = then.apply(1, 3, 2);
-        System.out.println(threeFunctionResult);
+        ThreeFunction.printMessage(instance1.getName(), instance2.getName(), instance3.getName());
+        ThreeFunction<A, A, A, Integer> threeFunction = (x, y, z) -> x.getNumber() + y.getNumber() + z.getNumber();
+        ThreeFunction<A, A, A, Integer> then = threeFunction.andThen(r -> r * 5);
+        int threeFunctionResult = then.apply(instance1, instance2, instance3);
+        LOGGER.info(String.format(MESSAGE, "ThreeFunction", threeFunctionResult));
     }
-
 }
