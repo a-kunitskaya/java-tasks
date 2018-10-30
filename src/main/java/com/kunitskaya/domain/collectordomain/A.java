@@ -17,6 +17,18 @@ public class A {
         this.isSmth = isSmth;
     }
 
+    public static List<A> getAInstances(int numberOfInstances) {
+        List<A> instances = new ArrayList<>();
+
+        for (int i = 0; i <= numberOfInstances; i++) {
+            A instance = new A("A #" + i, i, true);
+
+            LOGGER.info("Created instance: " + instance.getName());
+            instances.add(instance);
+        }
+        return instances;
+    }
+
     public String getName() {
         return name;
     }
@@ -63,19 +75,6 @@ public class A {
         String message = "Initial number: %s, added number: %s, result: %s";
         LOGGER.info(String.format(message, initialNumber, addition, result));
         return result;
-    }
-
-
-    public static List<A> getAInstances(int numberOfInstances) {
-        List<A> instances = new ArrayList<>();
-
-        for (int i = 0; i <= numberOfInstances; i++) {
-            A instance = new A("A #" + i, i, true);
-
-            LOGGER.info("Created instance: " + instance.getName());
-            instances.add(instance);
-        }
-        return instances;
     }
 
     public boolean hasEvenNumber() {

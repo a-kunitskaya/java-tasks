@@ -15,6 +15,10 @@ public class CustomImmutableSetCollector<T> implements Collector<T, ImmutableSet
     private CustomImmutableSetCollector() {
     }
 
+    public static <T> CustomImmutableSetCollector<T> toCustomImmutableSet() {
+        return new CustomImmutableSetCollector<>();
+    }
+
     @Override
     public Supplier<ImmutableSet.Builder<T>> supplier() {
         return ImmutableSet::builder;
@@ -38,9 +42,5 @@ public class CustomImmutableSetCollector<T> implements Collector<T, ImmutableSet
     @Override
     public Set<Characteristics> characteristics() {
         return Sets.immutableEnumSet(Characteristics.UNORDERED);
-    }
-
-    public static <T> CustomImmutableSetCollector<T> toCustomImmutableSet() {
-        return new CustomImmutableSetCollector<>();
     }
 }

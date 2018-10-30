@@ -3,10 +3,8 @@ package com.kunitskaya.service.domain.implementation.library.sorters;
 import com.kunitskaya.domain.library.Book;
 import com.kunitskaya.service.domain.Sorter;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 

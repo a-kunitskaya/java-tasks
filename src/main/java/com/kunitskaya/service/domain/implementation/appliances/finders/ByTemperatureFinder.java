@@ -33,9 +33,9 @@ public class ByTemperatureFinder implements ObjectsFinder<HouseholdAppliance> {
         }
 
         List filteredAppliances = appliances.stream()
-                                                    .map(e -> (Fridge) e)
-                                                    .filter(a -> a.getFreezingTemperature() == freezingTemperature)
-                                                    .collect(Collectors.toList());
+                                            .map(e -> (Fridge) e)
+                                            .filter(a -> a.getFreezingTemperature() == freezingTemperature)
+                                            .collect(Collectors.toList());
 
         if (filteredAppliances.size() != 0) {
             LOGGER.info("Found " + filteredAppliances.size() + " appliances in total by freezing temperature " + freezingTemperature + ":");
