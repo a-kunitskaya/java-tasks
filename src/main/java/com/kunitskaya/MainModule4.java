@@ -1,16 +1,16 @@
 package com.kunitskaya;
 
-import com.kunitskaya.service.errors.OutOfMemoryErrorProvider;
-import javassist.CannotCompileException;
+import com.kunitskaya.service.errors.ErrorProvider;
 
 public class MainModule4 {
 
-    public static void main(String[] args) throws CannotCompileException, ClassNotFoundException {
-        //OutOfMemoryErrorProvider.getOutOfMemotyErrorHeapSpace();
-        OutOfMemoryErrorProvider.getOutOfMemotyErrorHeapSize();
-        OutOfMemoryErrorProvider.getOutOfMemotyErrorHeapSizeObjects();
-        OutOfMemoryErrorProvider.getOutOfMemotyErrorMetaspace();
-        OutOfMemoryErrorProvider.getOutOfMemotyErrorRecursion();
-        OutOfMemoryErrorProvider.getOutOfMemotyErrorNoRecursion();
+    public static void main(String[] args) throws Exception {
+       // ErrorProvider.getOutOfMemoryErrorHeapSpace();
+      //  ErrorProvider.getOutOfMemoryErrorHeapSpaceObjects();
+        ErrorProvider.getOutOfMemoryErrorMetaspace();
+        //ErrorProvider.getStackOverflowErrorRecursion();
+       // ErrorProvider.getStackOverFlowErrorNoRecursion();
+
+
     }
 }
