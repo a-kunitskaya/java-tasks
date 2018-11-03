@@ -4,9 +4,6 @@ import com.kunitskaya.service.errors.ErrorProvider;
 
 
 public class MainModule5 {
-
-
-
     public static void main(String[] args) throws Exception {
         ErrorProvider.getOutOfMemoryErrorHeapSpace();
         ErrorProvider.getOutOfMemoryErrorHeapSpaceObjects();
@@ -14,6 +11,5 @@ public class MainModule5 {
         ErrorProvider.getStackOverflowErrorRecursion();
         ErrorProvider.getStackOverFlowErrorNoRecursion();
         ErrorProvider.catchOutOfMemoryErrorInInfiniteLoop();
-
     }
 }

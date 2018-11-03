@@ -24,10 +24,10 @@ public class ErrorProvider {
     public static void getOutOfMemoryErrorHeapSpaceObjects() throws Exception {
         LOGGER.info(String.format(MESSAGE, "OutOfMemoryError", "excessive memory allocation for object"));
 
-        Class unsafeClass = Class.forName("sun.misc.Unsafe");
-        Field f = unsafeClass.getDeclaredField("theUnsafe");
-        f.setAccessible(true);
-        Unsafe unsafe = (Unsafe) f.get(null);
+        Class clazz = Class.forName("sun.misc.Unsafe");
+        Field field = clazz.getDeclaredField("theUnsafe");
+        field.setAccessible(true);
+        Unsafe unsafe = (Unsafe) field.get(null);
         while (true) {
             unsafe.allocateMemory(1024 * 1024);
         }
@@ -39,8 +39,7 @@ public class ErrorProvider {
 
         for (int i = 0; i < 1700; i++) {
             try {
-                Class clazz = classPool.makeClass(
-                        i + "class").toClass();
+                Class clazz = classPool.makeClass(i + "class").toClass();
             } catch (CannotCompileException e) {
                 e.printStackTrace();
             }
@@ -52,9 +51,9 @@ public class ErrorProvider {
         recursiveMethod();
     }
 
+    //AK: I guess it's also recursion, but not a typical one
     public static void getStackOverFlowErrorNoRecursion() {
-        LOGGER.info(String.format(MESSAGE, "StackOverflowError", "instantiating object whose constructor instantiates the object \n " +
-                "ak: though I guess it's also recursion, but not a typical one"));
+        LOGGER.info(String.format(MESSAGE, "StackOverflowError", "instantiating object whose constructor instantiates the object"));
         new StackOverFlowObject();
     }
 
