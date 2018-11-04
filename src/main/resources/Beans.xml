@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Beans with constructor args-->
+    <bean id="dev_salary" class="com.kunitskaya.domain.beans.Salary">
+        <constructor-arg value="1000"/>
+    </bean>
+
+    <bean id="dev_position" class="com.kunitskaya.domain.beans.Position">
+        <constructor-arg value="Developer"/>
+        <constructor-arg ref="dev_salary"/>
+    </bean>
+
+    <!-- with specified parameter types -->
+    <bean id="java_dev_employee" class="com.kunitskaya.domain.beans.Employee">
+        <constructor-arg type="String" value="Daniel"/>
+        <constructor-arg type="boolean" value="false"/>
+        <constructor-arg type="Position" ref="dev_position"/>
+        <constructor-arg type="Salary" ref="dev_salary"/>
+    </bean>
+
+    <!-- Bean with setters -->
+    <bean id = "ios_dev_employee" class="com.kunitskaya.domain.beans.Employee">
+        <property name="name" value="Sidney"/>
+    </bean>
+
+</beans>
