@@ -4,6 +4,7 @@ import com.kunitskaya.domain.beans.Employee;
 import com.kunitskaya.domain.beans.Position;
 import com.kunitskaya.domain.beans.Salary;
 import com.kunitskaya.service.spring.PositionService;
+import com.kunitskaya.service.spring.SalaryService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -16,8 +17,8 @@ public class MainModule4 {
     public static void main(String[] args) {
         //TODO: •	PositionService: delete positions in company
 
-
         ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
+
 
         Salary devSalary = (Salary) context.getBean("dev_salary");
         Position devPosition = (Position) context.getBean("dev_position");
@@ -39,10 +40,8 @@ public class MainModule4 {
         PositionService.deletePositions(devPosition);
         PositionService.readAllPositions();
 
-
-        //•	SalaryService: bind salary to position based on
-        // yearly salary changes, inflation, $ course and another
-        // company events (by your choice)
+        SalaryService salaryService = new SalaryService(3, 200);
+        Salary calculatedSalary = salaryService.calculateSalary(devSalary);
 
 
     }
