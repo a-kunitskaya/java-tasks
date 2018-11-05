@@ -113,5 +113,16 @@ public class MainModule3 {
         ThreeFunction<A, A, A, Integer> then = threeFunction.andThen(r -> r * 5);
         int threeFunctionResult = then.apply(instance1, instance2, instance3);
         LOGGER.info(String.format(MESSAGE, "ThreeFunction", threeFunctionResult));
+
+        ThreeFunction<A, A, A, Integer> anonymousThen = then.andThen(new Function<Integer, Integer>() {
+            @Override
+            public Integer apply(Integer r) {
+                return r * 2;
+            }
+        });
+
+        Integer anonymousResult = anonymousThen.apply(instance1, instance2, instance3);
+
+        LOGGER.info(String.format(MESSAGE, "ThreeFunction with anonymous class", anonymousResult));
     }
 }
