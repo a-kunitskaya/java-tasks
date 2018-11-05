@@ -1,21 +1,27 @@
 package com.kunitskaya.domain.beans;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Position {
     private String name;
     private Salary salary;
+    private static List<Position> positions = new ArrayList<>();
 
     public Position(String name, Salary salary) {
         this.name = name;
         this.salary = salary;
+        positions.add(this);
     }
 
     public Position(String name) {
         this.name = name;
+        positions.add(this);
     }
 
     public Position() {
+        positions.add(this);
     }
 
     public String getName() {
@@ -32,6 +38,10 @@ public class Position {
 
     public void setSalary(Salary salary) {
         this.salary = salary;
+    }
+
+    public static List<Position> getAllPositions() {
+        return positions;
     }
 
     @Override

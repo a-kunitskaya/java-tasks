@@ -22,8 +22,10 @@
     </bean>
 
     <!-- Bean with setters -->
-    <bean id = "ios_dev_employee" class="com.kunitskaya.domain.beans.Employee">
+    <bean id="ios_dev_employee" class="com.kunitskaya.domain.beans.Employee">
         <property name="name" value="Sidney"/>
+        <property name="position" ref="dev_position"/>
+        <property name="salary" ref="dev_salary"/>
     </bean>
 
 </beans>
