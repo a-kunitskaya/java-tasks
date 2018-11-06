@@ -1,6 +1,6 @@
 package com.kunitskaya;
 
-import com.kunitskaya.service.errors.ErrorProvider;
+import com.kunitskaya.service.module5.ErrorProvider;
 
 
 public class MainModule5 {

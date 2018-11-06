@@ -1,24 +1,24 @@
 package com.kunitskaya;
 
-import com.kunitskaya.domain.HomeLocation;
-import com.kunitskaya.domain.appliances.Fridge;
-import com.kunitskaya.domain.appliances.HouseholdAppliance;
-import com.kunitskaya.domain.appliances.Kettle;
-import com.kunitskaya.domain.appliances.TvSet;
-import com.kunitskaya.exceptions.ApplianceNotFoundException;
-import com.kunitskaya.exceptions.ByTemperatureApplianceNotFoundException;
-import com.kunitskaya.exceptions.NotSupportedApplianceTypeException;
-import com.kunitskaya.service.domain.implementation.appliances.ByPowerConsumptionApplianceSorter;
-import com.kunitskaya.service.domain.implementation.appliances.PowerConsumptionCounter;
-import com.kunitskaya.service.domain.implementation.appliances.finders.ByColorFinder;
-import com.kunitskaya.service.domain.implementation.appliances.finders.ByLocationFinder;
-import com.kunitskaya.service.domain.implementation.appliances.finders.ByTemperatureFinder;
+import com.kunitskaya.domain.module1.HomeLocation;
+import com.kunitskaya.domain.module1.appliances.Fridge;
+import com.kunitskaya.domain.module1.appliances.HouseholdAppliance;
+import com.kunitskaya.domain.module1.appliances.Kettle;
+import com.kunitskaya.domain.module1.appliances.TvSet;
+import com.kunitskaya.service.module1.exceptions.ApplianceNotFoundException;
+import com.kunitskaya.service.module1.exceptions.ByTemperatureApplianceNotFoundException;
+import com.kunitskaya.service.module1.exceptions.NotSupportedApplianceTypeException;
+import com.kunitskaya.service.module1.implementation.ByPowerConsumptionApplianceSorter;
+import com.kunitskaya.service.module1.implementation.PowerConsumptionCounter;
+import com.kunitskaya.service.module1.implementation.finders.ByColorFinder;
+import com.kunitskaya.service.module1.implementation.finders.ByLocationFinder;
+import com.kunitskaya.service.module1.implementation.finders.ByTemperatureFinder;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static com.kunitskaya.domain.appliances.HouseholdAppliance.PLUGIN_MESSAGE;
-import static com.kunitskaya.domain.appliances.HouseholdAppliance.UNPLUG_MESSAGE;
+import static com.kunitskaya.domain.module1.appliances.HouseholdAppliance.PLUGIN_MESSAGE;
+import static com.kunitskaya.domain.module1.appliances.HouseholdAppliance.UNPLUG_MESSAGE;
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class MainModule1 {
