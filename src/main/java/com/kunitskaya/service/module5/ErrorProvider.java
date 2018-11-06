@@ -1,6 +1,6 @@
 package com.kunitskaya.service.module5;
 
-import com.kunitskaya.domain.errordomain.StackOverFlowObject;
+import com.kunitskaya.domain.module5.StackOverFlowObject;
 import javassist.CannotCompileException;
 import javassist.ClassPool;
 import org.apache.commons.lang3.RandomStringUtils;
