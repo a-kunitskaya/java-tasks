@@ -1,4 +1,4 @@
-package com.kunitskaya.service.errors;
+package com.kunitskaya.service.module5;
 
 import com.kunitskaya.domain.errordomain.StackOverFlowObject;
 import javassist.CannotCompileException;
@@ -73,5 +73,6 @@ public class ErrorProvider {
     }
 
     private static void recursiveMethod() {
+        recursiveMethod();
     }
 }
