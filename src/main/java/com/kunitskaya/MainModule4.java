@@ -16,7 +16,7 @@ public class MainModule4 {
     public static void main(String[] args) {
         //TODO: •	PositionService: delete positions in company
 
-        //no autowiring
+        //Task 1: no autowiring
         ApplicationContext appContextNoAutowiring = new ClassPathXmlApplicationContext("Beans.xml");
 
         Salary devSalary = (Salary) appContextNoAutowiring.getBean("dev_salary");
@@ -24,15 +24,22 @@ public class MainModule4 {
         Employee javaDeveloper = (Employee) appContextNoAutowiring.getBean("java_dev_employee");
         Employee iosDeveloper = (Employee) appContextNoAutowiring.getBean("ios_dev_employee");
 
-
-        //autowiring
-        ApplicationContext appContextAnnotations = new AnnotationConfigApplicationContext(AppContext.class);
-        PositionService positionService = appContextAnnotations.getBean(PositionService.class);
-
+        //autowiring with XML
         ApplicationContext appContextAutowiring = new ClassPathXmlApplicationContext("Beans_autowiring.xml");
 
-        EmployeeService employeeService = (EmployeeService) appContextAutowiring.getBean("employee_service");
-        SalaryService salaryService = (SalaryService) appContextAutowiring.getBean("salary_service");
+        EmployeeService employeeServiceXml = (EmployeeService) appContextAutowiring.getBean("employee_service");
+        SalaryService salaryServiceXml = (SalaryService) appContextAutowiring.getBean("salary_service");
+
+
+        //Task 2: autowiring with annotations
+        ApplicationContext appContextAnnotations = new AnnotationConfigApplicationContext(AppContext.class);
+
+        Employee employee = appContextAnnotations.getBean(Employee.class);
+        Salary salary = appContextAnnotations.getBean(Salary.class);
+        Position position = appContextAnnotations.getBean(Position.class);
+        EmployeeService employeeService = appContextAnnotations.getBean(EmployeeService.class);
+        SalaryService salaryService = appContextAnnotations.getBean(SalaryService.class);
+        PositionService positionService = appContextAnnotations.getBean(PositionService.class);
     }
 
 
