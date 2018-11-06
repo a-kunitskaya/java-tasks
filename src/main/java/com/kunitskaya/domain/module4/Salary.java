@@ -1,4 +1,4 @@
-package com.kunitskaya.domain.beans;
+package com.kunitskaya.domain.module4;
 
 import java.util.Objects;
 

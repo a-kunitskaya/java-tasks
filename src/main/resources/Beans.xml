@@ -4,17 +4,17 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- Beans with constructor args-->
-    <bean id="dev_salary" class="com.kunitskaya.domain.beans.Salary">
+    <bean id="dev_salary" class="com.kunitskaya.domain.module4.Salary">
         <constructor-arg value="1000"/>
     </bean>
 
-    <bean id="dev_position" class="com.kunitskaya.domain.beans.Position">
+    <bean id="dev_position" class="com.kunitskaya.domain.module4.Position">
         <constructor-arg value="Developer"/>
         <constructor-arg ref="dev_salary"/>
     </bean>
 
     <!-- with specified parameter types -->
-    <bean id="java_dev_employee" class="com.kunitskaya.domain.beans.Employee">
+    <bean id="java_dev_employee" class="com.kunitskaya.domain.module4.Employee">
         <constructor-arg type="String" value="Daniel"/>
         <constructor-arg type="boolean" value="false"/>
         <constructor-arg type="Position" ref="dev_position"/>
@@ -22,7 +22,7 @@
     </bean>
 
     <!-- Bean with setters -->
-    <bean id="ios_dev_employee" class="com.kunitskaya.domain.beans.Employee">
+    <bean id="ios_dev_employee" class="com.kunitskaya.domain.module4.Employee">
         <property name="name" value="Sidney"/>
         <property name="position" ref="dev_position"/>
         <property name="salary" ref="dev_salary"/>

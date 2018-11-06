@@ -1,10 +1,10 @@
 package com.kunitskaya;
 
-import com.kunitskaya.domain.beans.Employee;
-import com.kunitskaya.domain.beans.Position;
-import com.kunitskaya.domain.beans.Salary;
-import com.kunitskaya.service.spring.PositionService;
-import com.kunitskaya.service.spring.SalaryService;
+import com.kunitskaya.domain.module4.Employee;
+import com.kunitskaya.domain.module4.Position;
+import com.kunitskaya.domain.module4.Salary;
+import com.kunitskaya.service.module4.PositionService;
+import com.kunitskaya.service.module4.SalaryService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

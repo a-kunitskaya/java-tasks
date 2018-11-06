@@ -1,7 +1,7 @@
-package com.kunitskaya.service.spring;
+package com.kunitskaya.service.module4;
 
-import com.kunitskaya.domain.beans.Employee;
-import com.kunitskaya.domain.beans.Position;
+import com.kunitskaya.domain.module4.Employee;
+import com.kunitskaya.domain.module4.Position;
 
 public class EmployeeService {
 

@@ -1,8 +1,6 @@
-package com.kunitskaya.service.spring;
+package com.kunitskaya.service.module4;
 
-import com.kunitskaya.domain.beans.Salary;
-import com.kunitskaya.logging.ProjectLogger;
-import sun.management.resources.agent;
+import com.kunitskaya.domain.module4.Salary;
 
 import static com.kunitskaya.logging.ProjectLogger.*;
 

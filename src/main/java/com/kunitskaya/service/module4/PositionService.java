@@ -1,7 +1,7 @@
-package com.kunitskaya.service.spring;
+package com.kunitskaya.service.module4;
 
-import com.kunitskaya.domain.beans.Position;
-import com.kunitskaya.domain.beans.Salary;
+import com.kunitskaya.domain.module4.Position;
+import com.kunitskaya.domain.module4.Salary;
 
 import java.util.List;
 import java.util.Map;
