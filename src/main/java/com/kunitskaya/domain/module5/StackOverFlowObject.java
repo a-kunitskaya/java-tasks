@@ -1,4 +1,4 @@
-package com.kunitskaya.domain.errordomain;
+package com.kunitskaya.domain.module5;
 
 public class StackOverFlowObject {
 
