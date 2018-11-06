@@ -11,7 +11,7 @@ import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class PositionService {
 
-    public static List<Position> createPositions(Map<String, Salary> targetPositions) {
+    public List<Position> createPositions(Map<String, Salary> targetPositions) {
         List<Position> positions = targetPositions.entrySet()
                                                   .stream()
                                                   .map(p -> new Position(p.getKey(), p.getValue()))
@@ -26,7 +26,7 @@ public class PositionService {
     }
 
 
-    public static void updatePositions(Map<Position, Salary> positionUpdates) {
+    public void updatePositions(Map<Position, Salary> positionUpdates) {
         String message = "Updated position: %s, set salary: %s";
 
         positionUpdates.forEach((position, salary) -> {
@@ -35,7 +35,7 @@ public class PositionService {
         });
     }
 
-    public static void readAllPositions() {
+    public void readAllPositions() {
         List<Position> positions = Position.getAllPositions();
         String message = "Total positions count: %s. Listing all available positions in the company:";
 
@@ -47,9 +47,7 @@ public class PositionService {
         }
     }
 
-    public static void deletePositions(Position... positions) {
+    public void deletePositions(Position... positions) {
         LOGGER.info("Deleting positions...");
-
-
-        }
+    }
 }

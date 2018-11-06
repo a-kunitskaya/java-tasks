@@ -4,12 +4,24 @@ import com.kunitskaya.domain.module4.Employee;
 import com.kunitskaya.domain.module4.Position;
 
 public class EmployeeService {
+    private Employee employee;
 
-    public static void hire(Employee employee, Position position) {
+    public EmployeeService(Employee employee) {
+        this.employee = employee;
+    }
+
+    public void hire(Position position) {
         employee.setPosition(position);
     }
 
-    public static void fire(Employee employee) {
+    public void fire() {
         employee.setPosition(null);
+    }
+
+    @Override
+    public String toString() {
+        return "EmployeeService{" +
+                "employee=" + employee +
+                '}';
     }
 }

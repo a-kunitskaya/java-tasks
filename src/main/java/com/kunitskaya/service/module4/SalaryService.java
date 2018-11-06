@@ -7,10 +7,10 @@ import static com.kunitskaya.logging.ProjectLogger.*;
 public class SalaryService {
     private double inflation;
     private double exchangeRate;
+    private Salary salary;
 
-    public SalaryService(double inflation, double exchangeRate) {
-        this.inflation = inflation;
-        this.exchangeRate = exchangeRate;
+    public SalaryService(Salary salary) {
+        this.salary = salary;
     }
 
     public double getInflation() {
@@ -29,7 +29,7 @@ public class SalaryService {
         this.exchangeRate = exchangeRate;
     }
 
-    public Salary calculateSalary(Salary salary){
+    public Salary calculateSalary(){
         LOGGER.info("Initial salary in $ : " + salary.getAmount());
 
         double amount = salary.getAmount();
@@ -38,5 +38,14 @@ public class SalaryService {
 
         LOGGER.info("Calculated salary: " + amount);
         return salary;
+    }
+
+    @Override
+    public String toString() {
+        return "SalaryService{" +
+                "inflation=" + inflation +
+                ", exchangeRate=" + exchangeRate +
+                ", salary=" + salary +
+                '}';
     }
 }
