@@ -17,7 +17,11 @@
     </bean>
 
     <!-- autowired by type -->
-    <bean id="salary_service" class="com.kunitskaya.service.module4.SalaryService" autowire="byType"/>
+    <bean id="salary_service" class="com.kunitskaya.service.module4.SalaryService" autowire="byType">
+        <property name="inflation" value="#{T(java.lang.Math).random() * 10}"/>
+    </bean>
+    
+    
     <bean id="salary_to_autowire" class="com.kunitskaya.domain.module4.Salary">
         <property name="amount" value="900"/>
     </bean>

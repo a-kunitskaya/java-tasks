@@ -5,7 +5,7 @@
 
     <!-- Beans with constructor args-->
     <bean id="dev_salary" class="com.kunitskaya.domain.module4.Salary">
-        <constructor-arg value="1000"/>
+        <constructor-arg value="#{T(java.lang.Math).random() * 1000}"/>
     </bean>
 
     <bean id="dev_position" class="com.kunitskaya.domain.module4.Position">
