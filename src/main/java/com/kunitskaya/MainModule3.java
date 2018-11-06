@@ -108,7 +108,7 @@ public class MainModule3 {
         Boolean biFunctionResult = isNameInString.apply(randomString, instance1);
         LOGGER.info(String.format(MESSAGE, "BiFunction", String.valueOf(biFunctionResult)));
 
-        ThreeFunction.printMessage(instance1.getName(), instance2.getName(), instance3.getName());
+        ThreeFunction.printStartMessage(instance1.getName(), instance2.getName(), instance3.getName());
         ThreeFunction<A, A, A, Integer> threeFunction = (x, y, z) -> x.getNumber() + y.getNumber() + z.getNumber();
         ThreeFunction<A, A, A, Integer> then = threeFunction.andThen(r -> r * 5);
         int threeFunctionResult = then.apply(instance1, instance2, instance3);
@@ -122,7 +122,13 @@ public class MainModule3 {
         });
 
         Integer anonymousResult = anonymousThen.apply(instance1, instance2, instance3);
-
         LOGGER.info(String.format(MESSAGE, "ThreeFunction with anonymous class", anonymousResult));
+
+        ThreeFunction<A, A, A, Integer> multiply = (x, y, z ) -> anonymousThen.multiply(x.getNumber(), y.getNumber(), z.getNumber());
+        Integer multiplyResult = multiply.apply(instance1, instance2, instance3);
+        LOGGER.info(String.format(MESSAGE, "ThreeFunction result (another default method)", multiplyResult));
+
+        ThreeFunction.printFinishMessage();
+
     }
 }
