@@ -31,8 +31,7 @@ public class MainModule4 {
 
         EmployeeService employeeServiceXml = (EmployeeService) appContextAutowiring.getBean("employee_service");
         SalaryService salaryServiceXml = (SalaryService) appContextAutowiring.getBean("salary_service");
-        System.out.println(salaryServiceXml);
-
+       
 
 
         //Task 2: autowiring with annotations
@@ -44,6 +43,7 @@ public class MainModule4 {
         EmployeeService employeeService = appContextAnnotations.getBean(EmployeeService.class);
         SalaryService salaryService = appContextAnnotations.getBean(SalaryService.class);
         PositionService positionService = appContextAnnotations.getBean(PositionService.class);
+
     }
 
 
