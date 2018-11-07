@@ -1,6 +1,9 @@
 package com.kunitskaya.service.module4;
 
 import com.kunitskaya.domain.module4.Salary;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import static com.kunitskaya.logging.ProjectLogger.*;
 
@@ -29,7 +32,7 @@ public class SalaryService {
         this.exchangeRate = exchangeRate;
     }
 
-    public Salary calculateSalary(){
+    public Salary calculateSalary(Salary salary){
         LOGGER.info("Initial salary in $ : " + salary.getAmount());
 
         double amount = salary.getAmount();

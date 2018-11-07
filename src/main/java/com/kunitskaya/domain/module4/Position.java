@@ -1,13 +1,16 @@
 package com.kunitskaya.domain.module4;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
+
 import java.util.Objects;
 
+import static com.kunitskaya.service.module4.PositionService.positions;
+
 public class Position {
+
+    @Value("No name")
     private String name;
     private Salary salary;
-    private static List<Position> positions = new ArrayList<>();
 
     public Position(String name, Salary salary) {
         this.name = name;
@@ -33,15 +36,14 @@ public class Position {
     }
 
     public Salary getSalary() {
+        if (salary == null) {
+            salary = new Salary();
+        }
         return salary;
     }
 
     public void setSalary(Salary salary) {
         this.salary = salary;
-    }
-
-    public static List<Position> getAllPositions() {
-        return positions;
     }
 
     @Override

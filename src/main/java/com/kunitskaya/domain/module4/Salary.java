@@ -1,8 +1,12 @@
 package com.kunitskaya.domain.module4;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import java.util.Objects;
 
 public class Salary {
+
+    @Value("0.0")
     private double amount;
 
     public Salary(double amount) {

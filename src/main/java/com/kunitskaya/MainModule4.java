@@ -11,11 +11,17 @@ import org.apache.commons.lang3.RandomUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.expression.Expression;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
+
+import java.util.List;
 
 public class MainModule4 {
+    private static ExpressionParser parser = new SpelExpressionParser();
 
     public static void main(String[] args) {
-        //TODO: •	PositionService: delete positions in company
 
         //Task 1: no autowiring
         ApplicationContext appContextNoAutowiring = new ClassPathXmlApplicationContext("Beans.xml");
@@ -28,22 +34,26 @@ public class MainModule4 {
 
         //autowiring with XML
         ApplicationContext appContextAutowiring = new ClassPathXmlApplicationContext("Beans_autowiring.xml");
-
         EmployeeService employeeServiceXml = (EmployeeService) appContextAutowiring.getBean("employee_service");
         SalaryService salaryServiceXml = (SalaryService) appContextAutowiring.getBean("salary_service");
-       
 
 
         //Task 2: autowiring with annotations
         ApplicationContext appContextAnnotations = new AnnotationConfigApplicationContext(AppContext.class);
 
-        Employee employee = appContextAnnotations.getBean(Employee.class);
         Salary salary = appContextAnnotations.getBean(Salary.class);
         Position position = appContextAnnotations.getBean(Position.class);
-        EmployeeService employeeService = appContextAnnotations.getBean(EmployeeService.class);
+        Employee employee = appContextAnnotations.getBean(Employee.class);
+
         SalaryService salaryService = appContextAnnotations.getBean(SalaryService.class);
         PositionService positionService = appContextAnnotations.getBean(PositionService.class);
+        EmployeeService employeeService = appContextAnnotations.getBean(EmployeeService.class);
 
+        positionService.readAllPositions();
+        positionService.deletePositions(position);
+        positionService.readAllPositions();
+
+        salaryService.calculateSalary(salary);
     }
 
 
