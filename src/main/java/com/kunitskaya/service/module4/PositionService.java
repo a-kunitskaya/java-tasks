@@ -9,7 +9,6 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
@@ -30,7 +29,6 @@ public class PositionService {
         positions.forEach(p -> LOGGER.info(String.format(message, p.getName(), p.getSalary().getAmount())));
         return positions;
     }
-
 
     public void updatePositions(Map<Position, Salary> positionUpdates) {
         String message = "Updated position: %s, set salary: %s";

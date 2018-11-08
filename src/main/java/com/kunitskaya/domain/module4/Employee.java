@@ -1,8 +1,11 @@
 package com.kunitskaya.domain.module4;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 public class Employee {
+
+    @NotNull(message = "Name is required")
     private String name;
     private boolean isStudent;
     private Position position;

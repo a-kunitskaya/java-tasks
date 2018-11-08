@@ -1,14 +1,13 @@
 package com.kunitskaya.domain.module4;
 
-import org.springframework.beans.factory.annotation.Value;
-
+import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 import static com.kunitskaya.service.module4.PositionService.positions;
 
 public class Position {
 
-    @Value("No name")
+    @Pattern(regexp = "[A-Z, a-z]*", message = "Position name should consist of letters only")
     private String name;
     private Salary salary;
 
