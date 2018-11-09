@@ -13,7 +13,7 @@ public class SalaryService {
     private Salary salary;
 
     public SalaryService(Salary salary) {
-        this.salary = salary;
+        this.salary = calculateSalary(salary);
     }
 
     public double getInflation() {
@@ -30,6 +30,14 @@ public class SalaryService {
 
     public void setExchangeRate(double exchangeRate) {
         this.exchangeRate = exchangeRate;
+    }
+
+    public Salary getSalary() {
+        return calculateSalary(salary);
+    }
+
+    public void setSalary(Salary salary) {
+        this.salary = salary;
     }
 
     public Salary calculateSalary(Salary salary){

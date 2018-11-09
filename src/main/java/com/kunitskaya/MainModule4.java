@@ -10,9 +10,18 @@ import com.kunitskaya.service.module4.config.AppContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.support.DefaultConversionService;
+import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
+import org.springframework.format.number.NumberStyleFormatter;
+import org.springframework.format.support.DefaultFormattingConversionService;
+import org.springframework.format.support.FormattingConversionService;
+
+import java.time.Instant;
+import java.time.LocalDate;
 
 public class MainModule4 {
     private static ExpressionParser parser = new SpelExpressionParser();
@@ -54,7 +63,24 @@ public class MainModule4 {
         positionService.deletePositions(positionToDelete);
         positionService.readAllPositions();
 
+        salary.setAmount(1000);
+        salaryService.setSalary(salary);
+        salaryService.setExchangeRate(200);
+        salaryService.setInflation(3);
         salaryService.calculateSalary(salary);
+
+
+
+        ConversionService service =
+                new DefaultFormattingConversionService();
+
+        Double d = service.convert("1241235.4052345", Double.class);
+        System.out.println(d);
+
+        //examples
+        Instant instant = service.convert("2016-11-15T01:12:05.695Z", Instant.class);
+        String convert = service.convert(instant, String.class);
+        LocalDate localDate = service.convert("11/13/16", LocalDate.class);
     }
 
 
