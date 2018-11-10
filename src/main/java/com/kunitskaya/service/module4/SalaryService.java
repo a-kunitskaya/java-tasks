@@ -1,9 +1,10 @@
 package com.kunitskaya.service.module4;
 
 import com.kunitskaya.domain.module4.Salary;
-import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
-import org.springframework.expression.spel.support.StandardEvaluationContext;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.format.support.DefaultFormattingConversionService;
+
+import java.text.DecimalFormat;
 
 import static com.kunitskaya.logging.ProjectLogger.*;
 
@@ -12,8 +13,10 @@ public class SalaryService {
     private double exchangeRate;
     private Salary salary;
 
+    public static final String AMOUNT_PATTERN = "#.##";
+
     public SalaryService(Salary salary) {
-        this.salary = calculateSalary(salary);
+        this.salary = salary;
     }
 
     public double getInflation() {
@@ -33,7 +36,7 @@ public class SalaryService {
     }
 
     public Salary getSalary() {
-        return calculateSalary(salary);
+        return salary;
     }
 
     public void setSalary(Salary salary) {
@@ -41,14 +44,23 @@ public class SalaryService {
     }
 
     public Salary calculateSalary(Salary salary){
-        LOGGER.info("Initial salary in $ : " + salary.getAmount());
+        LOGGER.info("Initial salary in $: " + salary.getAmount());
 
         double amount = salary.getAmount();
-        amount *= inflation * exchangeRate;
-        salary.setAmount(amount);
+        amount = amount * (1 + inflation) * exchangeRate;
 
-        LOGGER.info("Calculated salary: " + amount);
+        double realAmount = getFormattedValue(amount, AMOUNT_PATTERN);
+        salary.setAmount(realAmount);
+
+        LOGGER.info("Calculated salary: " + realAmount);
         return salary;
+    }
+
+    public static double getFormattedValue(double value, String pattern){
+        ConversionService service = new DefaultFormattingConversionService();
+        DecimalFormat formatter = new DecimalFormat(pattern);
+        String formattedValue = formatter.format(value);
+        return service.convert(formattedValue, Double.class);
     }
 
     @Override

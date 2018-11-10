@@ -1,18 +1,22 @@
 package com.kunitskaya.domain.module4;
 
+import com.kunitskaya.service.module4.SalaryService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.format.support.DefaultFormattingConversionService;
 
 import javax.validation.constraints.Max;
 import java.util.Objects;
 
-public class Salary {
+import static com.kunitskaya.service.module4.SalaryService.AMOUNT_PATTERN;
 
+public class Salary {
     @Max(value = 4000, message = "Salary cannot be > 4000")
     @Value("0.0")
     private double amount;
 
     public Salary(double amount) {
-        this.amount = amount;
+        this.amount = SalaryService.getFormattedValue(amount, AMOUNT_PATTERN);
     }
 
     public Salary() {
@@ -24,7 +28,7 @@ public class Salary {
     }
 
     public void setAmount(double amount) {
-        this.amount = amount;
+        this.amount = SalaryService.getFormattedValue(amount, AMOUNT_PATTERN);
     }
 
     @Override

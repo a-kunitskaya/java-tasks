@@ -19,10 +19,12 @@ public class PositionService {
     private ExpressionParser parser = new SpelExpressionParser();
     private StandardEvaluationContext context = new StandardEvaluationContext(this);
 
-    public List<Position> createPositions(Map<String, Salary> targetPositions) {
+    public List<Position> createPositions(Map<String, Double> targetPositions) {
+        LOGGER.info("Total count of positions to create: " + targetPositions.size());
+
         List<Position> positions = targetPositions.entrySet()
                                                   .stream()
-                                                  .map(p -> new Position(p.getKey(), p.getValue()))
+                                                  .map(p -> new Position(p.getKey(), new Salary(p.getValue())))
                                                   .collect(Collectors.toList());
 
         String message = "Created position: %s, salary: %s";
@@ -30,12 +32,13 @@ public class PositionService {
         return positions;
     }
 
-    public void updatePositions(Map<Position, Salary> positionUpdates) {
+    public void updatePositions(Map<Position, Double> positionUpdates) {
+        LOGGER.info("Total count of positions to update: " + positionUpdates.size());
         String message = "Updated position: %s, set salary: %s";
 
         positionUpdates.forEach((position, salary) -> {
-            position.setSalary(salary);
-            LOGGER.info(String.format(message, position.getName(), salary.getAmount()));
+            position.setSalary(new Salary(salary));
+            LOGGER.info(String.format(message, position.getName(), salary));
         });
     }
 
@@ -51,6 +54,7 @@ public class PositionService {
     }
 
     public void deletePositions(Position... positionsToDelete) {
+        LOGGER.info("Total count of positions to delete: " + positionsToDelete.length);
 
         for (int i = 0; i < positions.size(); i++) {
             String exp = "positions[" + i + "]";
