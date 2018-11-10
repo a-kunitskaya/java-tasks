@@ -2,22 +2,21 @@ package com.kunitskaya.service.module4;
 
 import com.kunitskaya.domain.module4.Employee;
 import com.kunitskaya.domain.module4.Position;
-import com.kunitskaya.logging.ProjectLogger;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class EmployeeService {
+    private Employee employee;
+
+    public EmployeeService(Employee employee) {
+        this.employee = employee;
+    }
+
     public Employee getEmployee() {
         return employee;
     }
 
     public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    private Employee employee;
-
-    public EmployeeService(Employee employee) {
         this.employee = employee;
     }
 

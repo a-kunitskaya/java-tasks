@@ -6,17 +6,23 @@ import org.springframework.format.support.DefaultFormattingConversionService;
 
 import java.text.DecimalFormat;
 
-import static com.kunitskaya.logging.ProjectLogger.*;
+import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class SalaryService {
+    public static final String AMOUNT_PATTERN = "#.##";
     private double inflation;
     private double exchangeRate;
     private Salary salary;
 
-    public static final String AMOUNT_PATTERN = "#.##";
-
     public SalaryService(Salary salary) {
         this.salary = salary;
+    }
+
+    public static double getFormattedValue(double value, String pattern) {
+        ConversionService service = new DefaultFormattingConversionService();
+        DecimalFormat formatter = new DecimalFormat(pattern);
+        String formattedValue = formatter.format(value);
+        return service.convert(formattedValue, Double.class);
     }
 
     public double getInflation() {
@@ -43,7 +49,7 @@ public class SalaryService {
         this.salary = salary;
     }
 
-    public Salary calculateSalary(Salary salary){
+    public Salary calculateSalary(Salary salary) {
         LOGGER.info("Initial salary in $: " + salary.getAmount());
 
         double amount = salary.getAmount();
@@ -54,13 +60,6 @@ public class SalaryService {
 
         LOGGER.info("Calculated salary: " + realAmount);
         return salary;
-    }
-
-    public static double getFormattedValue(double value, String pattern){
-        ConversionService service = new DefaultFormattingConversionService();
-        DecimalFormat formatter = new DecimalFormat(pattern);
-        String formattedValue = formatter.format(value);
-        return service.convert(formattedValue, Double.class);
     }
 
     @Override
