@@ -23,6 +23,7 @@ public class MainModule4 {
     private static ExpressionParser parser = new SpelExpressionParser();
 
     public static void main(String[] args) {
+
         //Task 1: no autowiring
         ApplicationContext appContextNoAutowiring = new ClassPathXmlApplicationContext("Beans.xml");
 
@@ -37,14 +38,12 @@ public class MainModule4 {
         EmployeeService employeeServiceXml = (EmployeeService) appContextAutowiring.getBean("employee_service");
         SalaryService salaryServiceXml = (SalaryService) appContextAutowiring.getBean("salary_service");
 
-
         //Task 2: autowiring with annotations
         ApplicationContext appContextAnnotations = new AnnotationConfigApplicationContext(AppContext.class);
 
         Salary salary = appContextAnnotations.getBean(Salary.class);
         Position position = appContextAnnotations.getBean(Position.class);
         Employee employee = appContextAnnotations.getBean(Employee.class);
-
 
         SalaryService salaryService = appContextAnnotations.getBean(SalaryService.class);
         PositionService positionService = appContextAnnotations.getBean(PositionService.class);
@@ -75,12 +74,8 @@ public class MainModule4 {
         employeeService.hire(devPosition);
         employeeService.fire();
 
-
         salaryService.setExchangeRate(2);
         salaryService.setInflation(0.3);
         salaryService.calculateSalary(devSalary);
-
     }
-
-
 }
