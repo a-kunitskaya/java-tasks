@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 
-public class ByPagesBookFinder implements StreamObjectsFinder<Book> {
+public class ByPagesCountBookFinder implements StreamObjectsFinder<Book> {
     private static final String FINDING_MESSAGE = "Finding books with pages number > %s...";
     private static final String FOUND_BOOKS_MESSAGE = "Found %s books with pages number > than %s.";
     private static final String FOUND_BOOK_MESSAGE = "Book with title: %s, pages number: %s";
@@ -20,7 +20,7 @@ public class ByPagesBookFinder implements StreamObjectsFinder<Book> {
     private int minPagesNumber;
 
 
-    public ByPagesBookFinder(int minPagesNumber) {
+    public ByPagesCountBookFinder(int minPagesNumber) {
         this.minPagesNumber = minPagesNumber;
     }
 

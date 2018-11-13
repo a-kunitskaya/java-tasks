@@ -6,10 +6,10 @@ import com.kunitskaya.domain.module3.library.Author;
 import com.kunitskaya.domain.module3.library.Book;
 import com.kunitskaya.service.module3.implementation.BookPrinter;
 import com.kunitskaya.service.module3.implementation.finders.BiggestBookFinder;
-import com.kunitskaya.service.module3.implementation.finders.ByPagesBookFinder;
+import com.kunitskaya.service.module3.implementation.finders.ByPagesCountBookFinder;
 import com.kunitskaya.service.module3.implementation.finders.SingleAuthorBooksFinder;
 import com.kunitskaya.service.module3.implementation.finders.SmallestBookFinder;
-import com.kunitskaya.service.module3.implementation.sorters.ByPagesNumberBooksSorter;
+import com.kunitskaya.service.module3.implementation.sorters.ByPagesCountBooksSorter;
 import com.kunitskaya.service.module3.implementation.sorters.ByTitleBooksSorter;
 import com.kunitskaya.service.module3.interfaces.ThreeFunction;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.*;
+import java.util.stream.Stream;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 import static com.kunitskaya.service.module3.collectors.CustomImmutableListCollector.toCustomImmutablelist;
@@ -56,17 +57,37 @@ public class MainModule3 {
         Author[] authors = authorsList.toArray(new Author[0]);
         Book[] books = booksList.toArray(new Book[0]);
 
-        List<Book> booksMoreThan200pages = new ByPagesBookFinder(200).find(booksList.stream());
+        //task 4.3
+        //I.	check if some/all book(s) have more than 200 pages;
+        List<Book> booksMoreThan200Pages = new ByPagesCountBookFinder(200).find(booksList.stream());
+        List<Book> booksMoreThan20PagesParallel = new ByPagesCountBookFinder(200).find(booksList.parallelStream());
 
+        //II.	find the books with max and min number of pages;
         Book smallestBook = new SmallestBookFinder().find(Arrays.stream(books));
-        Book biggestBook = new BiggestBookFinder().find(booksList.parallelStream());
-        List<Book> booksWithOneAuthor = new SingleAuthorBooksFinder().find(booksList.parallelStream());
+        Book smallestBookParallel = new SmallestBookFinder().find(Arrays.stream(books).parallel());
 
-        new ByPagesNumberBooksSorter().sort(booksList);
-        new ByTitleBooksSorter().sort(booksList);
+        Book biggestBook = new BiggestBookFinder().find(booksList.stream());
+        Book biggestBookParallel = new BiggestBookFinder().find(booksList.parallelStream());
 
-        BookPrinter.printTitles(booksList);
-        BookPrinter.printDistinctAuthors(booksList);
+        //III.	filter books with only single author;
+        List<Book> booksWithOneAuthor = new SingleAuthorBooksFinder().find(booksList.stream());
+        List<Book> booksWithOneAuthorParallel = new SingleAuthorBooksFinder().find(Stream.of(books).parallel());
+
+        //IV.	sort the books by number of pages/title;
+        new ByPagesCountBooksSorter().sort(booksList.stream());
+        new ByPagesCountBooksSorter().sort(booksList.parallelStream());
+
+        new ByTitleBooksSorter().sort(booksList.stream());
+        new ByTitleBooksSorter().sort(booksList.parallelStream());
+
+        //V.	get list of all titles;
+        // VI.	print them using forEach method;
+        BookPrinter.printTitles(booksList.stream());
+        BookPrinter.printTitles(booksList.parallelStream());
+
+        //VII.	get distinct list of all authors
+        BookPrinter.printDistinctAuthors(booksList.stream());
+        BookPrinter.printDistinctAuthors(booksList.parallelStream());
 
         Book biggestAuthorsBook = new BiggestBookFinder().find(author1);
 
@@ -76,7 +97,6 @@ public class MainModule3 {
                                                          .filter(A::hasEvenNumber)
                                                          .map(i -> i.addNumber(3))
                                                          .collect(toCustomImmutablelist());
-
         //task 2-3
         A instance1 = new A("instance1", 124, true);
         A instance2 = new A("instance2", 12, false);
