@@ -32,7 +32,7 @@ public class MainModule4 {
             LOGGER.info("Year: #" + i);
 
             //Task 1: no autowiring
-            ApplicationContext appContextNoAutowiring = new ClassPathXmlApplicationContext("Beans.xml");
+            ApplicationContext appContextNoAutowiring = new ClassPathXmlApplicationContext("module4/Beans.xml");
 
             Salary devSalary = (Salary) appContextNoAutowiring.getBean("dev_salary");
 
@@ -41,7 +41,7 @@ public class MainModule4 {
             Employee iosDeveloper = (Employee) appContextNoAutowiring.getBean("ios_dev_employee");
 
             //autowiring with XML
-            ApplicationContext appContextAutowiring = new ClassPathXmlApplicationContext("Beans_autowiring.xml");
+            ApplicationContext appContextAutowiring = new ClassPathXmlApplicationContext("module4/Beans_autowiring.xml");
             EmployeeService employeeServiceXml = (EmployeeService) appContextAutowiring.getBean("employee_service");
             SalaryService salaryServiceXml = (SalaryService) appContextAutowiring.getBean("salary_service");
 

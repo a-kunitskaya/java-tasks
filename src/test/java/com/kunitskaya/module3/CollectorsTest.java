@@ -1,4 +1,4 @@
-package com.kunitskaya;
+package com.kunitskaya.module3;
 
 import com.google.common.collect.ImmutableList;
 import com.kunitskaya.domain.module3.collectors.A;
