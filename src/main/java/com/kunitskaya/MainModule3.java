@@ -57,7 +57,6 @@ public class MainModule3 {
         Author[] authors = authorsList.toArray(new Author[0]);
         Book[] books = booksList.toArray(new Book[0]);
 
-
         //task 4.3
         //I.	check if some/all book(s) have more than 200 pages;
         List<Book> booksMoreThan200Pages = new ByPagesCountBookFinder(200).find(booksList.stream());
@@ -144,4 +143,3 @@ public class MainModule3 {
         ThreeFunction.printFinishMessage();
     }
 }
-
