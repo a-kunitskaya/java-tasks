@@ -3,6 +3,7 @@ package com.kunitskaya;
 import com.kunitskaya.domain.module4.Employee;
 import com.kunitskaya.domain.module4.Position;
 import com.kunitskaya.domain.module4.Salary;
+import com.kunitskaya.logging.ProjectLogger;
 import com.kunitskaya.service.module4.EmployeeService;
 import com.kunitskaya.service.module4.PositionService;
 import com.kunitskaya.service.module4.SalaryService;
@@ -19,63 +20,72 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.kunitskaya.logging.ProjectLogger.*;
+
 public class MainModule4 {
     private static ExpressionParser parser = new SpelExpressionParser();
 
     public static void main(String[] args) {
 
-        //Task 1: no autowiring
-        ApplicationContext appContextNoAutowiring = new ClassPathXmlApplicationContext("Beans.xml");
+        //emulate a few years of company life
+        for (int i = 1; i < RandomUtils.nextInt(4, 7); i++) {
+            LOGGER.info("Year: #" + i);
 
-        Salary devSalary = (Salary) appContextNoAutowiring.getBean("dev_salary");
+            //Task 1: no autowiring
+            ApplicationContext appContextNoAutowiring = new ClassPathXmlApplicationContext("Beans.xml");
 
-        Position devPosition = (Position) appContextNoAutowiring.getBean("dev_position");
-        Employee javaDeveloper = (Employee) appContextNoAutowiring.getBean("java_dev_employee");
-        Employee iosDeveloper = (Employee) appContextNoAutowiring.getBean("ios_dev_employee");
+            Salary devSalary = (Salary) appContextNoAutowiring.getBean("dev_salary");
 
-        //autowiring with XML
-        ApplicationContext appContextAutowiring = new ClassPathXmlApplicationContext("Beans_autowiring.xml");
-        EmployeeService employeeServiceXml = (EmployeeService) appContextAutowiring.getBean("employee_service");
-        SalaryService salaryServiceXml = (SalaryService) appContextAutowiring.getBean("salary_service");
+            Position devPosition = (Position) appContextNoAutowiring.getBean("dev_position");
+            Employee javaDeveloper = (Employee) appContextNoAutowiring.getBean("java_dev_employee");
+            Employee iosDeveloper = (Employee) appContextNoAutowiring.getBean("ios_dev_employee");
 
-        //Task 2: autowiring with annotations
-        ApplicationContext appContextAnnotations = new AnnotationConfigApplicationContext(AppContext.class);
+            //autowiring with XML
+            ApplicationContext appContextAutowiring = new ClassPathXmlApplicationContext("Beans_autowiring.xml");
+            EmployeeService employeeServiceXml = (EmployeeService) appContextAutowiring.getBean("employee_service");
+            SalaryService salaryServiceXml = (SalaryService) appContextAutowiring.getBean("salary_service");
 
-        Salary salary = appContextAnnotations.getBean(Salary.class);
-        Position position = appContextAnnotations.getBean(Position.class);
-        Employee employee = appContextAnnotations.getBean(Employee.class);
+            //Task 2: autowiring with annotations
+            ApplicationContext appContextAnnotations = new AnnotationConfigApplicationContext(AppContext.class);
 
-        SalaryService salaryService = appContextAnnotations.getBean(SalaryService.class);
-        PositionService positionService = appContextAnnotations.getBean(PositionService.class);
-        EmployeeService employeeService = appContextAnnotations.getBean(EmployeeService.class);
+            Salary salary = appContextAnnotations.getBean(Salary.class);
+            Position position = appContextAnnotations.getBean(Position.class);
+            Employee employee = appContextAnnotations.getBean(Employee.class);
 
-        //Use methods
-        positionService.readAllPositions();
+            SalaryService salaryService = appContextAnnotations.getBean(SalaryService.class);
+            PositionService positionService = appContextAnnotations.getBean(PositionService.class);
+            EmployeeService employeeService = appContextAnnotations.getBean(EmployeeService.class);
 
-        Map<String, Double> positionsToCreate = new HashMap<>();
-        positionsToCreate.put("tester", 1000.0);
-        positionsToCreate.put("manager", 3000.0);
-        List<Position> createdPositions = positionService.createPositions(positionsToCreate);
-        positionService.readAllPositions();
+            //Use methods
+            positionService.readAllPositions();
 
-        Map<Position, Double> positionsToUpdate = new HashMap<>();
-        createdPositions.forEach(p ->
-                positionsToUpdate.put(p, RandomUtils.nextDouble(1500.0, 3500.0))
-        );
-        positionService.updatePositions(positionsToUpdate);
-        positionService.readAllPositions();
+            Map<String, Double> positionsToCreate = new HashMap<>();
+            positionsToCreate.put("tester", 1000.0);
+            positionsToCreate.put("manager", 3000.0);
+            List<Position> createdPositions = positionService.createPositions(positionsToCreate);
+            positionService.readAllPositions();
 
-        StandardEvaluationContext context = new StandardEvaluationContext(PositionService.class);
-        Position positionToDelete = parser.parseExpression("positions[0]").getValue(context, Position.class);
-        positionService.deletePositions(positionToDelete);
-        positionService.readAllPositions();
+            Map<Position, Double> positionsToUpdate = new HashMap<>();
+            createdPositions.forEach(p ->
+                    positionsToUpdate.put(p, RandomUtils.nextDouble(1500.0, 3500.0))
+            );
+            positionService.updatePositions(positionsToUpdate);
+            positionService.readAllPositions();
 
-        employeeService.setEmployee(iosDeveloper);
-        employeeService.hire(devPosition);
-        employeeService.fire();
+            StandardEvaluationContext context = new StandardEvaluationContext(PositionService.class);
+            Position positionToDelete = parser.parseExpression("positions[0]").getValue(context, Position.class);
+            positionService.deletePositions(positionToDelete);
+            positionService.readAllPositions();
 
-        salaryService.setExchangeRate(2);
-        salaryService.setInflation(0.3);
-        salaryService.calculateSalary(devSalary);
+            employeeService.setEmployee(iosDeveloper);
+            employeeService.hire(devPosition);
+            employeeService.fire();
+
+            salaryService.setExchangeRate(2);
+            salaryService.setInflation(0.3);
+            salaryService.calculateSalary(devSalary);
+
+            LOGGER.info("Finished year: #" + i);
+        }
     }
 }
