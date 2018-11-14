@@ -1,18 +1,18 @@
 package com.kunitskaya;
 
-import com.kunitskaya.domain.module1.HomeLocation;
-import com.kunitskaya.domain.module1.appliances.Fridge;
-import com.kunitskaya.domain.module1.appliances.HouseholdAppliance;
-import com.kunitskaya.domain.module1.appliances.Kettle;
-import com.kunitskaya.domain.module1.appliances.TvSet;
-import com.kunitskaya.service.module1.implementation.ByPowerConsumptionApplianceSorter;
-import com.kunitskaya.service.module1.implementation.PowerConsumptionCounter;
-import com.kunitskaya.service.module2.handlers.ThisCodeSmellsHandler;
-import com.kunitskaya.service.module2.reflection.ClassInstantiator;
-import com.kunitskaya.service.module2.reflection.FieldsManipulator;
-import com.kunitskaya.service.module2.reflection.MetaDataPrinter;
-import com.kunitskaya.service.module2.reflection.MethodsExecutor;
-import com.kunitskaya.service.module2.runners.ProdCodeRunner;
+import com.kunitskaya.module1.HomeLocation;
+import com.kunitskaya.module1.domain.Fridge;
+import com.kunitskaya.module1.domain.HouseholdAppliance;
+import com.kunitskaya.module1.domain.Kettle;
+import com.kunitskaya.module1.domain.TvSet;
+import com.kunitskaya.module1.service.implementation.ByPowerConsumptionApplianceSorter;
+import com.kunitskaya.module1.service.implementation.PowerConsumptionCounter;
+import com.kunitskaya.module2.handlers.ThisCodeSmellsHandler;
+import com.kunitskaya.module2.reflection.ClassInstantiator;
+import com.kunitskaya.module2.reflection.FieldsManipulator;
+import com.kunitskaya.module2.reflection.MetaDataPrinter;
+import com.kunitskaya.module2.reflection.MethodsExecutor;
+import com.kunitskaya.module2.runners.ProdCodeRunner;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

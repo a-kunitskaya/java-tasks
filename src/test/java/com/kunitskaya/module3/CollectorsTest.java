@@ -1,13 +1,13 @@
 package com.kunitskaya.module3;
 
 import com.google.common.collect.ImmutableList;
-import com.kunitskaya.domain.module3.collectors.A;
+import com.kunitskaya.module3.domain.collectors.A;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
-import static com.kunitskaya.service.module3.collectors.CustomImmutableListCollector.toCustomImmutablelist;
+import static com.kunitskaya.module3.service.collectors.CustomImmutableListCollector.toCustomImmutablelist;
 
 public class CollectorsTest {
 

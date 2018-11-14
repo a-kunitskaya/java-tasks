@@ -1,7 +1,6 @@
 package com.kunitskaya;
 
-import com.kunitskaya.domain.module6.abstractbeans.*;
-import com.kunitskaya.service.module4.config.AppContext;
+import com.kunitskaya.module6.domain.abstractbeans.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

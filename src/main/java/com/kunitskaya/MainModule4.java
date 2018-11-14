@@ -1,13 +1,12 @@
 package com.kunitskaya;
 
-import com.kunitskaya.domain.module4.Employee;
-import com.kunitskaya.domain.module4.Position;
-import com.kunitskaya.domain.module4.Salary;
-import com.kunitskaya.logging.ProjectLogger;
-import com.kunitskaya.service.module4.EmployeeService;
-import com.kunitskaya.service.module4.PositionService;
-import com.kunitskaya.service.module4.SalaryService;
-import com.kunitskaya.service.module4.config.AppContext;
+import com.kunitskaya.module4.domain.Employee;
+import com.kunitskaya.module4.domain.Position;
+import com.kunitskaya.module4.domain.Salary;
+import com.kunitskaya.module4.service.EmployeeService;
+import com.kunitskaya.module4.service.PositionService;
+import com.kunitskaya.module4.service.SalaryService;
+import com.kunitskaya.module4.service.config.AppContext;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
