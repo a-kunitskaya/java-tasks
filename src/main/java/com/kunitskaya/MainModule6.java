@@ -12,7 +12,7 @@ public class MainModule6 {
     public static void main(String[] args) {
 
         //1.1. Create bean A, use DI via setters, use property placeholder for values
-        ApplicationContext context = new ClassPathXmlApplicationContext("module6/task1_beans.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("module6/tasks1-4_beans.xml");
 
         A a = context.getBean("a", A.class);
         LOGGER.info("Setting name with property placeholder: " + a.getName());

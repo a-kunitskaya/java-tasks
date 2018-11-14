@@ -7,7 +7,7 @@
     <!-- 1. Create bean A, use DI via setters, use property placeholder for values -->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location">
-            <value>module6/task1.properties</value>
+            <value>module6/task1.1.properties</value>
         </property>
     </bean>
 
