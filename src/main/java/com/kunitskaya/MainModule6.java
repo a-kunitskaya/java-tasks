@@ -1,7 +1,9 @@
 package com.kunitskaya;
 
 import com.kunitskaya.domain.module6.abstractbeans.*;
+import com.kunitskaya.service.module4.config.AppContext;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
@@ -36,5 +38,10 @@ public class MainModule6 {
         e.replacedMethod();
 
         //1.5. Create bean F and log all possible steps from its lifecycle (lifecycle of Spring bean).
+        ApplicationContext contextLogging = new ClassPathXmlApplicationContext("module6/task1.5_beans.xml");
+
+        F f = contextLogging.getBean("f", F.class);
+
+        ((AbstractApplicationContext)contextLogging).close();
     }
 }

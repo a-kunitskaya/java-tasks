@@ -37,6 +37,4 @@
     <bean id="e" class="com.kunitskaya.domain.module6.abstractbeans.E">
         <replaced-method name="replacedMethod" replacer="e_method_replacer"/>
     </bean>
-
 </beans>
-
