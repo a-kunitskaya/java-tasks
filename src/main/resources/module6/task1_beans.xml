@@ -4,7 +4,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-
     <!-- 1. Create bean A, use DI via setters, use property placeholder for values -->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location">
@@ -17,36 +16,27 @@
     </bean>
 
 
+    <!-- 2. Create bean B, use DI via constructor (bean A as argument of constructor) -->
+    <bean id="b" class="com.kunitskaya.domain.module6.abstractbeans.B">
+        <constructor-arg ref="a"/>
+    </bean>
 
+    <!-- 3. Create bean C with singleton scope and bean D with prototype scope.
+    Add bean D as property of bean C. -->
+    <bean id="d" class="com.kunitskaya.domain.module6.abstractbeans.D" scope="prototype">
+    </bean>
 
+    <bean id="c" class="com.kunitskaya.domain.module6.abstractbeans.C">
+        <lookup-method name="createD" bean="d"/>
+    </bean>
+
+    <!-- 4. Create bean E and replace logic of one of its method by Method Replacement -->
+    <bean id="e_method_replacer"
+          class="com.kunitskaya.service.module6.EMethodReplacer"/>
+
+    <bean id="e" class="com.kunitskaya.domain.module6.abstractbeans.E">
+        <replaced-method name="replacedMethod" replacer="e_method_replacer"/>
+    </bean>
 
 </beans>
-
-
-
-
-    <!--&lt;!&ndash; Beans with constructor args&ndash;&gt;-->
-    <!--<bean id="dev_salary" class="com.kunitskaya.domain.module4.Salary">-->
-        <!--<constructor-arg value="#{T(java.lang.Math).random() * 10000}"/>-->
-    <!--</bean>-->
-
-    <!--<bean id="dev_position" class="com.kunitskaya.domain.module4.Position">-->
-        <!--<constructor-arg value="Developer"/>-->
-        <!--<constructor-arg ref="dev_salary"/>-->
-    <!--</bean>-->
-
-    <!--&lt;!&ndash; with specified parameter types &ndash;&gt;-->
-    <!--<bean id="java_dev_employee" class="com.kunitskaya.domain.module4.Employee">-->
-        <!--<constructor-arg type="String" value="Daniel"/>-->
-        <!--<constructor-arg type="boolean" value="false"/>-->
-        <!--<constructor-arg type="Position" value="#{dev_position}"/>-->
-        <!--<constructor-arg type="Salary" ref="dev_salary"/>-->
-    <!--</bean>-->
-
-    <!--&lt;!&ndash; Bean with setters &ndash;&gt;-->
-    <!--<bean id="ios_dev_employee" class="com.kunitskaya.domain.module4.Employee">-->
-        <!--<property name="name" value="Sidney"/>-->
-        <!--<property name="position" ref="dev_position"/>-->
-        <!--<property name="salary" ref="dev_salary"/>-->
-    <!--</bean>-->
 

@@ -4,6 +4,10 @@ public class B {
     private String name;
     private A a;
 
+    public B(A a) {
+        this.a = a;
+    }
+
     public String getName() {
         return name;
     }
