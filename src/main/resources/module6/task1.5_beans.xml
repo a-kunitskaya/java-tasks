@@ -4,9 +4,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- 5. Create bean F and log all possible steps from its lifecycle (lifecycle of Spring bean) -->
-    <bean id="bpp" class="com.kunitskaya.domain.module6.config.CustomBeanPostProcessor"/>
-    <bean id="init_bean" class="com.kunitskaya.domain.module6.config.CustomInitializingBean"/>
-    <bean id="disposable_bean" class="com.kunitskaya.domain.module6.config.CustomDisposableBean"/>
+    <bean id="bpp" class="com.kunitskaya.module6.domain.config.CustomBeanPostProcessor"/>
+    <bean id="init_bean" class="com.kunitskaya.module6.domain.config.CustomInitializingBean"/>
+    <bean id="disposable_bean" class="com.kunitskaya.module6.domain.config.CustomDisposableBean"/>
 
-    <bean id = "f" class = "com.kunitskaya.domain.module6.abstractbeans.F"/>
+    <bean id = "f" class = "com.kunitskaya.module6.domain.abstractbeans.F"/>
 </beans>

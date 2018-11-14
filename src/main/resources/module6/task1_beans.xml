@@ -11,30 +11,30 @@
         </property>
     </bean>
 
-    <bean id="a" class="com.kunitskaya.domain.module6.abstractbeans.A">
+    <bean id="a" class="com.kunitskaya.module6.domain.abstractbeans.A">
         <property name="name" value="${a.name}"/>
     </bean>
 
 
     <!-- 2. Create bean B, use DI via constructor (bean A as argument of constructor) -->
-    <bean id="b" class="com.kunitskaya.domain.module6.abstractbeans.B">
+    <bean id="b" class="com.kunitskaya.module6.domain.abstractbeans.B">
         <constructor-arg ref="a"/>
     </bean>
 
     <!-- 3. Create bean C with singleton scope and bean D with prototype scope.
     Add bean D as property of bean C. -->
-    <bean id="d" class="com.kunitskaya.domain.module6.abstractbeans.D" scope="prototype">
+    <bean id="d" class="com.kunitskaya.module6.domain.abstractbeans.D" scope="prototype">
     </bean>
 
-    <bean id="c" class="com.kunitskaya.domain.module6.abstractbeans.C">
+    <bean id="c" class="com.kunitskaya.module6.domain.abstractbeans.C">
         <lookup-method name="createD" bean="d"/>
     </bean>
 
     <!-- 4. Create bean E and replace logic of one of its method by Method Replacement -->
     <bean id="e_method_replacer"
-          class="com.kunitskaya.service.module6.EMethodReplacer"/>
+          class="com.kunitskaya.module6.service.EMethodReplacer"/>
 
-    <bean id="e" class="com.kunitskaya.domain.module6.abstractbeans.E">
+    <bean id="e" class="com.kunitskaya.module6.domain.abstractbeans.E">
         <replaced-method name="replacedMethod" replacer="e_method_replacer"/>
     </bean>
 </beans>

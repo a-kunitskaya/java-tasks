@@ -11,18 +11,18 @@
     <context:annotation-config/>
 
     <!-- autowired by name -->
-    <bean id="employee_service" class="com.kunitskaya.service.module4.EmployeeService" autowire="byName"/>
-    <bean id="employee" class="com.kunitskaya.domain.module4.Employee">
+    <bean id="employee_service" class="com.kunitskaya.module4.service.EmployeeService" autowire="byName"/>
+    <bean id="employee" class="com.kunitskaya.module4.domain.Employee">
         <property name="name" value="Sam"/>
     </bean>
 
     <!-- autowired by type -->
-    <bean id="salary_service" class="com.kunitskaya.service.module4.SalaryService" autowire="byType">
+    <bean id="salary_service" class="com.kunitskaya.module4.service.SalaryService" autowire="byType">
         <property name="inflation" value="#{T(java.lang.Math).random() * 10}"/>
     </bean>
     
     
-    <bean id="salary_to_autowire" class="com.kunitskaya.domain.module4.Salary">
+    <bean id="salary_to_autowire" class="com.kunitskaya.module4.domain.Salary">
         <property name="amount" value="900"/>
     </bean>
 
