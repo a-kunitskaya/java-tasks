@@ -1,5 +1,6 @@
 package com.kunitskaya;
 
+import com.kunitskaya.module4.domain.Salary;
 import com.kunitskaya.module6.domain.abstractbeans.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -11,6 +12,7 @@ public class MainModule6 {
 
     public static void main(String[] args) {
 
+        //Task 1.Abstract beans with strange ties
         //1.1. Create bean A, use DI via setters, use property placeholder for values
         ApplicationContext context = new ClassPathXmlApplicationContext("module6/tasks1-4_beans.xml");
 
@@ -42,5 +44,28 @@ public class MainModule6 {
         F f = contextLogging.getBean("f", F.class);
 
         ((AbstractApplicationContext)contextLogging).close();
+
+        //Task 2. Upgrade of Salary Emulator
+        //2.1.	Use factory-method (singleton) and factory-bean (service locator)
+        ApplicationContext context2 = new ClassPathXmlApplicationContext("module6/task2_beans.xml");
+
+        Salary salary1 = context2.getBean("salary_factory_method", Salary.class);
+        LOGGER.info("Created instance with factory-method: " + salary1.toString());
+
+        Salary salary2 = context2.getBean("salary_factory_bean", Salary.class);
+        LOGGER.info("Created instance with factory-bean: " + salary2.toString());
+
+        //TODO: factory-bean (service locator)???
+
+
+        //2.	Use FactoryBean with ConfigurationSupport or implement FactoryBean interface
+        //3.	Divide complex Java configuration into a few simple Java configs
+        //4.	Implement bean that sends message to log at initialization and destroy phases
+        //5.	Migrate appropriate beans to prototype scope
+        //6.	Add a new entity Skill, one Position can require a few skills and the final salary can depends on skill rating (like TIOBE Programming Language Rating)
+        //7.	Inject list of skills to appropriate beans
+        //8.	Implement a method that can be called when the skill become unpopular and company drops it from the list of skills required to any position
+        //9.	Use math constants in bean definition to calculate Salary with Math power
+        //10.	Make custom Bean Postprocessor to mutate salary value (it happens)
     }
 }

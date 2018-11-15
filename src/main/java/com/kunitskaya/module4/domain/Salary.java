@@ -20,6 +20,10 @@ public class Salary {
     public Salary() {
     }
 
+    public static Salary createInstance(){
+        return new Salary();
+    }
+
     @Max(value = 4000, message = "Salary cannot be > 4000")
     public double getAmount() {
         return amount;
