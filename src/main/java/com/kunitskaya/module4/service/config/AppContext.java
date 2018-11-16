@@ -8,6 +8,7 @@ import com.kunitskaya.module4.service.PositionService;
 import com.kunitskaya.module4.service.SalaryService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 
 @Configuration
 public class AppContext {
@@ -22,6 +23,7 @@ public class AppContext {
     }
 
     @Bean
+    @Scope("prototype")
     public Employee employee() {
         return new Employee();
     }

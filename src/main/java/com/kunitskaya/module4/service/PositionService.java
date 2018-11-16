@@ -7,6 +7,7 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -18,6 +19,7 @@ public class PositionService {
 
     private ExpressionParser parser = new SpelExpressionParser();
     private StandardEvaluationContext context = new StandardEvaluationContext(this);
+
 
     public List<Position> createPositions(Map<String, Double> targetPositions) {
         LOGGER.info("Total count of positions to create: " + targetPositions.size());
@@ -70,5 +72,33 @@ public class PositionService {
                 }
             }
         }
+    }
+
+    private static Map<Position, Integer> getPositionRatings() {
+        Map<Position, Integer> positionRatings = new HashMap<>();
+
+        String message = "Position: %s, assigned rating: %s";
+        for (int i = 0; i < positions.size(); i++) {
+            Position p = positions.get(i);
+
+            int rating = i + 1;
+            positionRatings.put(p, rating);
+            LOGGER.info(String.format(message, p.getName(), rating));
+        }
+        return positionRatings;
+    }
+
+    public static void recalculateSalaryForPosition(Position position) {
+        Map<Position, Integer> positionRatings = getPositionRatings();
+
+        int rating = positionRatings.get(position);
+        double initialAmount = position.getSalary().getAmount();
+        double finalAmount = initialAmount + rating * 10;
+
+
+        String message = "Recalculating salary for: %s. Initial salary: %s, final salary: %s, position rating: %s";
+        LOGGER.info(String.format(message, position.getName(), initialAmount, finalAmount, rating));
+
+        position.setSalary(new Salary(finalAmount));
     }
 }

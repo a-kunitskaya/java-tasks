@@ -8,4 +8,40 @@
 
     <bean id="salary_factory" class="com.kunitskaya.module6.domain.salaryemulator.SalaryFactory"/>
     <bean id="salary_factory_bean" class="com.kunitskaya.module4.domain.Salary" factory-bean="salary_factory" factory-method="createInstance"/>
+
+    <!-- 2. Implement FactoryBean interface -->
+    <bean id="salary" class="com.kunitskaya.module6.domain.salaryemulator.SalaryFactoryBean">
+        <property name="amount" value="1300"/>
+    </bean>
+
+    <!-- 3.Implement bean that sends message to log at initialization and destroy phases -->
+    <bean id="init_bean" class="com.kunitskaya.module6.domain.config.CustomInitializingBean"/>
+    <bean id="disposable_bean" class="com.kunitskaya.module6.domain.config.CustomDisposableBean"/>
+
+
+
+    <!-- 7.	Inject list of skills to appropriate beans -->
+    <bean id="java_mid" class="com.kunitskaya.module6.domain.salaryemulator.Skill">
+        <constructor-arg name="name" value="Java"/>
+        <constructor-arg name="level" value="2"/>
+    </bean>
+
+    <bean id="spring_junior" class="com.kunitskaya.module6.domain.salaryemulator.Skill">
+        <constructor-arg name="name" value="Spring"/>
+        <constructor-arg name="level" value="1"/>
+    </bean>
+
+    <bean id="java_dev_position" class="com.kunitskaya.module4.domain.Position">
+       <constructor-arg name="name" value="java developer"/>
+        <constructor-arg name="salary" ref="salary"/>
+
+        <constructor-arg>
+            <list>
+                <ref bean="java_mid"/>
+                <ref bean="spring_junior"/>
+            </list>
+        </constructor-arg>
+
+    </bean>
+
 </beans>

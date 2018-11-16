@@ -11,14 +11,14 @@ public class CustomBeanPostProcessor implements BeanPostProcessor {
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         LOGGER.info("Total initialized beans count: " + BEANS_COUNT);
-        LOGGER.info("Step 1: Before initialization of bean: " + beanName);
+        LOGGER.info("Before initialization of bean: " + beanName);
         BEANS_COUNT++;
         return bean;
     }
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        LOGGER.info("Step 3: After initialization of bean: " + beanName);
+        LOGGER.info("Bean: " + beanName + " is initialized");
         return bean;
     }
 }

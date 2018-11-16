@@ -1,8 +1,13 @@
 package com.kunitskaya;
 
+import com.kunitskaya.module4.domain.Employee;
+import com.kunitskaya.module4.domain.Position;
 import com.kunitskaya.module4.domain.Salary;
+import com.kunitskaya.module4.service.PositionService;
+import com.kunitskaya.module4.service.config.AppContext;
 import com.kunitskaya.module6.domain.abstractbeans.*;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -11,6 +16,8 @@ import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 public class MainModule6 {
 
     public static void main(String[] args) {
+
+        //TODO: optimize imports, reformat code
 
         //Task 1.Abstract beans with strange ties
         //1.1. Create bean A, use DI via setters, use property placeholder for values
@@ -31,8 +38,8 @@ public class MainModule6 {
         C singleton2 = context.getBean("c", C.class);
         D prototype2 = singleton2.getD();
 
-        LOGGER.info("singleton1 and singleton2 are the same object: " + String.valueOf(singleton1 == singleton2));
-        LOGGER.info("prototype1 and prototype2 are different objects: " + String.valueOf(prototype1 != prototype2));
+        LOGGER.info("singleton1 and singleton2 are the same object: " + singleton1.equals(singleton2));
+        LOGGER.info("prototype1 and prototype2 are different objects: " + prototype1.equals(prototype2));
 
         //1.4. Create bean E and replace logic of one of its method by Method Replacement
         E e = context.getBean("e", E.class);
@@ -43,29 +50,57 @@ public class MainModule6 {
 
         F f = contextLogging.getBean("f", F.class);
 
-        ((AbstractApplicationContext)contextLogging).close();
+        ((AbstractApplicationContext) contextLogging).close();
 
         //Task 2. Upgrade of Salary Emulator
         //2.1.	Use factory-method (singleton) and factory-bean (service locator)
         ApplicationContext context2 = new ClassPathXmlApplicationContext("module6/task2_beans.xml");
 
-        Salary salary1 = context2.getBean("salary_factory_method", Salary.class);
-        LOGGER.info("Created instance with factory-method: " + salary1.toString());
+        Salary salaryFactoryMethod = context2.getBean("salary_factory_method", Salary.class);
+        LOGGER.info("Created instance with factory-method: " + salaryFactoryMethod.toString());
 
-        Salary salary2 = context2.getBean("salary_factory_bean", Salary.class);
-        LOGGER.info("Created instance with factory-bean: " + salary2.toString());
+        Salary salaryFactoryBean = context2.getBean("salary_factory_bean", Salary.class);
+        LOGGER.info("Created instance with factory-bean: " + salaryFactoryBean.toString());
 
-        //TODO: factory-bean (service locator)???
+        //2.2.	Use FactoryBean with ConfigurationSupport or implement FactoryBean interface
+        Salary salaryFactoryBeanInterface = context2.getBean("salary", Salary.class);
+        LOGGER.info("Created salary by implementing FactoryBean interface: " + salaryFactoryBeanInterface.toString());
+
+        //2.3.	Divide complex Java configuration into a few simple Java configs
+        //2.5.	Migrate appropriate beans to prototype scope
+        ApplicationContext appContextAnnotations = new AnnotationConfigApplicationContext(AppContext.class);
+        Employee prototypeEmployee1 = appContextAnnotations.getBean(Employee.class);
+        Employee prototypeEmployee2 = appContextAnnotations.getBean(Employee.class);
+        LOGGER.info("Java-based configuration with annotations: " + prototypeEmployee2.toString());
+
+        prototypeEmployee1.setName("John");
+        prototypeEmployee2.setName("Jack");
+
+        boolean areEmployeesSame = prototypeEmployee1.getName().equals(prototypeEmployee2.getName());
+        LOGGER.info("prototypeEmployee1 and prototypeEmployee2 are different objects: " + !areEmployeesSame);
+
+        //2.6.	Add a new entity Skill, one Position can require a few skills
+        //2.7.	Inject list of skills to appropriate beans
+        Position javaDevPosition = context2.getBean("java_dev_position", Position.class);
+
+        String message = "Java developer should have skill: %s, level: %s";
+        javaDevPosition.getSkills().forEach(s ->
+                LOGGER.info(String.format(message, s.getName(), s.getLevel()))
+        );
+
+        //2.6. ...and the final salary can depends on skill rating (like TIOBE Programming Language Rating)
+        PositionService.recalculateSalaryForPosition(javaDevPosition);
 
 
-        //2.	Use FactoryBean with ConfigurationSupport or implement FactoryBean interface
-        //3.	Divide complex Java configuration into a few simple Java configs
-        //4.	Implement bean that sends message to log at initialization and destroy phases
-        //5.	Migrate appropriate beans to prototype scope
-        //6.	Add a new entity Skill, one Position can require a few skills and the final salary can depends on skill rating (like TIOBE Programming Language Rating)
-        //7.	Inject list of skills to appropriate beans
-        //8.	Implement a method that can be called when the skill become unpopular and company drops it from the list of skills required to any position
-        //9.	Use math constants in bean definition to calculate Salary with Math power
-        //10.	Make custom Bean Postprocessor to mutate salary value (it happens)
+        //2.10.	Make custom Bean Postprocessor to mutate salary value (it happens)
+
+
+
+        //2.8.	Implement a method that can be called when the skill become unpopular and company drops it from the list of skills required to any position
+        //2.9.	Use math constants in bean definition to calculate Salary with Math power
+
+
+        //2.4.	Implement bean that sends message to log at initialization and destroy phases
+        ((ClassPathXmlApplicationContext) context2).close();
     }
 }
