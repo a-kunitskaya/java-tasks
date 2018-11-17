@@ -2,6 +2,7 @@ package com.kunitskaya.module4.service;
 
 import com.kunitskaya.module4.domain.Position;
 import com.kunitskaya.module4.domain.Salary;
+import com.kunitskaya.module6.domain.salaryemulator.Skill;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
@@ -100,5 +102,23 @@ public class PositionService {
         LOGGER.info(String.format(message, position.getName(), initialAmount, finalAmount, rating));
 
         position.setSalary(new Salary(finalAmount));
+    }
+
+    public static void dropSkill(Position position, Skill skill){
+        String message = "Removing skill: %s, from position: %s";
+        LOGGER.info(String.format(message, position.getName(), skill.getName()));
+        position.getSkills().remove(skill);
+    }
+
+    public static void readRequiredSkills(Position position){
+        List<Skill> skills = position.getSkills();
+
+        String m = "Total required skills count: %s for position: %s";
+        LOGGER.info(String.format(m, skills.size(), position.getName()));
+
+        String message = "Required skill: %s, level: %s";
+        skills.forEach(s ->
+                LOGGER.info(String.format(message, s.getName(), s.getLevel()))
+        );
     }
 }

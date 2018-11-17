@@ -6,6 +6,7 @@ import com.kunitskaya.module4.domain.Salary;
 import com.kunitskaya.module4.service.PositionService;
 import com.kunitskaya.module4.service.config.AppContext;
 import com.kunitskaya.module6.domain.abstractbeans.*;
+import com.kunitskaya.module6.domain.salaryemulator.Skill;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -54,6 +55,8 @@ public class MainModule6 {
 
         //Task 2. Upgrade of Salary Emulator
         //2.1.	Use factory-method (singleton) and factory-bean (service locator)
+        //2.9.	Use math constants in bean definition to calculate Salary with Math power
+        //2.10.	Make custom Bean Postprocessor to mutate salary value (it happens)
         ApplicationContext context2 = new ClassPathXmlApplicationContext("module6/task2_beans.xml");
 
         Salary salaryFactoryMethod = context2.getBean("salary_factory_method", Salary.class);
@@ -83,22 +86,17 @@ public class MainModule6 {
         //2.7.	Inject list of skills to appropriate beans
         Position javaDevPosition = context2.getBean("java_dev_position", Position.class);
 
-        String message = "Java developer should have skill: %s, level: %s";
-        javaDevPosition.getSkills().forEach(s ->
-                LOGGER.info(String.format(message, s.getName(), s.getLevel()))
-        );
+        PositionService.readRequiredSkills(javaDevPosition);
 
         //2.6. ...and the final salary can depends on skill rating (like TIOBE Programming Language Rating)
         PositionService.recalculateSalaryForPosition(javaDevPosition);
 
+        //2.8.	Implement a method that can be called when the skill become unpopular and company drops
+        // it from the list of skills required to any position
+        Skill springSkill = javaDevPosition.getSkills().get(1);
+        PositionService.dropSkill(javaDevPosition, springSkill);
 
-        //2.10.	Make custom Bean Postprocessor to mutate salary value (it happens)
-
-
-
-        //2.8.	Implement a method that can be called when the skill become unpopular and company drops it from the list of skills required to any position
-        //2.9.	Use math constants in bean definition to calculate Salary with Math power
-
+        PositionService.readRequiredSkills(javaDevPosition);
 
         //2.4.	Implement bean that sends message to log at initialization and destroy phases
         ((ClassPathXmlApplicationContext) context2).close();
