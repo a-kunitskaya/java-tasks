@@ -18,8 +18,6 @@ public class MainModule6 {
 
     public static void main(String[] args) {
 
-        //TODO: optimize imports, reformat code
-
         //Task 1.Abstract beans with strange ties
         //1.1. Create bean A, use DI via setters, use property placeholder for values
         ApplicationContext context = new ClassPathXmlApplicationContext("module6/tasks1-4_beans.xml");

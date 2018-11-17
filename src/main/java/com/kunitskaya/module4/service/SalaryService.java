@@ -1,6 +1,5 @@
 package com.kunitskaya.module4.service;
 
-import com.kunitskaya.module4.domain.Position;
 import com.kunitskaya.module4.domain.Salary;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.format.support.DefaultFormattingConversionService;

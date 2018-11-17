@@ -7,7 +7,7 @@ public class SalaryFactoryBean implements FactoryBean<Salary> {
     private double amount;
 
     @Override
-    public Salary getObject() throws Exception {
+    public Salary getObject() {
         return new Salary(amount);
     }
 

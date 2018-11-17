@@ -20,7 +20,7 @@ public class Salary {
     public Salary() {
     }
 
-    public static Salary createInstance(){
+    public static Salary createInstance() {
         return new Salary();
     }
 

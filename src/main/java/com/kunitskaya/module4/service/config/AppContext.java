@@ -6,7 +6,6 @@ import com.kunitskaya.module4.domain.Salary;
 import com.kunitskaya.module4.service.EmployeeService;
 import com.kunitskaya.module4.service.PositionService;
 import com.kunitskaya.module4.service.SalaryService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;

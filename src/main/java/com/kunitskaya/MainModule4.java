@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.kunitskaya.logging.ProjectLogger.*;
+import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class MainModule4 {
     private static ExpressionParser parser = new SpelExpressionParser();

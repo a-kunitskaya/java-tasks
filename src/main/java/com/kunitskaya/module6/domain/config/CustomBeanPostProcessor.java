@@ -3,7 +3,7 @@ package com.kunitskaya.module6.domain.config;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
-import static com.kunitskaya.logging.ProjectLogger.*;
+import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class CustomBeanPostProcessor implements BeanPostProcessor {
     private static int BEANS_COUNT = 0;

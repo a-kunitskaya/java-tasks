@@ -4,7 +4,7 @@ import com.kunitskaya.module4.domain.Salary;
 
 public class SalaryFactory {
 
-    public Salary createInstance(){
+    public Salary createInstance() {
         return new Salary();
     }
 }

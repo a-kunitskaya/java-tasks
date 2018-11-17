@@ -17,9 +17,9 @@ import com.kunitskaya.module1.service.implementation.finders.ByTemperatureFinder
 import java.util.Arrays;
 import java.util.List;
 
+import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 import static com.kunitskaya.module1.domain.HouseholdAppliance.PLUGIN_MESSAGE;
 import static com.kunitskaya.module1.domain.HouseholdAppliance.UNPLUG_MESSAGE;
-import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class MainModule1 {
     public static void main(String[] args) {

@@ -6,7 +6,7 @@ import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class CustomInitializingBean implements InitializingBean {
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         LOGGER.info("Context properties are set");
     }
 }

@@ -1,11 +1,8 @@
 package com.kunitskaya.module6.domain.config;
 
-import com.kunitskaya.logging.ProjectLogger;
 import com.kunitskaya.module4.domain.Salary;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-
-import javax.validation.constraints.Max;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
@@ -19,7 +16,7 @@ public class SalaryBeanPostProcessor implements BeanPostProcessor {
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         if (bean instanceof Salary) {
 
-            double initialValue =((Salary) bean).getAmount();
+            double initialValue = ((Salary) bean).getAmount();
             double finalValue = initialValue + 25;
 
             String message = "Changing salary in bean post processor from: %s to: %s";
