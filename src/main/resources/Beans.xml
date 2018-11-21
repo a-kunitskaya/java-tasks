@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Beans with constructor args-->
+    <bean id="dev_salary" class="com.kunitskaya.domain.module4.Salary">
+        <constructor-arg value="#{T(java.lang.Math).random() * 10000}"/>
+    </bean>
+
+    <bean id="dev_position" class="com.kunitskaya.domain.module4.Position">
+        <constructor-arg value="Developer"/>
+        <constructor-arg ref="dev_salary"/>
+    </bean>
+
+    <!-- with specified parameter types -->
+    <bean id="java_dev_employee" class="com.kunitskaya.domain.module4.Employee">
+        <constructor-arg type="String" value="Daniel"/>
+        <constructor-arg type="boolean" value="false"/>
+        <constructor-arg type="Position" value="#{dev_position}"/>
+        <constructor-arg type="Salary" ref="dev_salary"/>
+    </bean>
+
+    <!-- Bean with setters -->
+    <bean id="ios_dev_employee" class="com.kunitskaya.domain.module4.Employee">
+        <property name="name" value="Sidney"/>
+        <property name="position" ref="dev_position"/>
+        <property name="salary" ref="dev_salary"/>
+    </bean>
+
+</beans>
