@@ -1,24 +1,26 @@
 package com.kunitskaya.module6.domain.config;
 
+import com.kunitskaya.module6.domain.abstractbeans.F;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
-public class CustomBeanPostProcessor implements BeanPostProcessor {
-    private static int BEANS_COUNT = 0;
+public class FBeanPostProcessor implements BeanPostProcessor {
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        LOGGER.info("Total initialized beans count: " + BEANS_COUNT);
-        LOGGER.info("Before initialization of bean: " + beanName);
-        BEANS_COUNT++;
+        if (bean instanceof F) {
+            LOGGER.info("Before initialization of F bean");
+        }
         return bean;
     }
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        LOGGER.info("Bean: " + beanName + " is initialized");
+        if (bean instanceof F) {
+            LOGGER.info("After bean F is initialized");
+        }
         return bean;
     }
 }

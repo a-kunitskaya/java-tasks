@@ -49,10 +49,14 @@ public class PositionService {
         position.setSalary(new Salary(finalAmount));
     }
 
-    public static void dropSkill(Position position, Skill skill) {
-        String message = "Removing skill: %s, from position: %s";
-        LOGGER.info(String.format(message, position.getName(), skill.getName()));
-        position.getSkills().remove(skill);
+    public static void dropSkill(Skill skill) {
+        for (Position p : positions) {
+            if (p.getSkills() != null && p.getSkills().contains(skill)) {
+                String message = "Removing skill: %s, from position: %s";
+                LOGGER.info(String.format(message, skill.getName(), p.getName()));
+                p.getSkills().remove(skill);
+            }
+        }
     }
 
     public static void readRequiredSkills(Position position) {

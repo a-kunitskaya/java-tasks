@@ -4,7 +4,10 @@ import com.kunitskaya.module4.domain.Employee;
 import com.kunitskaya.module4.domain.Position;
 import com.kunitskaya.module4.domain.Salary;
 import com.kunitskaya.module4.service.PositionService;
+import com.kunitskaya.module4.service.SalaryService;
 import com.kunitskaya.module4.service.config.AppContext;
+import com.kunitskaya.module6.domain.AppListenerContext;
+import com.kunitskaya.module6.domain.ServiceAppContext;
 import com.kunitskaya.module6.domain.abstractbeans.*;
 import com.kunitskaya.module6.domain.salaryemulator.Skill;
 import org.springframework.context.ApplicationContext;
@@ -46,9 +49,7 @@ public class MainModule6 {
 
         //1.5. Create bean F and log all possible steps from its lifecycle (lifecycle of Spring bean).
         ApplicationContext contextLogging = new ClassPathXmlApplicationContext("module6/task1.5_beans.xml");
-
         F f = contextLogging.getBean("f", F.class);
-
         ((AbstractApplicationContext) contextLogging).close();
 
         //Task 2. Upgrade of Salary Emulator
@@ -69,10 +70,10 @@ public class MainModule6 {
 
         //2.3.	Divide complex Java configuration into a few simple Java configs
         //2.5.	Migrate appropriate beans to prototype scope
-        ApplicationContext appContextAnnotations = new AnnotationConfigApplicationContext(AppContext.class);
-        Employee prototypeEmployee1 = appContextAnnotations.getBean(Employee.class);
-        Employee prototypeEmployee2 = appContextAnnotations.getBean(Employee.class);
-        LOGGER.info("Java-based configuration with annotations: " + prototypeEmployee2.toString());
+        ApplicationContext appContextJava1 = new AnnotationConfigApplicationContext(AppContext.class);
+        Employee prototypeEmployee1 = appContextJava1.getBean(Employee.class);
+        Employee prototypeEmployee2 = appContextJava1.getBean(Employee.class);
+        LOGGER.info("1st java-based configuration with annotations: " + prototypeEmployee2.toString());
 
         prototypeEmployee1.setName("John");
         prototypeEmployee2.setName("Jack");
@@ -80,23 +81,37 @@ public class MainModule6 {
         boolean areEmployeesSame = prototypeEmployee1.getName().equals(prototypeEmployee2.getName());
         LOGGER.info("prototypeEmployee1 and prototypeEmployee2 are different objects: " + !areEmployeesSame);
 
+        ApplicationContext appContextJava2 = new AnnotationConfigApplicationContext(ServiceAppContext.class);
+        SalaryService salaryService = appContextJava2.getBean(SalaryService.class);
+        LOGGER.info("2nd java-based configuration with annotations: " + salaryService.toString());
+
         //2.6.	Add a new entity Skill, one Position can require a few skills
         //2.7.	Inject list of skills to appropriate beans
         Position javaDevPosition = context2.getBean("java_dev_position", Position.class);
-
         PositionService.readRequiredSkills(javaDevPosition);
+
+        Position iosDevPosition = context2.getBean("ios_dev_position", Position.class);
+        PositionService.readRequiredSkills(iosDevPosition);
 
         //2.6. ...and the final salary can depends on skill rating (like TIOBE Programming Language Rating)
         PositionService.recalculateSalaryForPosition(javaDevPosition);
 
         //2.8.	Implement a method that can be called when the skill become unpopular and company drops
         // it from the list of skills required to any position
-        Skill springSkill = javaDevPosition.getSkills().get(1);
-        PositionService.dropSkill(javaDevPosition, springSkill);
+
+        Skill springSkill = javaDevPosition.getSkills().get(1); //both iosDevPosition and javaDevPosition have it
+        PositionService.dropSkill(springSkill);
 
         PositionService.readRequiredSkills(javaDevPosition);
+        PositionService.readRequiredSkills(iosDevPosition);
 
         //2.4.	Implement bean that sends message to log at initialization and destroy phases
-        ((ClassPathXmlApplicationContext) context2).close();
+        ApplicationContext appContextJava3 = new AnnotationConfigApplicationContext(AppListenerContext.class);
+        ((AnnotationConfigApplicationContext) appContextJava3).start();
+
+        Salary salary = appContextJava3.getBean(Salary.class);
+        LOGGER.info("Initialized bean between ContextStartedEvent and ContextClosedEvent: " + salary.toString());
+        ((AnnotationConfigApplicationContext) appContextJava3).close();
+
     }
 }

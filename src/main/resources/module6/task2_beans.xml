@@ -53,6 +53,24 @@
         </constructor-arg>
     </bean>
 
+    <!-- another position with skills -->
+    <bean id="swift_junior" class="com.kunitskaya.module6.domain.salaryemulator.Skill">
+        <constructor-arg name="name" value="Swift"/>
+        <constructor-arg name="level" value="1"/>
+    </bean>
+
+    <bean id="ios_dev_position" class="com.kunitskaya.module4.domain.Position">
+        <constructor-arg name="name" value="ios developer"/>
+        <constructor-arg name="salary" ref="salary"/>
+
+        <constructor-arg>
+            <list>
+                <ref bean="spring_junior"/>
+                <ref bean="swift_junior"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
     <!-- 10.	Make custom Bean Postprocessor to mutate salary value (it happens) -->
     <bean id="bpp" class="com.kunitskaya.module6.domain.config.SalaryBeanPostProcessor"/>
 
