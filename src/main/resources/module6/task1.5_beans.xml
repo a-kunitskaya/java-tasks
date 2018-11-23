@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 5. Create bean F and log all possible steps from its lifecycle (lifecycle of Spring bean) -->
+
+    <!-- 2.	afterPropertiesSet() as defined by the InitializingBean callback interface,
+    destroy() as defined by the DisposableBean callback interface -->
+    <bean id="bpp" class="com.kunitskaya.module6.domain.config.FBeanPostProcessor"/>
+    <bean id="init_bean" class="com.kunitskaya.module6.domain.config.CustomInitializingBean"/>
+    <bean id="disposable_bean" class="com.kunitskaya.module6.domain.config.CustomDisposableBean"/>
+
+    <!-- @PostConstruct, @PreDestroy -->
+    <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
+
+    <!-- 3.	A custom configured init() method, a custom configured destroy() method -->
+    <bean id="f" class="com.kunitskaya.module6.domain.abstractbeans.F" init-method="init" destroy-method="destroy"/>
+
+
+</beans>

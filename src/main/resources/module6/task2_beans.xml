@@ -1,0 +1,77 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util-4.2.xsd">
+
+    <!-- 1.	Use factory-method (singleton) and factory-bean (service locator)-->
+    <!-- 9.	Use math constants in bean definition to calculate Salary with Math power -->
+    <bean id="salary_factory_method" class="com.kunitskaya.module4.domain.Salary" factory-method="createInstance">
+        <property name="amount">
+            <util:constant id="value" static-field="java.lang.Math.PI"/>
+        </property>
+    </bean>
+
+    <bean id="salary_factory" class="com.kunitskaya.module6.domain.salaryemulator.SalaryFactory">
+    </bean>
+
+    <bean id="salary_factory_bean" class="com.kunitskaya.module4.domain.Salary" factory-bean="salary_factory"
+          factory-method="createInstance"/>
+
+    <!-- 2. Implement FactoryBean interface -->
+    <bean id="salary" class="com.kunitskaya.module6.domain.salaryemulator.SalaryFactoryBean">
+        <property name="amount" value="1400"/>
+    </bean>
+
+    <!-- 3.Implement bean that sends message to log at initialization and destroy phases -->
+    <bean id="init_bean" class="com.kunitskaya.module6.domain.config.CustomInitializingBean"/>
+    <bean id="disposable_bean" class="com.kunitskaya.module6.domain.config.CustomDisposableBean"/>
+
+
+    <!-- 7.	Inject list of skills to appropriate beans -->
+    <bean id="java_mid" class="com.kunitskaya.module6.domain.salaryemulator.Skill">
+        <constructor-arg name="name" value="Java"/>
+        <constructor-arg name="level" value="2"/>
+    </bean>
+
+    <bean id="spring_junior" class="com.kunitskaya.module6.domain.salaryemulator.Skill">
+        <constructor-arg name="name" value="Spring"/>
+        <constructor-arg name="level" value="1"/>
+    </bean>
+
+    <bean id="java_dev_position" class="com.kunitskaya.module4.domain.Position">
+        <constructor-arg name="name" value="java developer"/>
+        <constructor-arg name="salary" ref="salary"/>
+
+        <constructor-arg>
+            <list>
+                <ref bean="java_mid"/>
+                <ref bean="spring_junior"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- another position with skills -->
+    <bean id="swift_junior" class="com.kunitskaya.module6.domain.salaryemulator.Skill">
+        <constructor-arg name="name" value="Swift"/>
+        <constructor-arg name="level" value="1"/>
+    </bean>
+
+    <bean id="ios_dev_position" class="com.kunitskaya.module4.domain.Position">
+        <constructor-arg name="name" value="ios developer"/>
+        <constructor-arg name="salary" ref="salary"/>
+
+        <constructor-arg>
+            <list>
+                <ref bean="spring_junior"/>
+                <ref bean="swift_junior"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- 10.	Make custom Bean Postprocessor to mutate salary value (it happens) -->
+    <bean id="bpp" class="com.kunitskaya.module6.domain.config.SalaryBeanPostProcessor"/>
+
+</beans>

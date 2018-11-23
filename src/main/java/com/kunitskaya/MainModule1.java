@@ -1,25 +1,25 @@
 package com.kunitskaya;
 
-import com.kunitskaya.domain.module1.HomeLocation;
-import com.kunitskaya.domain.module1.appliances.Fridge;
-import com.kunitskaya.domain.module1.appliances.HouseholdAppliance;
-import com.kunitskaya.domain.module1.appliances.Kettle;
-import com.kunitskaya.domain.module1.appliances.TvSet;
-import com.kunitskaya.service.module1.exceptions.ApplianceNotFoundException;
-import com.kunitskaya.service.module1.exceptions.ByTemperatureApplianceNotFoundException;
-import com.kunitskaya.service.module1.exceptions.NotSupportedApplianceTypeException;
-import com.kunitskaya.service.module1.implementation.ByPowerConsumptionApplianceSorter;
-import com.kunitskaya.service.module1.implementation.PowerConsumptionCounter;
-import com.kunitskaya.service.module1.implementation.finders.ByColorFinder;
-import com.kunitskaya.service.module1.implementation.finders.ByLocationFinder;
-import com.kunitskaya.service.module1.implementation.finders.ByTemperatureFinder;
+import com.kunitskaya.module1.HomeLocation;
+import com.kunitskaya.module1.domain.Fridge;
+import com.kunitskaya.module1.domain.HouseholdAppliance;
+import com.kunitskaya.module1.domain.Kettle;
+import com.kunitskaya.module1.domain.TvSet;
+import com.kunitskaya.module1.service.exceptions.ApplianceNotFoundException;
+import com.kunitskaya.module1.service.exceptions.ByTemperatureApplianceNotFoundException;
+import com.kunitskaya.module1.service.exceptions.NotSupportedApplianceTypeException;
+import com.kunitskaya.module1.service.implementation.ByPowerConsumptionApplianceSorter;
+import com.kunitskaya.module1.service.implementation.PowerConsumptionCounter;
+import com.kunitskaya.module1.service.implementation.finders.ByColorFinder;
+import com.kunitskaya.module1.service.implementation.finders.ByLocationFinder;
+import com.kunitskaya.module1.service.implementation.finders.ByTemperatureFinder;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static com.kunitskaya.domain.module1.appliances.HouseholdAppliance.PLUGIN_MESSAGE;
-import static com.kunitskaya.domain.module1.appliances.HouseholdAppliance.UNPLUG_MESSAGE;
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
+import static com.kunitskaya.module1.domain.HouseholdAppliance.PLUGIN_MESSAGE;
+import static com.kunitskaya.module1.domain.HouseholdAppliance.UNPLUG_MESSAGE;
 
 public class MainModule1 {
     public static void main(String[] args) {
@@ -38,7 +38,7 @@ public class MainModule1 {
 
         List<HouseholdAppliance> appliances = Arrays.asList(fridge, tvSet, kettle);
 
-        //Count power consumption for all plugged-in appliances
+        //Count power consumption for all plugged-in domain
         PowerConsumptionCounter.countPowerConsumption(appliances);
 
         LOGGER.info(String.format(UNPLUG_MESSAGE, Fridge.class.getSimpleName()));
@@ -52,7 +52,7 @@ public class MainModule1 {
             List appliancesWithColor = new ByColorFinder(color).find(appliances);
             List appliancesWithLocation = new ByLocationFinder(HomeLocation.LIVING_ROOM).find(appliances);
             if (appliancesWithColor.size() != 0 && appliancesWithLocation.size() != 0) {
-                LOGGER.info("Some appliances were found by color and location!");
+                LOGGER.info("Some domain were found by color and location!");
             }
         } catch (ApplianceNotFoundException e) {
             e.printStackTrace();

@@ -1,17 +1,17 @@
 package com.kunitskaya;
 
 import com.google.common.collect.ImmutableList;
-import com.kunitskaya.domain.module3.collectors.A;
-import com.kunitskaya.domain.module3.library.Author;
-import com.kunitskaya.domain.module3.library.Book;
-import com.kunitskaya.service.module3.implementation.BookPrinter;
-import com.kunitskaya.service.module3.implementation.finders.BiggestBookFinder;
-import com.kunitskaya.service.module3.implementation.finders.ByPagesCountBookFinder;
-import com.kunitskaya.service.module3.implementation.finders.SingleAuthorBooksFinder;
-import com.kunitskaya.service.module3.implementation.finders.SmallestBookFinder;
-import com.kunitskaya.service.module3.implementation.sorters.ByPagesCountBooksSorter;
-import com.kunitskaya.service.module3.implementation.sorters.ByTitleBooksSorter;
-import com.kunitskaya.service.module3.interfaces.ThreeFunction;
+import com.kunitskaya.module3.domain.collectors.A;
+import com.kunitskaya.module3.domain.library.Author;
+import com.kunitskaya.module3.domain.library.Book;
+import com.kunitskaya.module3.service.implementation.BookPrinter;
+import com.kunitskaya.module3.service.implementation.finders.BiggestBookFinder;
+import com.kunitskaya.module3.service.implementation.finders.ByPagesCountBookFinder;
+import com.kunitskaya.module3.service.implementation.finders.SingleAuthorBooksFinder;
+import com.kunitskaya.module3.service.implementation.finders.SmallestBookFinder;
+import com.kunitskaya.module3.service.implementation.sorters.ByPagesCountBooksSorter;
+import com.kunitskaya.module3.service.implementation.sorters.ByTitleBooksSorter;
+import com.kunitskaya.module3.service.interfaces.ThreeFunction;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,7 +23,7 @@ import java.util.function.*;
 import java.util.stream.Stream;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
-import static com.kunitskaya.service.module3.collectors.CustomImmutableListCollector.toCustomImmutablelist;
+import static com.kunitskaya.module3.service.collectors.CustomImmutableListCollector.toCustomImmutablelist;
 
 public class MainModule3 {
     private static final String MESSAGE = "Functional interface: %s, result: %s";

@@ -1,7 +1,7 @@
 package com.kunitskaya.module4;
 
 import com.kunitskaya.BaseTest;
-import com.kunitskaya.domain.module4.Employee;
+import com.kunitskaya.module4.domain.Employee;
 import org.testng.annotations.Test;
 
 import javax.validation.ConstraintViolation;
