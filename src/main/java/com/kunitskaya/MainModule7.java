@@ -2,9 +2,12 @@ package com.kunitskaya;
 
 import com.kunitskaya.module7.CustomFileUtils;
 
+import java.io.IOException;
+import java.nio.file.Paths;
+
 public class MainModule7 {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //Task 1. (10 баллов) Сериализация
         //Добавьте для иерархии объектов из домашнего задания модуля Java Core I возможность сериализоваться/десериализоваться. Однако все численные поля не должны подвергаться этой процедуре.
         //Предоставьте тестовый код, в котором вы создаете несколько экземпляров различных классов этой иерархии и успешно выполняете операцию сериализации/десереализации.
@@ -16,16 +19,14 @@ public class MainModule7 {
         //3.	(5 баллов) Средний размер файла в указанной директории или любой ее поддиректории
         //4.	(5 баллов) Количество файлов и папок, разбитое по первым буквам алфавита (например, на букву A – начинается 100 000 файлов и 200 папок)
 
-
         //Task 3. (30 баллов) FastFileMover
         //Напишите несколько версий утилиты FastFileMover, которая перемещает файл из одной директории в другую директорию. На вход принимает оба пути. Все исключительные ситуации должны обрабатываться корректно.
 
         //1.	(5 баллов) Версия использует простые FileStreams
-        String pathFrom = "E:\\data\\source\\fileToMove";
-        String pathTo = "E:\\data\\target";
+      String pathFrom = Paths.get("src","main","resources", "module7", "source", "file.txt").toString();
+      String pathTo = Paths.get("src","main","resources", "module7", "target").toString();
 
         CustomFileUtils.moveFileWithFileStream(pathFrom, pathTo);
-
 
         //2.	(5 баллов) Версия использует FileStreams с буфером в 100 Кб
         //3.	(5 баллов) Версия использует FileChannel

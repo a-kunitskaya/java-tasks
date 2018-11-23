@@ -27,7 +27,7 @@ public class EmployeeService {
     }
 
     public void fire() {
-        String message = "Firing employee: %s from position: %s";
+        String message = "Firing employee: %s source position: %s";
         LOGGER.info(String.format(message, employee.getName(), employee.getPosition().getName()));
         employee.setPosition(null);
     }

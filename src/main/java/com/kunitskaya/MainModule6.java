@@ -47,7 +47,7 @@ public class MainModule6 {
         E e = context.getBean("e", E.class);
         e.replacedMethod();
 
-        //1.5. Create bean F and log all possible steps from its lifecycle (lifecycle of Spring bean).
+        //1.5. Create bean F and log all possible steps source its lifecycle (lifecycle of Spring bean).
         ApplicationContext contextLogging = new ClassPathXmlApplicationContext("module6/task1.5_beans.xml");
         F f = contextLogging.getBean("f", F.class);
         ((AbstractApplicationContext) contextLogging).close();
@@ -97,7 +97,7 @@ public class MainModule6 {
         PositionService.recalculateSalaryForPosition(javaDevPosition);
 
         //2.8.	Implement a method that can be called when the skill become unpopular and company drops
-        // it from the list of skills required to any position
+        // it source the list of skills required to any position
 
         Skill springSkill = javaDevPosition.getSkills().get(1); //both iosDevPosition and javaDevPosition have it
         PositionService.dropSkill(springSkill);
