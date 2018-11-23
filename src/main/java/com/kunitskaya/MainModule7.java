@@ -24,11 +24,14 @@ public class MainModule7 {
         String pathFrom = "E:\\data\\source\\fileToMove";
         String pathTo = "E:\\data\\target";
 
-        CustomFileUtils.moveFile(pathFrom, pathTo);
+        CustomFileUtils.moveFileWithFileStream(pathFrom, pathTo);
 
 
         //2.	(5 баллов) Версия использует FileStreams с буфером в 100 Кб
         //3.	(5 баллов) Версия использует FileChannel
+        //https://stackoverflow.com/questions/1146153/copying-files-from-one-directory-to-another-in-java
+
+
         //4.	(5 баллов) Версия использует NIO 2 File API
         //Замерьте время на копирование, запустите на нескольких эталонных файлах разного размера (1 Кб, 100 Кб, 10 Мб, 1 Гб). На каждом файле запустите 1000 раз, получите среднее время.
         //(10 баллов) Подготовьте performance report в разрезе размер файла/способ.
