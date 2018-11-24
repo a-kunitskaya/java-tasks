@@ -23,10 +23,20 @@ public class MainModule7 {
         //Напишите несколько версий утилиты FastFileMover, которая перемещает файл из одной директории в другую директорию. На вход принимает оба пути. Все исключительные ситуации должны обрабатываться корректно.
 
         //1.	(5 баллов) Версия использует простые FileStreams
-      String pathFrom = Paths.get("src","main","resources", "module7", "source", "file.txt").toString();
-      String pathTo = Paths.get("src","main","resources", "module7", "target").toString();
+        String pathFrom = Paths.get("src", "main", "resources", "module7", "source", "file.txt").toString();
+        String pathTo = Paths.get("src", "main", "resources", "module7", "target").toString();
 
+        CustomFileUtils.createFile(pathFrom);
         CustomFileUtils.moveFileWithFileStream(pathFrom, pathTo);
+
+        CustomFileUtils.createFile(pathFrom);
+        CustomFileUtils.moveFileWithBufferedStream100(pathFrom, pathTo);
+
+        CustomFileUtils.createFile(pathFrom);
+        CustomFileUtils.moveFileWithFileChannel(pathFrom, pathTo);
+
+        CustomFileUtils.createFile(pathFrom);
+        CustomFileUtils.moveFileWithNIO(pathFrom, pathTo);
 
         //2.	(5 баллов) Версия использует FileStreams с буфером в 100 Кб
         //3.	(5 баллов) Версия использует FileChannel
