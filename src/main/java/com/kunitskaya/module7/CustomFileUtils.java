@@ -3,6 +3,8 @@ package com.kunitskaya.module7;
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
@@ -10,14 +12,17 @@ import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 public class CustomFileUtils {
     private static final String START_MESSAGE = "Started moving file source: %s to: %s";
     private static final String FINISH_MESSAGE = "Successfully moved file: %s with: %s";
+    private static final String MAKE_DIRECTORY_MESSAGE = "Created directory: %s";
 
-    public static void moveFileWithFileStream(String sourcePath, String targetPath) {
-        LOGGER.info(String.format(START_MESSAGE, sourcePath, targetPath));
+    public static void moveFileWithFileStream(String sourceFilePath, String targetDir) {
+        LOGGER.info(String.format(START_MESSAGE, sourceFilePath, targetDir));
 
-        File sourceFile = new File(sourcePath);
+        createDirectory(targetDir);
 
-        try (FileInputStream inputStream = new FileInputStream(sourcePath);
-             FileOutputStream outputStream = new FileOutputStream(targetPath + File.separator + sourceFile.getName())
+        File sourceFile = new File(sourceFilePath);
+
+        try (FileInputStream inputStream = new FileInputStream(sourceFilePath);
+             FileOutputStream outputStream = new FileOutputStream(targetDir + File.separator + sourceFile.getName())
         ) {
             int content = inputStream.read();
             while (content != -1) {
@@ -38,6 +43,7 @@ public class CustomFileUtils {
     public static void moveFileWithBufferedStream100(String sourceFilePath, String targetDir) {
         LOGGER.info(String.format(START_MESSAGE, sourceFilePath, targetDir));
 
+        createDirectory(sourceFilePath);
         File sourceFile = new File(sourceFilePath);
 
         try (
@@ -63,11 +69,41 @@ public class CustomFileUtils {
 
     }
 
-    public static void moveFileWithFileChannel(String pathFrom, String pathTo) {
+    public static void moveFileWithFileChannel(String sourceFilePath, String targetDir) {
+        LOGGER.info(String.format(START_MESSAGE, sourceFilePath, targetDir));
 
+        createDirectory(sourceFilePath);
+
+        File sourceFile = new File(sourceFilePath);
+        try (
+                FileInputStream inputStream = new FileInputStream(sourceFilePath);
+                FileOutputStream outputStream = new FileOutputStream(targetDir + File.separator + sourceFile.getName());
+                FileChannel inChannel = inputStream.getChannel();
+                FileChannel outChannel = outputStream.getChannel()
+        ) {
+            ByteBuffer buffer = ByteBuffer.allocate(100);
+            int content = inChannel.read(buffer);
+            while (content != -1) {
+                content = inChannel.read(buffer);
+            }
+            buffer.flip();
+
+            while (buffer.hasRemaining()) {
+                outChannel.write(buffer);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (sourceFile.exists()) {
+            sourceFile.delete();
+            LOGGER.info(String.format(FINISH_MESSAGE, sourceFile.getName(), "File Channel"));
+        }
     }
 
-    public static void moveFileWithNIO(String pathFrom, String pathTo) {
+    public static void moveFileWithNIO(String sourceFilePath, String targetDir) {
+
+        createDirectory(sourceFilePath);
 
     }
 
@@ -80,6 +116,15 @@ public class CustomFileUtils {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private static void createDirectory(String path) {
+        File targetDirectory = new File(path);
+
+        if (!targetDirectory.exists()) {
+            targetDirectory.mkdir();
+            LOGGER.info(String.format(MAKE_DIRECTORY_MESSAGE, targetDirectory));
         }
     }
 }
