@@ -8,7 +8,7 @@ import java.util.Objects;
 public class TvSet extends HouseholdAppliance {
 
     @UseStackOnly
-    private Double displaySize;
+    private transient Double displaySize;
 
     public TvSet(Integer powerConsumption, String color, HomeLocation location, double displaySize) {
         super(powerConsumption, color, location);

@@ -1,9 +1,10 @@
 package com.kunitskaya;
 
+import com.kunitskaya.module1.HomeLocation;
+import com.kunitskaya.module1.domain.Fridge;
 import com.kunitskaya.module7.CustomFileUtils;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Paths;
 
 public class MainModule7 {
@@ -15,6 +16,38 @@ public class MainModule7 {
         //Однако все численные поля не должны подвергаться этой процедуре.
         //Предоставьте тестовый код, в котором вы создаете несколько экземпляров различных
         //классов этой иерархии и успешно выполняете операцию сериализации/десереализации.
+        String serDir = Paths.get("src", "main", "resources", "module7", "serializable").toString();
+        String serFileName = File.separator + "household_appliance.ser";
+        String serFilePath = serDir + serFileName;
+
+        CustomFileUtils.createFile(serDir, serFileName);
+
+        Fridge serializedFridge = new Fridge(250, "Fridge", HomeLocation.KITCHEN, 3);
+        serializedFridge.setPluggedIn(true);
+
+        //TODO: serialize other appliances, wtire two methods serialize(), deserialize()
+        //TODO: https://www.tutorialspoint.com/java/java_serialization.htm
+        //serialize
+        FileOutputStream fileOutputStream = new FileOutputStream(serFilePath);
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+        objectOutputStream.writeObject(serializedFridge);
+
+        objectOutputStream.close();
+        fileOutputStream.close();
+
+        //deserialize
+        Fridge deserializedFridge = null;
+
+        try (
+                FileInputStream fileInputStream = new FileInputStream(serFilePath);
+                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)
+        ) {
+            deserializedFridge = (Fridge) objectInputStream.readObject();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(deserializedFridge.toString());
 
 
         //Task 3. FastFileMover
@@ -43,6 +76,5 @@ public class MainModule7 {
         //3.4. Версия использует NIO 2 File API
         CustomFileUtils.createFile(sourceDir, sourceFileName);
         CustomFileUtils.moveFileWithNIO2(sourceFilePath, targetDir);
-
     }
 }

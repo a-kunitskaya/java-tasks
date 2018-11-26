@@ -9,7 +9,7 @@ import java.util.Objects;
 public class Fridge extends HouseholdAppliance {
 
     @ThisCodeSmells()
-    private Integer freezingTemperature;
+    private transient Integer freezingTemperature;
 
     public Fridge(Integer powerConsumption, String color, HomeLocation location, int freezingTemperature) {
         super(powerConsumption, color, location);
