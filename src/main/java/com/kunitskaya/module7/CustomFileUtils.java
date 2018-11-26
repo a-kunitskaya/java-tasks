@@ -126,8 +126,15 @@ public class CustomFileUtils {
         }
     }
 
-    public static void createFile(String path) {
-        File file = new File(path);
+    public static void createFile(String dir, String fileName) {
+        File directory = new File(dir);
+
+        if (!directory.exists()) {
+            directory.mkdir();
+            LOGGER.info(String.format(MAKE_DIRECTORY_MESSAGE, directory));
+        }
+
+        File file = new File(dir + fileName);
         if (!file.exists()) {
             try {
                 file.createNewFile();

@@ -2,6 +2,7 @@ package com.kunitskaya;
 
 import com.kunitskaya.module7.CustomFileUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 
@@ -23,23 +24,25 @@ public class MainModule7 {
         //Все исключительные ситуации должны обрабатываться корректно.
 
         //3.1. Версия использует простые FileStreams
-        String pathFrom = Paths.get("src", "main", "resources", "module7", "source", "file.txt").toString();
-        String pathTo = Paths.get("src", "main", "resources", "module7", "target").toString();
+        String sourceDir = Paths.get("src", "main", "resources", "module7", "source").toString();
+        String sourceFileName = File.separator + "file.txt";
+        String sourceFilePath = sourceDir + sourceFileName;
+        String targetDir = Paths.get("src", "main", "resources", "module7", "target").toString();
 
-        CustomFileUtils.createFile(pathFrom);
-        CustomFileUtils.moveFileWithFileStream(pathFrom, pathTo);
+        CustomFileUtils.createFile(sourceDir, sourceFileName);
+        CustomFileUtils.moveFileWithFileStream(sourceFilePath, targetDir);
 
         //3.2. Версия использует FileStreams с буфером в 100 Кб
-        CustomFileUtils.createFile(pathFrom);
-        CustomFileUtils.moveFileWithBufferedStream100(pathFrom, pathTo);
+        CustomFileUtils.createFile(sourceDir, sourceFileName);
+        CustomFileUtils.moveFileWithBufferedStream100(sourceFilePath, targetDir);
 
         //3.3. Версия использует FileChannel
-        CustomFileUtils.createFile(pathFrom);
-        CustomFileUtils.moveFileWithFileChannel(pathFrom, pathTo);
+        CustomFileUtils.createFile(sourceDir, sourceFileName);
+        CustomFileUtils.moveFileWithFileChannel(sourceFilePath, targetDir);
 
         //3.4. Версия использует NIO 2 File API
-        CustomFileUtils.createFile(pathFrom);
-        CustomFileUtils.moveFileWithNIO2(pathFrom, pathTo);
+        CustomFileUtils.createFile(sourceDir, sourceFileName);
+        CustomFileUtils.moveFileWithNIO2(sourceFilePath, targetDir);
 
     }
 }
