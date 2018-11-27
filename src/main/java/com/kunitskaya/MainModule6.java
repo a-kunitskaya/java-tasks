@@ -97,7 +97,7 @@ public class MainModule6 {
         PositionService.recalculateSalaryForPosition(javaDevPosition);
 
         //2.8.	Implement a method that can be called when the skill become unpopular and company drops
-        // it source the list of skills required to any position
+        // it from the list of skills required to any position
 
         Skill springSkill = javaDevPosition.getSkills().get(1); //both iosDevPosition and javaDevPosition have it
         PositionService.dropSkill(springSkill);
