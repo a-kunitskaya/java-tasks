@@ -3,6 +3,7 @@ package com.kunitskaya;
 import com.kunitskaya.module1.HomeLocation;
 import com.kunitskaya.module1.domain.Fridge;
 import com.kunitskaya.module7.CustomFileUtils;
+import com.kunitskaya.module7.Serializer;
 
 import java.io.*;
 import java.nio.file.Paths;
@@ -25,29 +26,21 @@ public class MainModule7 {
         Fridge serializedFridge = new Fridge(250, "Fridge", HomeLocation.KITCHEN, 3);
         serializedFridge.setPluggedIn(true);
 
-        //TODO: serialize other appliances, wtire two methods serialize(), deserialize()
-        //TODO: https://www.tutorialspoint.com/java/java_serialization.htm
         //serialize
-        FileOutputStream fileOutputStream = new FileOutputStream(serFilePath);
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-        objectOutputStream.writeObject(serializedFridge);
+//        FileOutputStream fileOutputStream = new FileOutputStream(serFilePath);
+//        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+//        objectOutputStream.writeObject(serializedFridge);
+//
+//        objectOutputStream.close();
+//        fileOutputStream.close();
 
-        objectOutputStream.close();
-        fileOutputStream.close();
+        Serializer serializer = new Serializer();
+        serializer.serialize(serFilePath, serializedFridge);
 
-        //deserialize
         Fridge deserializedFridge = null;
+        deserializedFridge = serializer.deserialize(serFilePath, Fridge.class);
 
-        try (
-                FileInputStream fileInputStream = new FileInputStream(serFilePath);
-                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)
-        ) {
-            deserializedFridge = (Fridge) objectInputStream.readObject();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
 
-        System.out.println(deserializedFridge.toString());
 
 
         //Task 3. FastFileMover
