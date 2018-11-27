@@ -16,6 +16,17 @@ public class Fridge extends HouseholdAppliance {
         this.freezingTemperature = freezingTemperature;
     }
 
+
+    public Fridge(Integer powerConsumption, Integer freezingTemperature) {
+        super(powerConsumption);
+        this.freezingTemperature = freezingTemperature;
+    }
+
+    public Fridge(Integer powerConsumption, Boolean isPluggedIn, String color, HomeLocation location, Integer freezingTemperature) {
+        super(powerConsumption, isPluggedIn, color, location);
+        this.freezingTemperature = freezingTemperature;
+    }
+
     public Fridge(Integer powerConsumption) {
         super(powerConsumption);
     }

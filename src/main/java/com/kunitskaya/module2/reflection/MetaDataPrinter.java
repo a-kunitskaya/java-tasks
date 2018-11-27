@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 import static com.kunitskaya.module2.handlers.ThisCodeSmellsHandler.FOUND_MESSAGE;
@@ -56,6 +57,22 @@ public class MetaDataPrinter {
             ThisCodeSmells annotation = field.getAnnotation(ThisCodeSmells.class);
             String type = "field";
             LOGGER.info(String.format(FOUND_MESSAGE, type, field.getName(), THIS_CODE_SMELLS_ANNOTATION, annotation.reviewer(), field.getDeclaringClass().getSimpleName()));
+        }
+    }
+
+    public static <T> void printTransientFields(Class<T> clazz) {
+        Field[] superFields = clazz.getSuperclass().getDeclaredFields();
+        Field[] childFields = clazz.getDeclaredFields();
+        Field[] fields = Stream.concat(Arrays.stream(superFields), Arrays.stream(childFields)).toArray(Field[]::new);
+        String classMessage = "Checking class: %s on transient fields";
+        LOGGER.info(String.format(classMessage, clazz.getSimpleName()));
+
+        String fieldMessage = "Field: '%s' is transient";
+        for (Field field : fields) {
+            boolean isTransient = Modifier.isTransient(field.getModifiers());
+            if (isTransient) {
+                LOGGER.info(String.format(fieldMessage, field.getName()));
+            }
         }
     }
 }

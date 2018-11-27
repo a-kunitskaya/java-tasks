@@ -15,6 +15,25 @@ public class TvSet extends HouseholdAppliance {
         this.displaySize = displaySize;
     }
 
+    public TvSet(Integer powerConsumption, String color, HomeLocation location, Double displaySize) {
+        super(powerConsumption, color, location);
+        this.displaySize = displaySize;
+    }
+
+    public TvSet(Integer powerConsumption, Double displaySize) {
+        super(powerConsumption);
+        this.displaySize = displaySize;
+    }
+
+    public TvSet(Integer powerConsumption, Boolean isPluggedIn, String color, HomeLocation location, Double displaySize) {
+        super(powerConsumption, isPluggedIn, color, location);
+        this.displaySize = displaySize;
+    }
+
+    public TvSet(Double displaySize) {
+        this.displaySize = displaySize;
+    }
+
     public TvSet(Integer powerConsumption) {
         super(powerConsumption);
     }

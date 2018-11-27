@@ -28,7 +28,6 @@ public abstract class HouseholdAppliance implements Pluggable, Serializable {
         } else {
             this.powerConsumption = powerConsumption;
         }
-
         String nonDigitPattern = "\\D+";
         if (color.isEmpty() || !color.matches(nonDigitPattern)) {
             throw new IllegalArgumentException("Color should consist of > 0 word characters");
@@ -44,6 +43,13 @@ public abstract class HouseholdAppliance implements Pluggable, Serializable {
         } else {
             this.powerConsumption = powerConsumption;
         }
+    }
+
+    public HouseholdAppliance(Integer powerConsumption, Boolean isPluggedIn, String color, HomeLocation location) {
+        this.powerConsumption = powerConsumption;
+        this.isPluggedIn = isPluggedIn;
+        this.color = color;
+        this.location = location;
     }
 
     public HouseholdAppliance() {

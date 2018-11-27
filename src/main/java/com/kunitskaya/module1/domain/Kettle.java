@@ -12,6 +12,20 @@ public class Kettle extends HouseholdAppliance {
         this.volume = volume;
     }
 
+    public Kettle(Integer powerConsumption, Double volume) {
+        super(powerConsumption);
+        this.volume = volume;
+    }
+
+    public Kettle(Integer powerConsumption, Boolean isPluggedIn, String color, HomeLocation location, Double volume) {
+        super(powerConsumption, isPluggedIn, color, location);
+        this.volume = volume;
+    }
+
+    public Kettle(Double volume) {
+        this.volume = volume;
+    }
+
     public Kettle(Integer powerConsumption) {
         super(powerConsumption);
     }

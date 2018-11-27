@@ -2,11 +2,21 @@ package com.kunitskaya;
 
 import com.kunitskaya.module1.HomeLocation;
 import com.kunitskaya.module1.domain.Fridge;
+import com.kunitskaya.module1.domain.HouseholdAppliance;
+import com.kunitskaya.module1.domain.Kettle;
+import com.kunitskaya.module1.domain.TvSet;
+import com.kunitskaya.module2.reflection.MetaDataPrinter;
 import com.kunitskaya.module7.CustomFileUtils;
 import com.kunitskaya.module7.Serializer;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
+
+import static com.kunitskaya.logging.ProjectLogger.LOGGER;
+
 
 public class MainModule7 {
 
@@ -23,24 +33,20 @@ public class MainModule7 {
 
         CustomFileUtils.createFile(serDir, serFileName);
 
-        Fridge serializedFridge = new Fridge(250, "Fridge", HomeLocation.KITCHEN, 3);
-        serializedFridge.setPluggedIn(true);
+        Fridge serializedFridge = new Fridge(250, true, "Fridge", HomeLocation.KITCHEN, 3);
+        Kettle serializedKettle = new Kettle(250, true, "Fridge", HomeLocation.KITCHEN, 2.0);
+        TvSet serializedTvSet = new TvSet(250, true, "Fridge", HomeLocation.KITCHEN, 30.0);
 
-        //serialize
-//        FileOutputStream fileOutputStream = new FileOutputStream(serFilePath);
-//        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-//        objectOutputStream.writeObject(serializedFridge);
-//
-//        objectOutputStream.close();
-//        fileOutputStream.close();
-
+        List<HouseholdAppliance> serializedAppliances = Arrays.asList(serializedFridge, serializedKettle, serializedTvSet);
         Serializer serializer = new Serializer();
-        serializer.serialize(serFilePath, serializedFridge);
 
-        Fridge deserializedFridge = null;
-        deserializedFridge = serializer.deserialize(serFilePath, Fridge.class);
+        serializedAppliances.forEach(a -> {
+            serializer.serialize(serFilePath, a);
+            HouseholdAppliance deserializedAppliance = serializer.deserialize(serFilePath, a.getClass());
+            LOGGER.info(deserializedAppliance.toString());
+            MetaDataPrinter.printTransientFields(a.getClass());
 
-
+        });
 
 
         //Task 3. FastFileMover
