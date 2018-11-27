@@ -10,7 +10,6 @@ import com.kunitskaya.module7.CustomFileUtils;
 import com.kunitskaya.module7.Serializer;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
@@ -20,13 +19,9 @@ import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class MainModule7 {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
+
         //Task 1. (10 баллов) Сериализация
-        //Добавьте для иерархии объектов из домашнего задания модуля Java Core I
-        //возможность сериализоваться/десериализоваться.
-        //Однако все численные поля не должны подвергаться этой процедуре.
-        //Предоставьте тестовый код, в котором вы создаете несколько экземпляров различных
-        //классов этой иерархии и успешно выполняете операцию сериализации/десереализации.
         String serDir = Paths.get("src", "main", "resources", "module7", "serializable").toString();
         String serFileName = File.separator + "household_appliance.ser";
         String serFilePath = serDir + serFileName;
@@ -45,16 +40,9 @@ public class MainModule7 {
             HouseholdAppliance deserializedAppliance = serializer.deserialize(serFilePath, a.getClass());
             LOGGER.info(deserializedAppliance.toString());
             MetaDataPrinter.printTransientFields(a.getClass());
-
         });
 
-
         //Task 3. FastFileMover
-        //Напишите несколько версий утилиты FastFileMover,
-        //которая перемещает файл из одной директории в другую директорию.
-        //На вход принимает оба пути.
-        //Все исключительные ситуации должны обрабатываться корректно.
-
         //3.1. Версия использует простые FileStreams
         String sourceDir = Paths.get("src", "main", "resources", "module7", "source").toString();
         String sourceFileName = File.separator + "file.txt";
