@@ -21,7 +21,7 @@ public class MainModule7 {
 
     public static void main(String[] args) {
 
-        //Task 1. (10 баллов) Сериализация
+        //Task 1. Сериализация
         String serDir = Paths.get("src", "main", "resources", "module7", "serializable").toString();
         String serFileName = File.separator + "household_appliance.ser";
         String serFilePath = serDir + serFileName;
