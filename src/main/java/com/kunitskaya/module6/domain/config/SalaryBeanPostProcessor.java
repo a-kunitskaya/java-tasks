@@ -19,7 +19,7 @@ public class SalaryBeanPostProcessor implements BeanPostProcessor {
             double initialValue = ((Salary) bean).getAmount();
             double finalValue = initialValue + 25;
 
-            String message = "Changing salary in bean post processor source: %s to: %s";
+            String message = "Changing salary in bean post processor from: %s to: %s";
             LOGGER.info(String.format(message, initialValue, finalValue));
 
             ((Salary) bean).setAmount(finalValue);

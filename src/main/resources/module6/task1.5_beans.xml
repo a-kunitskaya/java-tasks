@@ -3,7 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!-- 5. Create bean F and log all possible steps source its lifecycle (lifecycle of Spring bean) -->
+    <!-- 5. Create bean F and log all possible steps from its lifecycle (lifecycle of Spring bean) -->
 
     <!-- 2.	afterPropertiesSet() as defined by the InitializingBean callback interface,
     destroy() as defined by the DisposableBean callback interface -->

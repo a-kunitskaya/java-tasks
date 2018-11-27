@@ -52,7 +52,7 @@ public class PositionService {
     public static void dropSkill(Skill skill) {
         for (Position p : positions) {
             if (p.getSkills() != null && p.getSkills().contains(skill)) {
-                String message = "Removing skill: %s, source position: %s";
+                String message = "Removing skill: %s, from position: %s";
                 LOGGER.info(String.format(message, skill.getName(), p.getName()));
                 p.getSkills().remove(skill);
             }
