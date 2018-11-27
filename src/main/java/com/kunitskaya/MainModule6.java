@@ -47,7 +47,7 @@ public class MainModule6 {
         E e = context.getBean("e", E.class);
         e.replacedMethod();
 
-        //1.5. Create bean F and log all possible steps source its lifecycle (lifecycle of Spring bean).
+        //1.5. Create bean F and log all possible steps from its lifecycle (lifecycle of Spring bean).
         ApplicationContext contextLogging = new ClassPathXmlApplicationContext("module6/task1.5_beans.xml");
         F f = contextLogging.getBean("f", F.class);
         ((AbstractApplicationContext) contextLogging).close();
