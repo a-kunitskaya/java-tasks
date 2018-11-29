@@ -4,22 +4,38 @@ import com.kunitskaya.module8.StatementExecutor;
 
 public class MainModule8 {
 
+
     public static void main(String[] args) {
+
 
         //Task 1. JDBC Quick Start
         // 3. Write MyFirstConnection class with a few methods that takes connection
         // parameters and a SQL query string (without parameters),
         // executes it via Statement and prints the given results.
 
-        String query = "";
-        StatementExecutor.executeStatement(query);
+        StatementExecutor statementExecutor = new StatementExecutor();
+
+        String createDatabaseQuery = "CREATE DATABASE IN NOT EXISTS jmp";
+        statementExecutor.executeStatement(createDatabaseQuery);
+
+        String useDatabaseQuery = "USE DATABASE jmp";
+        statementExecutor.executeStatement(useDatabaseQuery);
+
+        String createTableQuery = "CREATE TABLE IF NOT EXISTS users (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(20), surname  VARCHAR(30), birthdate DATE, PRIMARY KEY (id))";
+        statementExecutor.executeStatement(createTableQuery);
+
+        String insertUserQuery = "INSERT INTO users VALUES(0, 'Jack', 'White', 1982-03-25)";
+        statementExecutor.executeStatement(insertUserQuery);
+
+        String selectUsersQuery = "SELECT * FROM users";
+        statementExecutor.executeStatement(selectUsersQuery);
+
 
         //4.	Parametrize the query from the previous subtask and use Prepared Statements to inject parameters
         // 5.	Add a method that prints all tables in the database
 
     }
 }
-
 
 
 //

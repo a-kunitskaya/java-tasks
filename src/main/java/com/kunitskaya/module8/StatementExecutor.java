@@ -1,5 +1,7 @@
 package com.kunitskaya.module8;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -7,10 +9,13 @@ import java.sql.Statement;
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class StatementExecutor {
-    private static Connection connection = DatabaseConnectionProvider.getConnection();
+    @Autowired
+    private Connection connection;
 
-    public static void executeStatement(String query) {
+    public void executeStatement(String query) {
         try {
+            connection = DatabaseConnectionProvider.getConnection();
+
             Statement statement = connection.createStatement();
             LOGGER.info("Executing query: " + query);
             statement.execute(query);
