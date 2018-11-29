@@ -16,7 +16,7 @@ public class DatabaseConnectionProvider {
     public static Connection getConnection() {
         Connection connection = null;
 
-        String message = "Getting connection to database: %s with username: %s, password: &s";
+        String message = "Getting connection to database: %s with username: %s, password: %s";
         LOGGER.info(String.format(message, db, username, password));
         try {
             connection = DriverManager.getConnection(db, username, password);
