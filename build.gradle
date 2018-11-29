@@ -29,10 +29,5 @@ dependencies {
     compile group: 'org.glassfish.web', name: 'el-impl', version: '2.2.1-b05'
 
     //JDBC
-    compile group: 'org.springframework', name: 'spring-jdbc', version: '4.3.20.RELEASE'
-    compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.5.0'
-    compile group: 'org.springframework', name: 'spring-tx', version: '4.3.20.RELEASE'
-    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.12'
-
-
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.13'
 }
