@@ -13,16 +13,16 @@ public class DatabaseConnectionProvider {
     private static String username = configProvider.getDBUsername();
     private static String password = configProvider.getDBPassword();
 
-    public static Connection getConnection() {
-        Connection connection = null;
 
+    //Should be closed in using methods
+    public static Connection getConnection() {
         String message = "Getting connection to database: %s with username: %s, password: %s";
         LOGGER.info(String.format(message, db, username, password));
         try {
-            connection = DriverManager.getConnection(db, username, password);
+            return DriverManager.getConnection(db, username, password);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return connection;
+        return null;
     }
 }

@@ -1,53 +1,39 @@
 package com.kunitskaya;
 
-import com.kunitskaya.module8.DatabaseConnectionProvider;
+import com.kunitskaya.module8.MyFirstConnection;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class MainModule8 {
 
+    private static String createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS jmp";
+    private static String useDatabaseQuery = "USE jmp";
+    private static String createTableQuery = "CREATE TABLE IF NOT EXISTS users (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(20), surname  VARCHAR(30), birthdate DATE, PRIMARY KEY (id))";
+    private static String insertUserQuery = "INSERT INTO users VALUES(0, 'Jack', 'White', 19820325)";
+    private static String selectCountQuery = "SELECT COUNT(*) FROM users";
 
     public static void main(String[] args) {
 
-        String createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS jmp";
-        String useDatabaseQuery = "USE jmp";
-        String createTableQuery = "CREATE TABLE IF NOT EXISTS users (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(20), surname  VARCHAR(30), birthdate DATE, PRIMARY KEY (id))";
-        String insertUserQuery = "INSERT INTO users VALUES(0, 'Jack', 'White', 19820325)";
-        String selectUsersQuery = "SELECT * FROM users";
+
+        List<String> voidQueries = Arrays.asList(createDatabaseQuery, useDatabaseQuery, createTableQuery, insertUserQuery);
+        List<String> queryWithResult = Collections.singletonList(selectCountQuery);
+
+        MyFirstConnection myFirstConnection = new MyFirstConnection();
+        myFirstConnection.executeStatements(voidQueries, queryWithResult);
 
         //Task 1. JDBC Quick Start
         // 3. Write MyFirstConnection class with a few methods that takes connection
         // parameters and a SQL query string (without parameters),
         // executes it via Statement and prints the given results.
-        List<String> queries = Arrays.asList(createDatabaseQuery, useDatabaseQuery, createTableQuery, insertUserQuery);
-
-        try (Connection connection = DatabaseConnectionProvider.getConnection()) {
-            Statement statement = connection.createStatement();
-
-            queries.forEach(q -> {
-                try {
-                    LOGGER.info("Executing query: " + q);
-                    statement.execute(q);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            });
-
-
-            ResultSet resultSet = statement.executeQuery(selectUsersQuery);
-            while (resultSet.next()){
-                LOGGER.info(resultSet.getRow());
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
 
         //4.	Parametrize the query from the previous subtask and use Prepared Statements to inject parameters
