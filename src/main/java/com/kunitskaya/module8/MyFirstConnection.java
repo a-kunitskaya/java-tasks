@@ -11,14 +11,14 @@ import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class MyFirstConnection {
 
-    public void  executeStatements(List<String> voidQueries, List<String> queriesWithResult) {
+    public void executeStatements(List<String> voidQueries, List<String> queriesWithResult, Class<?> resultType) {
 
         try (Connection connection = DatabaseConnectionProvider.getConnection()) {
             if (connection != null) {
                 Statement statement = connection.createStatement();
 
                 executeVoidStatements(statement, voidQueries);
-                executeStatementsWithResults(statement, queriesWithResult);
+                executeStatementsWithResults(statement, queriesWithResult, resultType);
             }
 
         } catch (SQLException e) {
@@ -39,7 +39,7 @@ public class MyFirstConnection {
         });
     }
 
-    private void executeStatementsWithResults(Statement statement, List<String> queriesWithResult) {
+    private <T> void executeStatementsWithResults(Statement statement, List<String> queriesWithResult, Class<T> resultType) {
         List<ResultSet> resultSets = new ArrayList<>();
         queriesWithResult.forEach(q -> {
 
@@ -47,7 +47,11 @@ public class MyFirstConnection {
                 LOGGER.info("Executing query: " + q);
                 ResultSet resultSet = statement.executeQuery(q);
                 resultSets.add(resultSet);
-                printIntResult(resultSet);
+
+                if (resultType == Integer.TYPE) {
+                    printIntResult(resultSet);
+                }
+
             } catch (SQLException e) {
                 LOGGER.error("Could not execute query with result: " + q);
                 e.printStackTrace();
@@ -55,7 +59,7 @@ public class MyFirstConnection {
         });
     }
 
-    private void printIntResult(ResultSet result){
+    private void printIntResult(ResultSet result) {
         try {
             while (result.next()) {
 
