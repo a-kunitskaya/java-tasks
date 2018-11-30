@@ -8,11 +8,15 @@ import java.util.List;
 
 public class MainModule8 {
 
+    //statements
     private static String createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS jmp";
     private static String useDatabaseQuery = "USE jmp";
     private static String createTableQuery = "CREATE TABLE IF NOT EXISTS users (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(20), surname  VARCHAR(30), birthdate DATE, PRIMARY KEY (id))";
     private static String insertUserQuery = "INSERT INTO users VALUES(0, 'Jack', 'White', 19820325)";
     private static String selectCountQuery = "SELECT COUNT(*) FROM users";
+
+    //prepared statements
+    private static String selectPrepared = "SELECT ? FROM ? WHERE ? = ?";
 
     public static void main(String[] args) {
 
@@ -28,6 +32,7 @@ public class MainModule8 {
         myFirstConnection.executeStatements(voidQueries, queryWithResult, Integer.TYPE);
 
         //4.	Parametrize the query from the previous subtask and use Prepared Statements to inject parameters
+
         
         // 5.	Add a method that prints all tables in the database
 
