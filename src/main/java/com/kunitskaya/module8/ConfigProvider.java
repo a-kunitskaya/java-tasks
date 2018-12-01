@@ -9,12 +9,21 @@ import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class ConfigProvider {
     private static final String PROPERTIES_PATH = "src/main/resources/module8/jdbc.properties";
+    private static ConfigProvider instance;
 
     private Properties properties = new Properties();
 
-    public ConfigProvider() {
+    private ConfigProvider() {
         loadProperties();
     }
+
+    public static ConfigProvider getInstance() {
+        if (instance == null) {
+            instance = new ConfigProvider();
+        }
+        return instance;
+    }
+
 
     private void loadProperties() {
         try (InputStream inputStream = new FileInputStream(PROPERTIES_PATH)) {
@@ -38,7 +47,7 @@ public class ConfigProvider {
         return properties.getProperty("jdbc.url");
     }
 
-    public String getDBName(){
+    public String getDBName() {
         return properties.getProperty("jdbc.database.name");
     }
 }

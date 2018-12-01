@@ -9,7 +9,7 @@ import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class MyFirstConnection {
 
-    private static ConfigProvider configProvider = new ConfigProvider();
+    private static ConfigProvider configProvider = ConfigProvider.getInstance();
 
     private static String databaseUrl = configProvider.getDBUrl();
     private static String username = configProvider.getDBUsername();
