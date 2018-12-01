@@ -1,72 +1,42 @@
 package com.kunitskaya.module8;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
+import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class MyFirstConnection {
+    private static ConfigProvider configProvider = new ConfigProvider();
 
-    public void executeStatements(List<String> voidQueries, List<String> queriesWithResult, Class<?> resultType) {
+    private static String databaseUrl = configProvider.getDBUrl();
+    private static String username = configProvider.getDBUsername();
+    private static String password = configProvider.getDBPassword();
+    private static String databaseName = configProvider.getDBName();
 
-        try (Connection connection = DatabaseConnectionProvider.getConnection()) {
-            if (connection != null) {
-                Statement statement = connection.createStatement();
+    private static MyFirstConnection instance;
+    private static Connection connection;
 
-                executeVoidStatements(statement, voidQueries);
-                executeStatementsWithResults(statement, queriesWithResult, resultType);
-            }
+    private MyFirstConnection() {
+        getConnection();
+    }
 
-        } catch (SQLException e) {
-            LOGGER.error("Could no create statement");
-            e.printStackTrace();
+    public static Connection getInstance(){
+        if(connection == null){
+
         }
     }
 
-    private void executeVoidStatements(Statement statement, List<String> voidQueries) {
-        voidQueries.forEach(q -> {
+
+    private Connection getConnection() {
+        String message = "Getting connection to databaseUrl: %s with username: %s, password: %s";
+        LOGGER.info(String.format(message, databaseUrl, username, password));
+        {
             try {
-                LOGGER.info("Executing query: " + q);
-                statement.execute(q);
+                this.connection = DriverManager.getConnection(databaseUrl, username, password);
             } catch (SQLException e) {
-                LOGGER.error("Could not execute void query: " + q);
                 e.printStackTrace();
             }
-        });
-    }
-
-    private <T> void executeStatementsWithResults(Statement statement, List<String> queriesWithResult, Class<T> resultType) {
-        List<ResultSet> resultSets = new ArrayList<>();
-        queriesWithResult.forEach(q -> {
-
-            try {
-                LOGGER.info("Executing query: " + q);
-                ResultSet resultSet = statement.executeQuery(q);
-                resultSets.add(resultSet);
-
-                if (resultType == Integer.TYPE) {
-                    printIntResult(resultSet);
-                }
-
-            } catch (SQLException e) {
-                LOGGER.error("Could not execute query with result: " + q);
-                e.printStackTrace();
-            }
-        });
-    }
-
-    private void printIntResult(ResultSet result) {
-        try {
-            while (result.next()) {
-
-                LOGGER.info("int result: " + result.getInt(1));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 }

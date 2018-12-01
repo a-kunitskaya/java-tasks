@@ -1,25 +1,33 @@
 package com.kunitskaya.module8;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import com.kunitskaya.logging.ProjectLogger;
+
+import java.sql.*;
 
 public class PreparedStatementsExecutor {
-    private static String selectSimple = "SELECT ? FROM ? WHERE ? = ?";
 
-    public void executePreparedStatement(String statement, String ... params){
-    try(Connection connection = DatabaseConnectionProvider.getConnection();
-    PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
+    public void executePreparedStatement(String db, String statement, String param, String... columns) {
+        statement = String.format(statement, columns);
 
-        for (int i = 1; i < params.length; i++) {
-            preparedStatement.setString(i, params[i]);
+        try (Connection connection = MyFirstConnection.getConnection();
+             PreparedStatement prepStatement = connection.prepareStatement(statement)) {
+
+            Statement st = connection.createStatement();
+            String useDbStatement = "USE " + db;
+            st.execute(useDbStatement);
+
+            prepStatement.setString(1, param);
+
+            ResultSet resultSet = prepStatement.executeQuery();
+
+            while (resultSet.next()) {
+                String column1 = resultSet.getString(1);
+                ProjectLogger.LOGGER.info("Prepared statement 1st column result: " + column1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
     }
 
 }

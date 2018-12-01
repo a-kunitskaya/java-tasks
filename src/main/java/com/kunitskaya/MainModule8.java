@@ -1,6 +1,7 @@
 package com.kunitskaya;
 
-import com.kunitskaya.module8.MyFirstConnection;
+import com.kunitskaya.module8.StatementExecutor;
+import com.kunitskaya.module8.PreparedStatementsExecutor;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,7 +17,7 @@ public class MainModule8 {
     private static String selectCountQuery = "SELECT COUNT(*) FROM users";
 
     //prepared statements
-    private static String selectPrepared = "SELECT ? FROM ? WHERE ? = ?";
+    private static String selectPrepared = "SELECT %s FROM %s WHERE %s = ?";
 
     public static void main(String[] args) {
 
@@ -28,11 +29,12 @@ public class MainModule8 {
         List<String> voidQueries = Arrays.asList(createDatabaseQuery, useDatabaseQuery, createTableQuery, insertUserQuery);
         List<String> queryWithResult = Collections.singletonList(selectCountQuery);
 
-        MyFirstConnection myFirstConnection = new MyFirstConnection();
-        myFirstConnection.executeStatements(voidQueries, queryWithResult, Integer.TYPE);
+        StatementExecutor statementExecutor = new StatementExecutor();
+        statementExecutor.executeStatements(voidQueries, queryWithResult, Integer.TYPE);
 
         //4.	Parametrize the query from the previous subtask and use Prepared Statements to inject parameters
-
+        PreparedStatementsExecutor preparedStatementsExecutor = new PreparedStatementsExecutor();
+        preparedStatementsExecutor.executePreparedStatement("jmp", selectPrepared,  "White","name", "users", "surname");
         
         // 5.	Add a method that prints all tables in the database
 
