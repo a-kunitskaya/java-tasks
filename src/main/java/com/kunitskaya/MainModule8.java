@@ -1,23 +1,22 @@
 package com.kunitskaya;
 
-import com.kunitskaya.module8.StatementExecutor;
-import com.kunitskaya.module8.PreparedStatementsExecutor;
+import com.kunitskaya.module8.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class MainModule8 {
+    @Autowired
+    private UsersDatabaseOperations usersDatabaseOperations;
 
-    //statements
-    private static String createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS jmp";
-    private static String useDatabaseQuery = "USE jmp";
-    private static String createTableQuery = "CREATE TABLE IF NOT EXISTS users (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(20), surname  VARCHAR(30), birthdate DATE, PRIMARY KEY (id))";
-    private static String insertUserQuery = "INSERT INTO users VALUES(0, 'Jack', 'White', 19820325)";
+
     private static String selectCountQuery = "SELECT COUNT(*) FROM users";
 
     //prepared statements
-    private static String selectPrepared = "SELECT %s FROM %s WHERE %s = ?";
+   // private static String selectPrepared = "SELECT %s FROM %s WHERE %s = ?";
+    private static String preparedInsertUserQuery = "INSERT INTO users VALUES(?, ?, ?, ?)";
 
     public static void main(String[] args) {
 
@@ -26,18 +25,12 @@ public class MainModule8 {
         // parameters and a SQL query string (without parameters),
         // executes it via Statement and prints the given results.
 
-        List<String> voidQueries = Arrays.asList(createDatabaseQuery, useDatabaseQuery, createTableQuery, insertUserQuery);
-        List<String> queryWithResult = Collections.singletonList(selectCountQuery);
-
-        StatementExecutor statementExecutor = new StatementExecutor();
-        statementExecutor.executeStatements(voidQueries, queryWithResult, Integer.TYPE);
 
         //4.	Parametrize the query from the previous subtask and use Prepared Statements to inject parameters
-        PreparedStatementsExecutor preparedStatementsExecutor = new PreparedStatementsExecutor();
-        preparedStatementsExecutor.executePreparedStatement("jmp", selectPrepared,  "White","name", "users", "surname");
         
         // 5.	Add a method that prints all tables in the database
 
+        MyFirstConnection.closeConnection();
     }
 }
 

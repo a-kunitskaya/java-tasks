@@ -9,11 +9,15 @@ import java.util.List;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
+/**
+ * Connection should be closed in methods using this class
+ */
 public class StatementExecutor {
 
     public void executeStatements(List<String> voidQueries, List<String> queriesWithResult, Class<?> resultType) {
 
-        try (Connection connection = MyFirstConnection.getConnection()) {
+        try {
+            Connection connection = MyFirstConnection.getInstance();
             if (connection != null) {
                 Statement statement = connection.createStatement();
 
@@ -22,7 +26,7 @@ public class StatementExecutor {
             }
 
         } catch (SQLException e) {
-            LOGGER.error("Could no create statement");
+            LOGGER.error("Could not create statement");
             e.printStackTrace();
         }
     }
