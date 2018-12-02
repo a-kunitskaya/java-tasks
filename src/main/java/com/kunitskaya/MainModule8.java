@@ -1,11 +1,16 @@
 package com.kunitskaya;
 
-import com.kunitskaya.module8.*;
-
+import com.kunitskaya.module8.MyFirstConnection;
+import com.kunitskaya.module8.domain.User;
+import com.kunitskaya.module8.service.UsersCsvFileParser;
+import com.kunitskaya.module8.service.database.operations.FriendshipDatabaseOperations;
+import com.kunitskaya.module8.service.database.operations.LikeDatabaseOperations;
+import com.kunitskaya.module8.service.database.operations.PostDatabaseOperations;
+import com.kunitskaya.module8.service.database.operations.UserDatabaseOperations;
 
 import java.time.Instant;
-import java.time.temporal.TemporalAmount;
 import java.util.Date;
+import java.util.List;
 
 public class MainModule8 {
 
@@ -15,39 +20,61 @@ public class MainModule8 {
         // 1.3. Write MyFirstConnection class with a few methods that takes connection
         // parameters and a SQL query string (without parameters),
         // executes it via Statement and prints the given results.
-        UsersDatabaseOperations usersDatabase = new UsersDatabaseOperations();
+        //3.1.1 Users (id, name, surname, birthdate),
+        UserDatabaseOperations userDatabase = new UserDatabaseOperations();
+
 
         Date birthDate = Date.from(Instant.now());
 
-        usersDatabase.addUser(0, "Jack", "White", birthDate);
-        usersDatabase.getUsersCount();
+        // userDatabase.addUser(0, "Jack", "White", birthDate);
+        userDatabase.getUsersCount();
 
         //1.4.	Parametrize the query from the previous subtask and use Prepared Statements to inject parameters
-        usersDatabase.addUserWithPreparedStatement(1, "Daniel", "McDonald", birthDate);
+        userDatabase.addUserWithPreparedStatement(0, "Daniel", "McDonald", birthDate);
 
-        //1.5.	Add a method that prints all tables in the database
-        usersDatabase.printAllTables();
 
         //Task 3. JDBC-based Social Network
         //3.1. Create simple database with tables
-        // Users (id, name, surname, birthdate),
+        //3.1.2.Friendships (userid1, userid2, timestamp)
+        FriendshipDatabaseOperations friendshipDatabase = new FriendshipDatabaseOperations();
+
+        //3.1.3. Posts (id, userId, text, timestamp)
+        PostDatabaseOperations postDatabase = new PostDatabaseOperations();
+
+        //3.1.4. Likes (postid, userid, timestamp)
+        LikeDatabaseOperations likeDatabase = new LikeDatabaseOperations();
+
+        //1.5.	Add a method that prints all tables in the database
+        userDatabase.printAllTables();
+
+        // 3.2. Populate tables with data which are make sense
+        // 3.2.1.> 1 000 users
+        for (int i = 0; i < 101; i++) {
+            UsersCsvFileParser usersCsvParser = new UsersCsvFileParser();
+            List<User> users = usersCsvParser.parseToObject("src/main/resources/module8/users.csv");
+            for (int j = 0; j < users.size(); j++) {
+                User user = users.get(j);
+                int id = Integer.parseInt(String.valueOf(i) + String.valueOf(j));
+                user.setId(id);
+                userDatabase.addUser(user);
+            }
+        }
+
+        userDatabase.getUsersCount();
+
+        //3.2.2. > 70 000 friendships
 
 
-        // Friendships (userid1, userid2, timestamp),
-        // Posts (id, userId, text, timestamp),
-        // Likes (postid, userid, timestamp).
-//
-//2. Populate tables with data which are make sense (> 1 000 users, > 70 000 friendships, > 300 000 likes in 2025)*
-//
-//3. Program should print out all names (only distinct) of users who has more when 100 friends and 100 likes in March 2025.
-//
-//Implement all actions (table creation, insert data and reading) with JDBC.
-//
-//Protect JDBC operations from SQL – injections with Prepared Statements.
-//
-//* - you could prepare dictionaries (maps) in memory (with usernames for example) or data in files to generate data for the populating process
+        // 3.2.3. > 300 000 likes in 2025)
 
-        usersDatabase.deleteAllUsers();
+
+        // 3. Program should print out all names (only distinct) of users
+        // who has more when 100 friends and 100 likes in March 2025.
+
+        // Protect JDBC operations from SQL – injections with Prepared Statements.
+
+
+        userDatabase.deleteAllUsers();
         MyFirstConnection.closeConnection();
     }
 }

@@ -1,23 +1,23 @@
-package com.kunitskaya.module8;
+package com.kunitskaya.module8.service.database.operations;
 
+
+import com.kunitskaya.module8.domain.User;
+import com.kunitskaya.module8.service.database.operations.DatabaseOperations;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.Date;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
-import static com.kunitskaya.logging.ProjectLogger.warn;
 
-public class UsersDatabaseOperations extends DatabaseOperations {
+public class UserDatabaseOperations extends DatabaseOperations {
     private static String tableName = "users";
 
-    public UsersDatabaseOperations() {
-        createProjectDatabase();
-        useProjectDatabase();
+    public UserDatabaseOperations() {
+        super();
         createTable();
     }
 
@@ -91,5 +91,9 @@ public class UsersDatabaseOperations extends DatabaseOperations {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addUser(User user) {
+        addUserWithPreparedStatement(user.getId(), user.getName(), user.getSurname(), user.getBirthDate());
     }
 }

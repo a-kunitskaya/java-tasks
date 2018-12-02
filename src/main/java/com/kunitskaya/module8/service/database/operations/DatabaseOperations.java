@@ -1,4 +1,8 @@
-package com.kunitskaya.module8;
+package com.kunitskaya.module8.service.database.operations;
+
+import com.kunitskaya.module8.ConfigProvider;
+import com.kunitskaya.module8.MyFirstConnection;
+import com.kunitskaya.module8.service.database.SqlQueryBuilder;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -8,14 +12,18 @@ import java.sql.Statement;
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class DatabaseOperations {
-
     protected Connection connection = MyFirstConnection.getInstance();
     protected SqlQueryBuilder sqlQueryBuilder = new SqlQueryBuilder();
 
     private ConfigProvider configProvider = ConfigProvider.getInstance();
     private String projectDatabase = configProvider.getDBName();
 
-    protected void createProjectDatabase() {
+    public DatabaseOperations() {
+        createProjectDatabase();
+        useProjectDatabase();
+    }
+
+    private void createProjectDatabase() {
         LOGGER.info("Creating database: " + projectDatabase);
 
         String createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS " + projectDatabase;
@@ -28,7 +36,7 @@ public class DatabaseOperations {
         }
     }
 
-    protected void useProjectDatabase() {
+    private void useProjectDatabase() {
         LOGGER.info("Switching to database: " + projectDatabase);
 
         String useDatabaseQuery = "USE " + projectDatabase;

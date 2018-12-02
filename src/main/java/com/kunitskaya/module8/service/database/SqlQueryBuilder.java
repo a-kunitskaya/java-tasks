@@ -1,4 +1,4 @@
-package com.kunitskaya.module8;
+package com.kunitskaya.module8.service.database;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
