@@ -1,8 +1,7 @@
 package com.kunitskaya;
 
 import com.kunitskaya.module8.MyFirstConnection;
-import com.kunitskaya.module8.domain.User;
-import com.kunitskaya.module8.service.UsersCsvFileParser;
+import com.kunitskaya.module8.service.UserService;
 import com.kunitskaya.module8.service.database.operations.FriendshipDatabaseOperations;
 import com.kunitskaya.module8.service.database.operations.LikeDatabaseOperations;
 import com.kunitskaya.module8.service.database.operations.PostDatabaseOperations;
@@ -10,7 +9,6 @@ import com.kunitskaya.module8.service.database.operations.UserDatabaseOperations
 
 import java.time.Instant;
 import java.util.Date;
-import java.util.List;
 
 public class MainModule8 {
 
@@ -49,20 +47,13 @@ public class MainModule8 {
 
         // 3.2. Populate tables with data which are make sense
         // 3.2.1.> 1 000 users
-        for (int i = 0; i < 101; i++) {
-            UsersCsvFileParser usersCsvParser = new UsersCsvFileParser();
-            List<User> users = usersCsvParser.parseToObject("src/main/resources/module8/users.csv");
-            for (int j = 0; j < users.size(); j++) {
-                User user = users.get(j);
-                int id = Integer.parseInt(String.valueOf(i) + String.valueOf(j));
-                user.setId(id);
-                userDatabase.addUser(user);
-            }
-        }
-
+        UserService userService = new UserService();
+        userService.populateUsersTable();
         userDatabase.getUsersCount();
 
         //3.2.2. > 70 000 friendships
+
+
 
 
         // 3.2.3. > 300 000 likes in 2025)
