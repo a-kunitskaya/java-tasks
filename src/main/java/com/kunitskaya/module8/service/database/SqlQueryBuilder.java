@@ -36,9 +36,9 @@ public class SqlQueryBuilder {
         return this;
     }
 
-    public SqlQueryBuilder insertPrepared(String column, String... values) {
+    public SqlQueryBuilder insertPrepared(String table, String... values) {
         stringBuilder = new StringBuilder().append("INSERT INTO ")
-                                           .append(column)
+                                           .append(table)
                                            .append(" VALUES(");
 
         for (int i = 0; i < values.length; i++) {

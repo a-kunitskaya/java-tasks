@@ -13,7 +13,7 @@ import java.util.Date;
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class UserDatabaseOperations extends DatabaseOperations {
-    private static String tableName = "users";
+    private static final String TABLE_NAME = "users";
 
     public UserDatabaseOperations() {
         super();
@@ -36,7 +36,7 @@ public class UserDatabaseOperations extends DatabaseOperations {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         String date = simpleDateFormat.format(birthDate);
 
-        String query = sqlQueryBuilder.insert(tableName, String.valueOf(id), name, surname, date).toString();
+        String query = sqlQueryBuilder.insert(TABLE_NAME, String.valueOf(id), name, surname, date).toString();
 
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(query);
@@ -46,17 +46,14 @@ public class UserDatabaseOperations extends DatabaseOperations {
     }
 
     public void addUserWithPreparedStatement(int id, String name, String surname, Date birthDate) {
-        String query = sqlQueryBuilder.insertPrepared(tableName, String.valueOf(id), name, surname, birthDate.toString())
+        String query = sqlQueryBuilder.insertPrepared(TABLE_NAME, String.valueOf(id), name, surname, birthDate.toString())
                                       .toString();
 
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+        try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
             preparedStatement.setString(2, name);
             preparedStatement.setString(3, surname);
             preparedStatement.setObject(4, birthDate);
-
-            LOGGER.info("Executing prepared statement: " + preparedStatement.toString());
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -65,10 +62,10 @@ public class UserDatabaseOperations extends DatabaseOperations {
 
     }
 
-    public void getUsersCount() {
+    public void printUsersCount() {
         String query = sqlQueryBuilder.select()
                                       .count("*")
-                                      .from(tableName)
+                                      .from(TABLE_NAME)
                                       .toString();
 
         try (Statement statement = connection.createStatement()) {
@@ -83,7 +80,7 @@ public class UserDatabaseOperations extends DatabaseOperations {
     }
 
     public void deleteAllUsers() {
-        String query = sqlQueryBuilder.delete(tableName)
+        String query = sqlQueryBuilder.delete(TABLE_NAME)
                                       .toString();
 
         try (Statement statement = connection.createStatement()) {

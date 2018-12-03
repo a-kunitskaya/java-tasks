@@ -1,4 +1,4 @@
-package com.kunitskaya.module8.service;
+package com.kunitskaya.module8.service.database;
 
 import com.kunitskaya.module8.domain.Friendship;
 import com.kunitskaya.module8.domain.User;
@@ -16,10 +16,12 @@ public class DatabaseService {
     private FriendshipDatabaseOperations friendshipDatabase;
 
     public DatabaseService() {
+
         userDatabase = new UserDatabaseOperations();
+        friendshipDatabase = new FriendshipDatabaseOperations();
     }
 
-    private static final String USERS_FILE_PATH = "src/main/resources/module8/users.csv";
+    private static final String USERS_FILE_PATH = Paths.get("src", "main", "resources", "module8", "users.csv").toString();
     private static final String FRIENDSHIPS_FILE_PATH = Paths.get("src", "main", "resources", "module8", "friendships.csv").toString();
 
     public void populateUsersTable() {
@@ -36,15 +38,12 @@ public class DatabaseService {
     }
 
     public void populateFriendshipsTable() {
-        for (int i = 0; i < 701; i++) {
+        for (int i = 0; i < 5001; i++) {
             CSVFileParser<Friendship> parser = new FriendshipsCsvFileParser();
             List<Friendship> friendships = parser.parseToObject(FRIENDSHIPS_FILE_PATH);
             for (int j = 0; j < friendships.size(); j++) {
                 Friendship friendship = friendships.get(j);
-                int userId1 = Integer.parseInt(String.valueOf(i) + String.valueOf(j));
-                friendship.setUserId1(userId1);
                 friendshipDatabase.addFriendship(friendship);
-
             }
         }
     }

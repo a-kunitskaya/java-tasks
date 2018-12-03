@@ -1,7 +1,7 @@
 package com.kunitskaya;
 
 import com.kunitskaya.module8.MyFirstConnection;
-import com.kunitskaya.module8.service.DatabaseService;
+import com.kunitskaya.module8.service.database.DatabaseService;
 import com.kunitskaya.module8.service.database.operations.FriendshipDatabaseOperations;
 import com.kunitskaya.module8.service.database.operations.LikeDatabaseOperations;
 import com.kunitskaya.module8.service.database.operations.PostDatabaseOperations;
@@ -21,13 +21,11 @@ public class MainModule8 {
         // executes it via Statement and prints the given results.
         //3.1.1 Users (id, name, surname, birthdate),
         UserDatabaseOperations userDatabase = new UserDatabaseOperations();
-        userDatabase.deleteAllUsers();
-
 
         Date birthDate = Date.from(Instant.now());
 
         // userDatabase.addUser(0, "Jack", "White", birthDate);
-        userDatabase.getUsersCount();
+        userDatabase.printUsersCount();
 
         //1.4.	Parametrize the query from the previous subtask and use Prepared Statements to inject parameters
         userDatabase.addUserWithPreparedStatement(0, "Daniel", "McDonald", birthDate);
@@ -51,12 +49,11 @@ public class MainModule8 {
         // 3.2.1.> 1 000 users
         DatabaseService databaseService = new DatabaseService();
         databaseService.populateUsersTable();
-        userDatabase.getUsersCount();
+        userDatabase.printUsersCount();
 
         //3.2.2. > 70 000 friendships
         databaseService.populateFriendshipsTable();
-
-
+        friendshipDatabase.printFriendshipsCount();
 
         // 3.2.3. > 300 000 likes in 2025)
 
@@ -68,6 +65,7 @@ public class MainModule8 {
 
 
         userDatabase.deleteAllUsers();
+        friendshipDatabase.deleteAllFriendships();
         MyFirstConnection.closeConnection();
     }
 }

@@ -24,9 +24,9 @@ public class FriendshipsCsvFileParser implements CSVFileParser<Friendship> {
                                         .map(l -> {
                                                     String[] values = l.split(",");
                                                     Friendship friendship = new Friendship();
-                                                    friendship.setUserId1(Integer.parseInt(values[1]));
-                                                    friendship.setUserId2(Integer.parseInt(values[2]));
-                                                    friendship.setTimestamp(Timestamp.valueOf(values[3]));
+                                                    friendship.setUserId1(Integer.parseInt(values[0]));
+                                                    friendship.setUserId2(Integer.parseInt(values[1]));
+                                                    friendship.setTimestamp(Timestamp.valueOf(values[2]));
                                                     return friendship;
                                                 }
                                         )
