@@ -25,8 +25,7 @@ public class SqlQueryBuilder {
                          .append(values[i]);
 
             if (i != values.length - 1) {
-                stringBuilder.append("\',")
-                             .append(" ");
+                stringBuilder.append("\',");
             } else {
 
                 stringBuilder.append("\'");
@@ -34,7 +33,23 @@ public class SqlQueryBuilder {
         }
 
         stringBuilder.append(")");
+        return this;
+    }
 
+    public SqlQueryBuilder insertPrepared(String column, String... values) {
+        stringBuilder = new StringBuilder().append("INSERT INTO ")
+                                           .append(column)
+                                           .append(" VALUES(");
+
+        for (int i = 0; i < values.length; i++) {
+            stringBuilder.append("? ");
+
+            if (i != values.length - 1) {
+                stringBuilder.append(", ");
+            } else {
+                stringBuilder.append(")");
+            }
+        }
         return this;
     }
 

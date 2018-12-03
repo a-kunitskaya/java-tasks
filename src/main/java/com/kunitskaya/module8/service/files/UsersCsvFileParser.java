@@ -1,6 +1,8 @@
-package com.kunitskaya.module8.service;
+package com.kunitskaya.module8.service.files;
 
 import com.kunitskaya.module8.domain.User;
+import com.kunitskaya.module8.service.DateTimeUtil;
+import com.kunitskaya.module8.service.files.CSVFileParser;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -23,14 +25,14 @@ public class UsersCsvFileParser implements CSVFileParser<User> {
         ) {
             users = bufferedReader.lines()
                                   .map(l -> {
-                                              String[] lines = l.split(",");
+                                              String[] values = l.split(",");
                                               User user = new User();
-                                              user.setId(Integer.parseInt(lines[0]));
-                                              user.setName(lines[1]);
-                                              user.setSurname(lines[2]);
+                                              user.setId(Integer.parseInt(values[0]));
+                                              user.setName(values[1]);
+                                              user.setSurname(values[2]);
 
                                               String pattern = "yyyy-MM-dd";
-                                              Date birthDate = DateTimeUtil.getDateFromString(lines[3], pattern);
+                                              Date birthDate = DateTimeUtil.getDateFromString(values[3], pattern);
                                               user.setBirthDate(birthDate);
                                               return user;
                                           }

@@ -1,7 +1,7 @@
 package com.kunitskaya;
 
 import com.kunitskaya.module8.MyFirstConnection;
-import com.kunitskaya.module8.service.UserService;
+import com.kunitskaya.module8.service.DatabaseService;
 import com.kunitskaya.module8.service.database.operations.FriendshipDatabaseOperations;
 import com.kunitskaya.module8.service.database.operations.LikeDatabaseOperations;
 import com.kunitskaya.module8.service.database.operations.PostDatabaseOperations;
@@ -14,12 +14,14 @@ public class MainModule8 {
 
     public static void main(String[] args) {
 
+
         //Task 1. JDBC Quick Start
         // 1.3. Write MyFirstConnection class with a few methods that takes connection
         // parameters and a SQL query string (without parameters),
         // executes it via Statement and prints the given results.
         //3.1.1 Users (id, name, surname, birthdate),
         UserDatabaseOperations userDatabase = new UserDatabaseOperations();
+        userDatabase.deleteAllUsers();
 
 
         Date birthDate = Date.from(Instant.now());
@@ -47,12 +49,12 @@ public class MainModule8 {
 
         // 3.2. Populate tables with data which are make sense
         // 3.2.1.> 1 000 users
-        UserService userService = new UserService();
-        userService.populateUsersTable();
+        DatabaseService databaseService = new DatabaseService();
+        databaseService.populateUsersTable();
         userDatabase.getUsersCount();
 
         //3.2.2. > 70 000 friendships
-
+        databaseService.populateFriendshipsTable();
 
 
 

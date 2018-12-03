@@ -2,7 +2,6 @@ package com.kunitskaya.module8.service.database.operations;
 
 
 import com.kunitskaya.module8.domain.User;
-import com.kunitskaya.module8.service.database.operations.DatabaseOperations;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -46,8 +45,9 @@ public class UserDatabaseOperations extends DatabaseOperations {
         }
     }
 
-    public void addUserWithPreparedStatement(int id, String name, String surname, Date birthDate){
-        String query = "INSERT INTO users VALUES(?, ?, ?, ?)";
+    public void addUserWithPreparedStatement(int id, String name, String surname, Date birthDate) {
+        String query = sqlQueryBuilder.insertPrepared(tableName, String.valueOf(id), name, surname, birthDate.toString())
+                                      .toString();
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);

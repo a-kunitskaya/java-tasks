@@ -2,9 +2,9 @@ package com.kunitskaya.module8.domain;
 
 import java.sql.Timestamp;
 
-public class Frendship {
+public class Friendship {
     private int userId1;
-    private int getUserId2;
+    private int userId2;
     private Timestamp timestamp;
 
     public int getUserId1() {
@@ -15,12 +15,12 @@ public class Frendship {
         this.userId1 = userId1;
     }
 
-    public int getGetUserId2() {
-        return getUserId2;
+    public int getUserId2() {
+        return userId2;
     }
 
-    public void setGetUserId2(int getUserId2) {
-        this.getUserId2 = getUserId2;
+    public void setUserId2(int userId2) {
+        this.userId2 = userId2;
     }
 
     public Timestamp getTimestamp() {
@@ -35,7 +35,7 @@ public class Frendship {
     public String toString() {
         return "Frendship{" +
                 "userId1=" + userId1 +
-                ", getUserId2=" + getUserId2 +
+                ", userId2=" + userId2 +
                 ", timestamp=" + timestamp +
                 '}';
     }

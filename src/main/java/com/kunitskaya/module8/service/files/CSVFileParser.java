@@ -1,4 +1,4 @@
-package com.kunitskaya.module8.service;
+package com.kunitskaya.module8.service.files;
 
 import com.kunitskaya.module2.annotations.ThisCodeSmells;
 
