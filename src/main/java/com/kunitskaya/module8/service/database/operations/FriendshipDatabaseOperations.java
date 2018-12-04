@@ -2,7 +2,10 @@ package com.kunitskaya.module8.service.database.operations;
 
 import com.kunitskaya.module8.domain.Friendship;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
@@ -45,30 +48,10 @@ public class FriendshipDatabaseOperations extends DatabaseOperations {
     }
 
     public void printFriendshipsCount() {
-        String query = sqlQueryBuilder.select()
-                                      .count("*")
-                                      .from(TABLE_NAME)
-                                      .toString();
-
-        try (Statement statement = connection.createStatement()) {
-            ResultSet result = statement.executeQuery(query);
-
-            if (result.next()) {
-                LOGGER.info("Friendships count in database: " + result.getString(1));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        printCount(TABLE_NAME);
     }
 
     public void deleteAllFriendships() {
-        String query = sqlQueryBuilder.delete(TABLE_NAME)
-                                      .toString();
-
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        deleteFrom(TABLE_NAME);
     }
 }

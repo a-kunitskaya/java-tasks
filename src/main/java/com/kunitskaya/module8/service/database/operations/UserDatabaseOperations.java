@@ -4,7 +4,6 @@ package com.kunitskaya.module8.service.database.operations;
 import com.kunitskaya.module8.domain.User;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
@@ -49,7 +48,7 @@ public class UserDatabaseOperations extends DatabaseOperations {
         String query = sqlQueryBuilder.insertPrepared(TABLE_NAME, String.valueOf(id), name, surname, birthDate.toString())
                                       .toString();
 
-        try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
             preparedStatement.setString(2, name);
             preparedStatement.setString(3, surname);
@@ -63,31 +62,11 @@ public class UserDatabaseOperations extends DatabaseOperations {
     }
 
     public void printUsersCount() {
-        String query = sqlQueryBuilder.select()
-                                      .count("*")
-                                      .from(TABLE_NAME)
-                                      .toString();
-
-        try (Statement statement = connection.createStatement()) {
-            ResultSet result = statement.executeQuery(query);
-
-            if (result.next()) {
-                LOGGER.info("Users count in database: " + result.getString(1));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        printCount(TABLE_NAME);
     }
 
     public void deleteAllUsers() {
-        String query = sqlQueryBuilder.delete(TABLE_NAME)
-                                      .toString();
-
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        deleteFrom(TABLE_NAME);
     }
 
     public void addUser(User user) {

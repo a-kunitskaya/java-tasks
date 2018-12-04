@@ -42,7 +42,7 @@ public class SqlQueryBuilder {
                                            .append(" VALUES(");
 
         for (int i = 0; i < values.length; i++) {
-            stringBuilder.append("? ");
+            stringBuilder.append("?");
 
             if (i != values.length - 1) {
                 stringBuilder.append(", ");

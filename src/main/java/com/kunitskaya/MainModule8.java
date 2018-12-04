@@ -14,25 +14,12 @@ public class MainModule8 {
 
     public static void main(String[] args) {
 
+        //Task 3. JDBC-based Social Network
+        //3.1. Create simple database with tables
 
-        //Task 1. JDBC Quick Start
-        // 1.3. Write MyFirstConnection class with a few methods that takes connection
-        // parameters and a SQL query string (without parameters),
-        // executes it via Statement and prints the given results.
         //3.1.1 Users (id, name, surname, birthdate),
         UserDatabaseOperations userDatabase = new UserDatabaseOperations();
 
-        Date birthDate = Date.from(Instant.now());
-
-        // userDatabase.addUser(0, "Jack", "White", birthDate);
-        userDatabase.printUsersCount();
-
-        //1.4.	Parametrize the query from the previous subtask and use Prepared Statements to inject parameters
-        userDatabase.addUserWithPreparedStatement(0, "Daniel", "McDonald", birthDate);
-
-
-        //Task 3. JDBC-based Social Network
-        //3.1. Create simple database with tables
         //3.1.2.Friendships (userid1, userid2, timestamp)
         FriendshipDatabaseOperations friendshipDatabase = new FriendshipDatabaseOperations();
 
@@ -41,6 +28,26 @@ public class MainModule8 {
 
         //3.1.4. Likes (postid, userid, timestamp)
         LikeDatabaseOperations likeDatabase = new LikeDatabaseOperations();
+        
+        //TODO: delete
+//         userDatabase.deleteAllUsers();
+//         friendshipDatabase.deleteAllFriendships();
+//         postDatabase.deleteAllPosts();
+//         likeDatabase.deleteAllLikes();
+        //TODO
+
+        //Task 1. JDBC Quick Start
+        // 1.3. Write MyFirstConnection class with a few methods that takes connection
+        // parameters and a SQL query string (without parameters),
+        // executes it via Statement and prints the given results.
+        Date birthDate = Date.from(Instant.now());
+
+        userDatabase.addUser(0, "Jack", "White", birthDate);
+        userDatabase.printUsersCount();
+
+        //1.4.	Parametrize the query from the previous subtask and use Prepared Statements to inject parameters
+        userDatabase.addUserWithPreparedStatement(0, "Daniel", "McDonald", birthDate);
+        userDatabase.deleteAllUsers();
 
         //1.5.	Add a method that prints all tables in the database
         userDatabase.printAllTables();
@@ -49,23 +56,28 @@ public class MainModule8 {
         // 3.2.1.> 1 000 users
         DatabaseService databaseService = new DatabaseService();
         databaseService.populateUsersTable();
-        userDatabase.printUsersCount();
 
         //3.2.2. > 70 000 friendships
         databaseService.populateFriendshipsTable();
-        friendshipDatabase.printFriendshipsCount();
+
 
         // 3.2.3. > 300 000 likes in 2025)
+        databaseService.populateLikesTable(); //[AK] takes about 5 mins to run
+        databaseService.populatePostsTable();
 
+        userDatabase.printUsersCount();
+        friendshipDatabase.printFriendshipsCount();
+        likeDatabase.printLikesCount();
+        postDatabase.printPostsCount();
 
         // 3. Program should print out all names (only distinct) of users
         // who has more when 100 friends and 100 likes in March 2025.
 
-        // Protect JDBC operations from SQL – injections with Prepared Statements.
 
-
-        userDatabase.deleteAllUsers();
-        friendshipDatabase.deleteAllFriendships();
+        // userDatabase.deleteAllUsers();
+        // friendshipDatabase.deleteAllFriendships();
+        // postDatabase.deleteAllPosts();
+        // likeDatabase.deleteAllLikes();
         MyFirstConnection.closeConnection();
     }
 }

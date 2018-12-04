@@ -48,6 +48,17 @@ public class DatabaseOperations {
         }
     }
 
+    protected void deleteFrom(String tableName) {
+        String query = sqlQueryBuilder.delete(tableName)
+                                      .toString();
+
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void printAllTables() {
         String query = "SHOW TABLES";
 
@@ -62,6 +73,23 @@ public class DatabaseOperations {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
+
+    protected void printCount(String tableName) {
+        String query = sqlQueryBuilder.select()
+                                      .count("*")
+                                      .from(tableName)
+                                      .toString();
+
+        try (Statement statement = connection.createStatement()) {
+            ResultSet result = statement.executeQuery(query);
+
+            if (result.next()) {
+                LOGGER.info(tableName + " count in database: " + result.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
