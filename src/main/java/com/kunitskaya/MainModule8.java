@@ -73,6 +73,11 @@ public class MainModule8 {
         // 3. Program should print out all names (only distinct) of users
         // who has more when 100 friends and 100 likes in March 2025.
 
+        //1. select distinct users.name from users join friendships on users.id=friendships.userId1;
+        //2. for each name ->
+        //select count(users.name) from users join likes on users.id=likes.userid where likes.timestamp > 2025-00-00 AND users.name = 'name';
+        //3.return what returns > 100
+
 
         // userDatabase.deleteAllUsers();
         // friendshipDatabase.deleteAllFriendships();

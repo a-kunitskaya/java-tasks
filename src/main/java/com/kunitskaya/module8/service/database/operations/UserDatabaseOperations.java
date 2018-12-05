@@ -6,8 +6,10 @@ import com.kunitskaya.module8.domain.User;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
@@ -72,4 +74,19 @@ public class UserDatabaseOperations extends DatabaseOperations {
     public void addUser(User user) {
         addUserWithPreparedStatement(user.getId(), user.getName(), user.getSurname(), user.getBirthDate());
     }
+
+    public List<String> getPopularUsers(int numberOfFriends, int numberOfLikes, Timestamp periodFrom) {
+        String query = sqlQueryBuilder.select()
+                                      .distinct(TABLE_NAME.concat(".name"))
+                                      .from(TABLE_NAME)
+                                      .join("friendships")
+                                      .on(TABLE_NAME, "id", "friendships", "userId")
+                                      .toString();
+    }
+
+
+    //1. select distinct users.name from users join friendships on users.id=friendships.userId1;
+    //2. for each name ->
+    //select count(users.name) from users join likes on users.id=likes.userid where likes.timestamp > 2025-00-00 AND users.name = 'name';
+    //3.return what returns > 100
 }

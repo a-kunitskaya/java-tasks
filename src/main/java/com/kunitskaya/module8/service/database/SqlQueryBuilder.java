@@ -76,7 +76,28 @@ public class SqlQueryBuilder {
         stringBuilder.append(" COUNT(")
                      .append(column)
                      .append(") ");
+        return this;
+    }
 
+    public SqlQueryBuilder distinct(String column) {
+        stringBuilder.append(" DISTINCT ")
+                     .append(column)
+                     .append(" ");
+        return this;
+    }
+
+    public SqlQueryBuilder join(String column) {
+        stringBuilder.append(" JOIN ")
+                     .append(column)
+                     .append(" ");
+        return this;
+    }
+
+    public SqlQueryBuilder on(String column1, String value1, String column2, String value2) {
+        stringBuilder.append(column1.concat(".").concat(value1))
+                     .append("=")
+                     .append(column2.concat(".").concat(value2))
+                     .append(" ");
         return this;
     }
 
