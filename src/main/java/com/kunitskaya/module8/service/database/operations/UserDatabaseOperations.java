@@ -4,10 +4,11 @@ package com.kunitskaya.module8.service.database.operations;
 import com.kunitskaya.module8.domain.User;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -75,14 +76,87 @@ public class UserDatabaseOperations extends DatabaseOperations {
         addUserWithPreparedStatement(user.getId(), user.getName(), user.getSurname(), user.getBirthDate());
     }
 
-    public List<String> getPopularUsers(int numberOfFriends, int numberOfLikes, Timestamp periodFrom) {
+    public List<String> getPopularUsers(String periodFrom) {
+        List<String> users = new ArrayList<>();
+
+        String subQuery2 = sqlQueryBuilder.select()
+                                          .count("userid")
+                                          .from("friendships")
+                                          .toString();
+
+        System.out.println(subQuery2);
+
         String query = sqlQueryBuilder.select()
                                       .distinct(TABLE_NAME.concat(".name"))
                                       .from(TABLE_NAME)
-                                      .join("friendships")
-                                      .on(TABLE_NAME, "id", "friendships", "userId")
+                                      .join("likes")
+                                      .on(TABLE_NAME, "id", "likes", "userid")
+                                      .where("likes.timestamp > " + periodFrom)
                                       .toString();
+
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                users.add(resultSet.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        List<String> usersWithLikes = new ArrayList<>();
+
+        users.forEach(u -> {
+            String q1 = sqlQueryBuilder.select()
+                                       .count("userid")
+                                       .from("likes")
+                                       .where("userid = '" + u + "'")
+                                       .toString();
+
+            try (Statement statement = connection.createStatement()) {
+                ResultSet resultSet = statement.executeQuery(q1);
+                while (resultSet.next()) {
+                    int result = resultSet.getInt(1);
+                    if (result > 100) {
+
+                        String q2 = sqlQueryBuilder.select()
+                                                   .count("userid1")
+                                                   .from("friendships")
+                                                   .where("userid = '" + u + "'")
+                                                   .toString();
+
+                        try (Statement st = connection.createStatement()) {
+                            ResultSet rs = statement.executeQuery(query);
+                            while (resultSet.next()) {
+                                result = resultSet.getInt(1);
+                                if (result > 100) {
+                                    usersWithLikes.add(u);
+                                }
+                            }
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        return users;
     }
+
+
+    // select distinct users.name
+    // from users
+    // join friendships
+    // on users.id=friendships.userId1
+    // join likes on users.id=likes.userid
+    // where likes.timestamp > 2025-00-00
+    // and likes.userid = (select count(likes.userid) > 100);
+
+    //  SELECT  DISTINCT users.name FROM users  JOIN friendships  ON users.id=friendships.userid1  JOIN likes  ON users.id=likes.userid WHERE likes.timestamp > 2025-00-00  AND likes.userId =(SELECT  COUNT(userid) FROM likes WHERE userId > 100 ) AND friendships.userid1 =(SELECT  COUNT(userid) FROM friendships WHERE userid1 > 100 )
+
+    //select distinct users.name from users join friendships on users.id=friendships.userId1 join likes on users.id=likes.userid where likes.timestamp > 2025-00-00;
 
 
     //1. select distinct users.name from users join friendships on users.id=friendships.userId1;

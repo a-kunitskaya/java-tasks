@@ -94,10 +94,17 @@ public class SqlQueryBuilder {
     }
 
     public SqlQueryBuilder on(String column1, String value1, String column2, String value2) {
-        stringBuilder.append(column1.concat(".").concat(value1))
+        stringBuilder.append(" ON ")
+                     .append(column1.concat(".").concat(value1))
                      .append("=")
                      .append(column2.concat(".").concat(value2))
                      .append(" ");
+        return this;
+    }
+
+    public SqlQueryBuilder and(String condition) {
+        stringBuilder.append(" AND ")
+                     .append(condition);
         return this;
     }
 

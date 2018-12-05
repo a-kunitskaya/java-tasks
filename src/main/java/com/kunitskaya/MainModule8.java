@@ -9,6 +9,7 @@ import com.kunitskaya.module8.service.database.operations.UserDatabaseOperations
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 
 public class MainModule8 {
 
@@ -42,12 +43,12 @@ public class MainModule8 {
         // executes it via Statement and prints the given results.
         Date birthDate = Date.from(Instant.now());
 
-        userDatabase.addUser(0, "Jack", "White", birthDate);
-        userDatabase.printUsersCount();
+   //     userDatabase.addUser(0, "Jack", "White", birthDate);
+    //    userDatabase.printUsersCount();
 
         //1.4.	Parametrize the query from the previous subtask and use Prepared Statements to inject parameters
-        userDatabase.addUserWithPreparedStatement(0, "Daniel", "McDonald", birthDate);
-        userDatabase.deleteAllUsers();
+    //    userDatabase.addUserWithPreparedStatement(0, "Daniel", "McDonald", birthDate);
+   //     userDatabase.deleteAllUsers();
 
         //1.5.	Add a method that prints all tables in the database
         userDatabase.printAllTables();
@@ -55,15 +56,17 @@ public class MainModule8 {
         // 3.2. Populate tables with data which are make sense
         // 3.2.1.> 1 000 users
         DatabaseService databaseService = new DatabaseService();
-        databaseService.populateUsersTable();
+   //     databaseService.populateUsersTable();
 
         //3.2.2. > 70 000 friendships
-        databaseService.populateFriendshipsTable();
+   //     databaseService.populateFriendshipsTable();
 
 
         // 3.2.3. > 300 000 likes in 2025)
-        databaseService.populateLikesTable(); //[AK] takes about 5 mins to run
-        databaseService.populatePostsTable();
+ //       databaseService.populateLikesTable(); //[AK] takes about 5 mins to run
+ //       databaseService.populatePostsTable();
+
+        List<String> popularUsers = userDatabase.getPopularUsers("2025-00-00");
 
         userDatabase.printUsersCount();
         friendshipDatabase.printFriendshipsCount();
@@ -72,6 +75,11 @@ public class MainModule8 {
 
         // 3. Program should print out all names (only distinct) of users
         // who has more when 100 friends and 100 likes in March 2025.
+
+        //SELECT DISTINCT users.name FROM users JOIN likes ON users.id=likes.userid join friendships on  users.id=friendships.userId1 WHERE (SELECT  COUNT(userid) FROM friendships) > 100;
+        //
+
+
 
         //1. select distinct users.name from users join friendships on users.id=friendships.userId1;
         //2. for each name ->
