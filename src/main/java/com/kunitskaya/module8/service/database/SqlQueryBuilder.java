@@ -108,6 +108,12 @@ public class SqlQueryBuilder {
         return this;
     }
 
+    public SqlQueryBuilder having(String condition) {
+        stringBuilder.append(" HAVING ")
+                     .append(condition);
+        return this;
+    }
+
     @Override
     public String toString() {
         String query = stringBuilder.toString();

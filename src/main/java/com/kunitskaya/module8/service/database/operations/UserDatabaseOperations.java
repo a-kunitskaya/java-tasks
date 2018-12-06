@@ -75,92 +75,120 @@ public class UserDatabaseOperations extends DatabaseOperations {
     public void addUser(User user) {
         addUserWithPreparedStatement(user.getId(), user.getName(), user.getSurname(), user.getBirthDate());
     }
+//
+//    public List<String> getPopularUsers(String periodFrom) {
+//        List<String> users = new ArrayList<>();
+//
+//        String subQuery2 = sqlQueryBuilder.select()
+//                                          .count("userid")
+//                                          .from("friendships")
+//                                          .toString();
+//
+//        System.out.println(subQuery2);
+//
+//        String query = sqlQueryBuilder.select()
+//                                      .distinct(TABLE_NAME.concat(".name"))
+//                                      .from(TABLE_NAME)
+//                                      .join("likes")
+//                                      .on(TABLE_NAME, "id", "likes", "userid")
+//                                      .where("likes.timestamp > " + periodFrom)
+//                                      .toString();
+//
+//        try (Statement statement = connection.createStatement()) {
+//            ResultSet resultSet = statement.executeQuery(query);
+//            while (resultSet.next()) {
+//                users.add(resultSet.getString(1));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        List<String> usersWithLikes = new ArrayList<>();
+//
+//        users.forEach(u -> {
+//            String q1 = sqlQueryBuilder.select()
+//                                       .count("userid")
+//                                       .from("likes")
+//                                       .where("userid = '" + u + "'")
+//                                       .toString();
+//
+//            try (Statement statement = connection.createStatement()) {
+//                ResultSet resultSet = statement.executeQuery(q1);
+//                while (resultSet.next()) {
+//                    int result = resultSet.getInt(1);
+//                    if (result > 100) {
+//
+//                        String q2 = sqlQueryBuilder.select()
+//                                                   .count("userid1")
+//                                                   .from("friendships")
+//                                                   .where("userid = '" + u + "'")
+//                                                   .toString();
+//
+//                        try (Statement st = connection.createStatement()) {
+//                            ResultSet rs = statement.executeQuery(query);
+//                            while (resultSet.next()) {
+//                                result = resultSet.getInt(1);
+//                                if (result > 100) {
+//                                    usersWithLikes.add(u);
+//                                }
+//                            }
+//                        } catch (SQLException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//
+//        return users;
+//    }
 
     public List<String> getPopularUsers(String periodFrom) {
         List<String> users = new ArrayList<>();
 
-        String subQuery2 = sqlQueryBuilder.select()
-                                          .count("userid")
-                                          .from("friendships")
-                                          .toString();
+        String query1 = sqlQueryBuilder.select()
+                                       .distinct(TABLE_NAME.concat(".name") + ", count(*)")
+                                       .from(TABLE_NAME)
+                                       .join("likes")
+                                       .on(TABLE_NAME, "id", "likes", "userid")
+                                       .where("likes.timestamp > " + periodFrom)
+                                       .having("COUNT(*) > 100")
+                                       .toString();
 
-        System.out.println(subQuery2);
+        String query2 = sqlQueryBuilder.select()
+                                       .distinct(TABLE_NAME.concat(".name") + ", count(*)")
+                                       .from(TABLE_NAME)
+                                       .join("friendships")
+                                       .on(TABLE_NAME, "id", "friendships", "userid1")
+                                       .having("COUNT(*) > 100")
+                                       .toString();
 
-        String query = sqlQueryBuilder.select()
-                                      .distinct(TABLE_NAME.concat(".name"))
-                                      .from(TABLE_NAME)
-                                      .join("likes")
-                                      .on(TABLE_NAME, "id", "likes", "userid")
-                                      .where("likes.timestamp > " + periodFrom)
-                                      .toString();
+        String message = "Found popular user: %s, likes from: %s: %s, friendships: %s";
+        String user = null;
+        int likes = 0;
+        int friendships = 0;
 
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(query);
-            while (resultSet.next()) {
-                users.add(resultSet.getString(1));
+            ResultSet resultSet1 = statement.executeQuery(query1);
+            while (resultSet1.next()) {
+                user = resultSet1.getString(1);
+                likes = resultSet1.getInt(2);
+
+
+            }
+            ResultSet rs2 = statement.executeQuery(query2);
+            while (rs2.next()) {
+                friendships = rs2.getInt(2);
+                if (friendships > 100 && likes > 100) {
+                    LOGGER.info(String.format(message, user, periodFrom, likes, friendships));
+                    users.add(rs2.getString(1));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        List<String> usersWithLikes = new ArrayList<>();
-
-        users.forEach(u -> {
-            String q1 = sqlQueryBuilder.select()
-                                       .count("userid")
-                                       .from("likes")
-                                       .where("userid = '" + u + "'")
-                                       .toString();
-
-            try (Statement statement = connection.createStatement()) {
-                ResultSet resultSet = statement.executeQuery(q1);
-                while (resultSet.next()) {
-                    int result = resultSet.getInt(1);
-                    if (result > 100) {
-
-                        String q2 = sqlQueryBuilder.select()
-                                                   .count("userid1")
-                                                   .from("friendships")
-                                                   .where("userid = '" + u + "'")
-                                                   .toString();
-
-                        try (Statement st = connection.createStatement()) {
-                            ResultSet rs = statement.executeQuery(query);
-                            while (resultSet.next()) {
-                                result = resultSet.getInt(1);
-                                if (result > 100) {
-                                    usersWithLikes.add(u);
-                                }
-                            }
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-
         return users;
     }
-
-
-    // select distinct users.name
-    // from users
-    // join friendships
-    // on users.id=friendships.userId1
-    // join likes on users.id=likes.userid
-    // where likes.timestamp > 2025-00-00
-    // and likes.userid = (select count(likes.userid) > 100);
-
-    //  SELECT  DISTINCT users.name FROM users  JOIN friendships  ON users.id=friendships.userid1  JOIN likes  ON users.id=likes.userid WHERE likes.timestamp > 2025-00-00  AND likes.userId =(SELECT  COUNT(userid) FROM likes WHERE userId > 100 ) AND friendships.userid1 =(SELECT  COUNT(userid) FROM friendships WHERE userid1 > 100 )
-
-    //select distinct users.name from users join friendships on users.id=friendships.userId1 join likes on users.id=likes.userid where likes.timestamp > 2025-00-00;
-
-
-    //1. select distinct users.name from users join friendships on users.id=friendships.userId1;
-    //2. for each name ->
-    //select count(users.name) from users join likes on users.id=likes.userid where likes.timestamp > 2025-00-00 AND users.name = 'name';
-    //3.return what returns > 100
 }
