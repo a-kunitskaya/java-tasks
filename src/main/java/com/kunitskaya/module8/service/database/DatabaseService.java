@@ -47,7 +47,7 @@ public class DatabaseService {
     }
 
     public void populateFriendshipsTable() {
-        for (int i = 0; i < 5001; i++) {
+        for (int i = 0; i < 7001; i++) {
             CSVFileParser<Friendship> parser = new FriendshipsCSVFileParser();
             List<Friendship> friendships = parser.parseToObject(FRIENDSHIPS_FILE_PATH);
             for (int j = 0; j < friendships.size(); j++) {
