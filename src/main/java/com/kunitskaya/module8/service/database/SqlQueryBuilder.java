@@ -117,7 +117,8 @@ public class SqlQueryBuilder {
 
     public SqlQueryBuilder groupBy(String column) {
         stringBuilder.append("GROUP BY ")
-                     .append(column);
+                     .append(column)
+                     .append(" ");
         return this;
     }
 

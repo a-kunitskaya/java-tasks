@@ -17,7 +17,7 @@ public class PostDatabaseOperations extends DatabaseOperations {
     }
 
     private void createTable() {
-        String query = "CREATE TABLE IF NOT EXISTS posts (id INT NOT NULL AUTO_INCREMENT, userid INT NOT NULL, text VARCHAR(50), timestamp TIMESTAMP, PRIMARY KEY (id))";
+        String query = "CREATE TABLE IF NOT EXISTS posts (id INT NOT NULL, userid INT NOT NULL, text VARCHAR(50), timestamp TIMESTAMP, PRIMARY KEY (id))";
         LOGGER.info("Creating table: " + query);
 
         try (Statement statement = connection.createStatement();) {

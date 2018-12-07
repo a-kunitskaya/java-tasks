@@ -59,7 +59,7 @@ public class MainModule8 {
         databaseService.populateFriendshipsTable();
 
         // 3.2.3. > 300 000 likes in 2025)
-        databaseService.populateLikesTable(); //[AK] takes about 5 mins to run
+        databaseService.populateLikesTable(); //[AK] takes about 7 mins to perform
         databaseService.populatePostsTable();
 
         usersDatabase.printCount();
