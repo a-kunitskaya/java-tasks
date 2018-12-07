@@ -98,9 +98,9 @@ public class UserDatabaseOperations extends DatabaseOperations {
         String query = sqlQueryBuilder.select()
                                       .distinct(USERS_TABLE.concat(".name") + ", count(*)")
                                       .from(USERS_TABLE)
-                                      .join("likes")
-                                      .on(USERS_TABLE, "id", "likes", "userid")
-                                      .where("likes.timestamp > " + periodFrom)
+                                      .join(LIKES_TABLE)
+                                      .on(USERS_TABLE, "id", LIKES_TABLE, "userid")
+                                      .where(LIKES_TABLE.concat(".timestamp > ") + periodFrom)
                                       .groupBy(USERS_TABLE.concat(".name"))
                                       .having("COUNT(*) > " + likesCount)
                                       .toString();
@@ -126,8 +126,8 @@ public class UserDatabaseOperations extends DatabaseOperations {
         String query = sqlQueryBuilder.select()
                                       .distinct(USERS_TABLE.concat(".name") + ", count(*)")
                                       .from(USERS_TABLE)
-                                      .join("friendships")
-                                      .on(USERS_TABLE, "id", "friendships", "userid1")
+                                      .join(FRIENDSHIPS_TABLE)
+                                      .on(USERS_TABLE, "id", FRIENDSHIPS_TABLE, "userid1")
                                       .groupBy(USERS_TABLE.concat(".name"))
                                       .having("COUNT(*) > " + friendshipsCount)
                                       .toString();
