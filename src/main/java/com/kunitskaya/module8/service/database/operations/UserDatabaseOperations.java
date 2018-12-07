@@ -8,9 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
@@ -23,11 +21,11 @@ public class UserDatabaseOperations extends DatabaseOperations {
     }
 
     private void createTable() {
-        String createTableQuery = "CREATE TABLE IF NOT EXISTS users (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(20), surname  VARCHAR(30), birthdate DATE, PRIMARY KEY (id))";
-        LOGGER.info("Creating table: " + createTableQuery);
+        String query = "CREATE TABLE IF NOT EXISTS users (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(20), surname  VARCHAR(30), birthdate DATE, PRIMARY KEY (id))";
+        LOGGER.info("Creating table: " + query);
 
         try (Statement statement = connection.createStatement();) {
-            statement.execute(createTableQuery);
+            statement.execute(query);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -75,120 +73,78 @@ public class UserDatabaseOperations extends DatabaseOperations {
     public void addUser(User user) {
         addUserWithPreparedStatement(user.getId(), user.getName(), user.getSurname(), user.getBirthDate());
     }
-//
-//    public List<String> getPopularUsers(String periodFrom) {
-//        List<String> users = new ArrayList<>();
-//
-//        String subQuery2 = sqlQueryBuilder.select()
-//                                          .count("userid")
-//                                          .from("friendships")
-//                                          .toString();
-//
-//        System.out.println(subQuery2);
-//
-//        String query = sqlQueryBuilder.select()
-//                                      .distinct(TABLE_NAME.concat(".name"))
-//                                      .from(TABLE_NAME)
-//                                      .join("likes")
-//                                      .on(TABLE_NAME, "id", "likes", "userid")
-//                                      .where("likes.timestamp > " + periodFrom)
-//                                      .toString();
-//
-//        try (Statement statement = connection.createStatement()) {
-//            ResultSet resultSet = statement.executeQuery(query);
-//            while (resultSet.next()) {
-//                users.add(resultSet.getString(1));
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        List<String> usersWithLikes = new ArrayList<>();
-//
-//        users.forEach(u -> {
-//            String q1 = sqlQueryBuilder.select()
-//                                       .count("userid")
-//                                       .from("likes")
-//                                       .where("userid = '" + u + "'")
-//                                       .toString();
-//
-//            try (Statement statement = connection.createStatement()) {
-//                ResultSet resultSet = statement.executeQuery(q1);
-//                while (resultSet.next()) {
-//                    int result = resultSet.getInt(1);
-//                    if (result > 100) {
-//
-//                        String q2 = sqlQueryBuilder.select()
-//                                                   .count("userid1")
-//                                                   .from("friendships")
-//                                                   .where("userid = '" + u + "'")
-//                                                   .toString();
-//
-//                        try (Statement st = connection.createStatement()) {
-//                            ResultSet rs = statement.executeQuery(query);
-//                            while (resultSet.next()) {
-//                                result = resultSet.getInt(1);
-//                                if (result > 100) {
-//                                    usersWithLikes.add(u);
-//                                }
-//                            }
-//                        } catch (SQLException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
-//        });
-//
-//        return users;
-//    }
 
-    public List<String> getPopularUsers(String periodFrom) {
-        List<String> users = new ArrayList<>();
-
-        String query1 = sqlQueryBuilder.select()
-                                       .distinct(TABLE_NAME.concat(".name") + ", count(*)")
-                                       .from(TABLE_NAME)
-                                       .join("likes")
-                                       .on(TABLE_NAME, "id", "likes", "userid")
-                                       .where("likes.timestamp > " + periodFrom)
-                                       .having("COUNT(*) > 100")
-                                       .toString();
-
-        String query2 = sqlQueryBuilder.select()
-                                       .distinct(TABLE_NAME.concat(".name") + ", count(*)")
-                                       .from(TABLE_NAME)
-                                       .join("friendships")
-                                       .on(TABLE_NAME, "id", "friendships", "userid1")
-                                       .having("COUNT(*) > 100")
-                                       .toString();
+    public List<String> getPopularUsers(String periodFrom, int likesCount, int friendshipsCount) {
 
         String message = "Found popular user: %s, likes from: %s: %s, friendships: %s";
-        String user = null;
-        int likes = 0;
-        int friendships = 0;
+        Map<String, Integer> likes = getUsersWithLikes(periodFrom, likesCount);
+        Map<String, Integer> friendships = getUsersWithFriendships(friendshipsCount);
+        List<String> users = new ArrayList<>();
+
+        for (Map.Entry<String, Integer> userLikes : likes.entrySet()) {
+            friendships.entrySet()
+                       .stream()
+                       .filter(f -> f.getValue() >= friendshipsCount)
+                       .filter(l -> userLikes.getValue() >= likesCount)
+                       .peek(u -> LOGGER.info(String.format(message, u.getKey(), periodFrom, userLikes.getValue(), u.getValue())))
+                       .map(Map.Entry::getKey)
+                       .forEach(users::add);
+        }
+        return users;
+    }
+
+    private Map<String, Integer> getUsersWithLikes(String periodFrom, int likesCount) {
+        Map<String, Integer> likesPerUser = new HashMap<>();
+
+        String query = sqlQueryBuilder.select()
+                                      .distinct(TABLE_NAME.concat(".name") + ", count(*)")
+                                      .from(TABLE_NAME)
+                                      .join("likes")
+                                      .on(TABLE_NAME, "id", "likes", "userid")
+                                      .where("likes.timestamp > " + periodFrom)
+                                      .groupBy(TABLE_NAME.concat(".name"))
+                                      .having("COUNT(*) > " + likesCount)
+                                      .toString();
 
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet1 = statement.executeQuery(query1);
+            ResultSet resultSet1 = statement.executeQuery(query);
             while (resultSet1.next()) {
-                user = resultSet1.getString(1);
-                likes = resultSet1.getInt(2);
-
-
-            }
-            ResultSet rs2 = statement.executeQuery(query2);
-            while (rs2.next()) {
-                friendships = rs2.getInt(2);
-                if (friendships > 100 && likes > 100) {
-                    LOGGER.info(String.format(message, user, periodFrom, likes, friendships));
-                    users.add(rs2.getString(1));
+                String user = resultSet1.getString(1);
+                int likes = resultSet1.getInt(2);
+                if (likes > 100) {
+                    likesPerUser.put(user, likes);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return users;
+        return likesPerUser;
+    }
+
+    private Map<String, Integer> getUsersWithFriendships(int friendshipsCount) {
+        Map<String, Integer> friendshipsPerUser = new HashMap<>();
+
+        String query = sqlQueryBuilder.select()
+                                      .distinct(TABLE_NAME.concat(".name") + ", count(*)")
+                                      .from(TABLE_NAME)
+                                      .join("friendships")
+                                      .on(TABLE_NAME, "id", "friendships", "userid1")
+                                      .groupBy(TABLE_NAME.concat(".name"))
+                                      .having("COUNT(*) > " + friendshipsCount)
+                                      .toString();
+
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet1 = statement.executeQuery(query);
+            while (resultSet1.next()) {
+                String user = resultSet1.getString(1);
+                int friendships = resultSet1.getInt(2);
+                if (friendships > 100) {
+                    friendshipsPerUser.put(user, friendships);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return friendshipsPerUser;
     }
 }

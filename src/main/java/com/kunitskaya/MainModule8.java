@@ -56,18 +56,17 @@ public class MainModule8 {
         // 3.2. Populate tables with data which are make sense
         // 3.2.1.> 1 000 users
         DatabaseService databaseService = new DatabaseService();
-        databaseService.populateUsersTable();
+      //  databaseService.populateUsersTable();
 
         //3.2.2. > 70 000 friendships
-        databaseService.populateFriendshipsTable();
+       // databaseService.populateFriendshipsTable();
 
 
         // 3.2.3. > 300 000 likes in 2025)
-        databaseService.populateLikesTable(); //[AK] takes about 5 mins to run
-        databaseService.populatePostsTable();
+       // databaseService.populateLikesTable(); //[AK] takes about 5 mins to run
+       // databaseService.populatePostsTable();
 
-        List<String> popularUsers = userDatabase.getPopularUsers("2025-00-00");
-        System.out.println(popularUsers);
+        List<String> popularUsers = userDatabase.getPopularUsers("2025-00-00", 100, 100);
 
         userDatabase.printUsersCount();
         friendshipDatabase.printFriendshipsCount();

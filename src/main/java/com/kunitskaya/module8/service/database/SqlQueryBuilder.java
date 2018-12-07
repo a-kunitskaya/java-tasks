@@ -65,7 +65,8 @@ public class SqlQueryBuilder {
         return this;
     }
 
-    public SqlQueryBuilder where(String condition) {
+    public SqlQueryBuilder
+    where(String condition) {
         stringBuilder.append("WHERE ")
                      .append(condition)
                      .append(" ");
@@ -111,6 +112,12 @@ public class SqlQueryBuilder {
     public SqlQueryBuilder having(String condition) {
         stringBuilder.append(" HAVING ")
                      .append(condition);
+        return this;
+    }
+
+    public SqlQueryBuilder groupBy(String column) {
+        stringBuilder.append(" GROUP BY ")
+                     .append(column);
         return this;
     }
 

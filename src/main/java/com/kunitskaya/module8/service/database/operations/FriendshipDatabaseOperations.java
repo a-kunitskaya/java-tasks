@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class FriendshipDatabaseOperations extends DatabaseOperations {
-    private static final String TABLE_NAME = "friendships";
+    private static final String FRIENDSHIPS_TABLE = "friendships";
 
     public FriendshipDatabaseOperations() {
         super();
@@ -29,7 +29,7 @@ public class FriendshipDatabaseOperations extends DatabaseOperations {
     }
 
     public void addFriendship(int userId1, int userId2, Timestamp timestamp) {
-        String query = sqlQueryBuilder.insertPrepared(TABLE_NAME, String.valueOf(userId1), String.valueOf(userId2), String.valueOf(timestamp))
+        String query = sqlQueryBuilder.insertPrepared(FRIENDSHIPS_TABLE, String.valueOf(userId1), String.valueOf(userId2), String.valueOf(timestamp))
                                       .toString();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -48,10 +48,10 @@ public class FriendshipDatabaseOperations extends DatabaseOperations {
     }
 
     public void printFriendshipsCount() {
-        printCount(TABLE_NAME);
+        printCount(FRIENDSHIPS_TABLE);
     }
 
     public void deleteAllFriendships() {
-        deleteFrom(TABLE_NAME);
+        deleteFrom(FRIENDSHIPS_TABLE);
     }
 }
