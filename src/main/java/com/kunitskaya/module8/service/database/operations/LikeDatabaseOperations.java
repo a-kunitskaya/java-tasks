@@ -10,7 +10,6 @@ import java.sql.Timestamp;
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class LikeDatabaseOperations extends DatabaseOperations {
-    private static final String TABLE_NAME = "likes";
 
     public LikeDatabaseOperations() {
         super();
@@ -33,7 +32,7 @@ public class LikeDatabaseOperations extends DatabaseOperations {
     }
 
     public void addLike(int postId, int userId, Timestamp timestamp) {
-        String query = sqlQueryBuilder.insertPrepared(TABLE_NAME, String.valueOf(postId), String.valueOf(userId), String.valueOf(timestamp))
+        String query = sqlQueryBuilder.insertPrepared(LIKES_TABLE, String.valueOf(postId), String.valueOf(userId), String.valueOf(timestamp))
                                       .toString();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -47,12 +46,12 @@ public class LikeDatabaseOperations extends DatabaseOperations {
         }
     }
 
-    public void deleteAllLikes() {
-        deleteFrom(TABLE_NAME);
+    public void deleteFrom() {
+        deleteFrom(LIKES_TABLE);
     }
 
-    public void printLikesCount() {
-        printCount(TABLE_NAME);
+    public void printCount() {
+        printCount(LIKES_TABLE);
     }
 
 }

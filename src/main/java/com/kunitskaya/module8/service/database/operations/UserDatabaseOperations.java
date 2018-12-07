@@ -13,7 +13,6 @@ import java.util.*;
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class UserDatabaseOperations extends DatabaseOperations {
-    private static final String TABLE_NAME = "users";
 
     public UserDatabaseOperations() {
         super();
@@ -36,7 +35,7 @@ public class UserDatabaseOperations extends DatabaseOperations {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         String date = simpleDateFormat.format(birthDate);
 
-        String query = sqlQueryBuilder.insert(TABLE_NAME, String.valueOf(id), name, surname, date).toString();
+        String query = sqlQueryBuilder.insert(USERS_TABLE, String.valueOf(id), name, surname, date).toString();
 
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(query);
@@ -46,7 +45,7 @@ public class UserDatabaseOperations extends DatabaseOperations {
     }
 
     public void addUserWithPreparedStatement(int id, String name, String surname, Date birthDate) {
-        String query = sqlQueryBuilder.insertPrepared(TABLE_NAME, String.valueOf(id), name, surname, birthDate.toString())
+        String query = sqlQueryBuilder.insertPrepared(USERS_TABLE, String.valueOf(id), name, surname, birthDate.toString())
                                       .toString();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -62,12 +61,12 @@ public class UserDatabaseOperations extends DatabaseOperations {
 
     }
 
-    public void printUsersCount() {
-        printCount(TABLE_NAME);
+    public void printCount() {
+        printCount(USERS_TABLE);
     }
 
-    public void deleteAllUsers() {
-        deleteFrom(TABLE_NAME);
+    public void deleteFrom() {
+        deleteFrom(USERS_TABLE);
     }
 
     public void addUser(User user) {
@@ -97,12 +96,12 @@ public class UserDatabaseOperations extends DatabaseOperations {
         Map<String, Integer> likesPerUser = new HashMap<>();
 
         String query = sqlQueryBuilder.select()
-                                      .distinct(TABLE_NAME.concat(".name") + ", count(*)")
-                                      .from(TABLE_NAME)
+                                      .distinct(USERS_TABLE.concat(".name") + ", count(*)")
+                                      .from(USERS_TABLE)
                                       .join("likes")
-                                      .on(TABLE_NAME, "id", "likes", "userid")
+                                      .on(USERS_TABLE, "id", "likes", "userid")
                                       .where("likes.timestamp > " + periodFrom)
-                                      .groupBy(TABLE_NAME.concat(".name"))
+                                      .groupBy(USERS_TABLE.concat(".name"))
                                       .having("COUNT(*) > " + likesCount)
                                       .toString();
 
@@ -125,11 +124,11 @@ public class UserDatabaseOperations extends DatabaseOperations {
         Map<String, Integer> friendshipsPerUser = new HashMap<>();
 
         String query = sqlQueryBuilder.select()
-                                      .distinct(TABLE_NAME.concat(".name") + ", count(*)")
-                                      .from(TABLE_NAME)
+                                      .distinct(USERS_TABLE.concat(".name") + ", count(*)")
+                                      .from(USERS_TABLE)
                                       .join("friendships")
-                                      .on(TABLE_NAME, "id", "friendships", "userid1")
-                                      .groupBy(TABLE_NAME.concat(".name"))
+                                      .on(USERS_TABLE, "id", "friendships", "userid1")
+                                      .groupBy(USERS_TABLE.concat(".name"))
                                       .having("COUNT(*) > " + friendshipsCount)
                                       .toString();
 

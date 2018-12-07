@@ -10,7 +10,6 @@ import java.sql.Timestamp;
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class PostDatabaseOperations extends DatabaseOperations {
-    private static final String TABLE_NAME = "posts";
 
     public PostDatabaseOperations() {
         super();
@@ -28,8 +27,8 @@ public class PostDatabaseOperations extends DatabaseOperations {
         }
     }
 
-    public void deleteAllPosts() {
-        deleteFrom(TABLE_NAME);
+    public void deleteFrom() {
+        deleteFrom(POSTS_TABLE);
     }
 
     public void addPost(Post post) {
@@ -37,7 +36,7 @@ public class PostDatabaseOperations extends DatabaseOperations {
     }
 
     public void addPost(int id, int userId, String text, Timestamp timestamp) {
-        String query = sqlQueryBuilder.insertPrepared(TABLE_NAME, String.valueOf(id), String.valueOf(userId), text, String.valueOf(timestamp))
+        String query = sqlQueryBuilder.insertPrepared(POSTS_TABLE, String.valueOf(id), String.valueOf(userId), text, String.valueOf(timestamp))
                                       .toString();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -52,7 +51,7 @@ public class PostDatabaseOperations extends DatabaseOperations {
         }
     }
 
-    public void printPostsCount() {
-        printCount(TABLE_NAME);
+    public void printCount() {
+        printCount(POSTS_TABLE);
     }
 }

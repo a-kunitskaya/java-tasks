@@ -74,28 +74,28 @@ public class SqlQueryBuilder {
     }
 
     public SqlQueryBuilder count(String column) {
-        stringBuilder.append(" COUNT(")
+        stringBuilder.append("COUNT(")
                      .append(column)
                      .append(") ");
         return this;
     }
 
     public SqlQueryBuilder distinct(String column) {
-        stringBuilder.append(" DISTINCT ")
+        stringBuilder.append("DISTINCT ")
                      .append(column)
                      .append(" ");
         return this;
     }
 
     public SqlQueryBuilder join(String column) {
-        stringBuilder.append(" JOIN ")
+        stringBuilder.append("JOIN ")
                      .append(column)
                      .append(" ");
         return this;
     }
 
     public SqlQueryBuilder on(String column1, String value1, String column2, String value2) {
-        stringBuilder.append(" ON ")
+        stringBuilder.append("ON ")
                      .append(column1.concat(".").concat(value1))
                      .append("=")
                      .append(column2.concat(".").concat(value2))
@@ -104,19 +104,19 @@ public class SqlQueryBuilder {
     }
 
     public SqlQueryBuilder and(String condition) {
-        stringBuilder.append(" AND ")
+        stringBuilder.append("AND ")
                      .append(condition);
         return this;
     }
 
     public SqlQueryBuilder having(String condition) {
-        stringBuilder.append(" HAVING ")
+        stringBuilder.append("HAVING ")
                      .append(condition);
         return this;
     }
 
     public SqlQueryBuilder groupBy(String column) {
-        stringBuilder.append(" GROUP BY ")
+        stringBuilder.append("GROUP BY ")
                      .append(column);
         return this;
     }

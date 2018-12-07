@@ -10,7 +10,6 @@ import java.sql.Timestamp;
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class FriendshipDatabaseOperations extends DatabaseOperations {
-    private static final String FRIENDSHIPS_TABLE = "friendships";
 
     public FriendshipDatabaseOperations() {
         super();
@@ -47,11 +46,11 @@ public class FriendshipDatabaseOperations extends DatabaseOperations {
         addFriendship(friendship.getUserId1(), friendship.getUserId2(), friendship.getTimestamp());
     }
 
-    public void printFriendshipsCount() {
+    public void printCount() {
         printCount(FRIENDSHIPS_TABLE);
     }
 
-    public void deleteAllFriendships() {
+    public void deleteFrom() {
         deleteFrom(FRIENDSHIPS_TABLE);
     }
 }

@@ -12,6 +12,11 @@ import java.sql.Statement;
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class DatabaseOperations {
+    protected static final String USERS_TABLE = "users";
+    protected static final String FRIENDSHIPS_TABLE = "friendships";
+    protected static final String LIKES_TABLE = "likes";
+    protected static final String POSTS_TABLE = "posts";
+
     protected Connection connection = MyFirstConnection.getInstance();
     protected SqlQueryBuilder sqlQueryBuilder = new SqlQueryBuilder();
 
