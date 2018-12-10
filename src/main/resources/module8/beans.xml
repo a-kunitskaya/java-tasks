@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="users_db" class="com.kunitskaya.module8.service.database.operations.UserDatabaseOperations"/>
+    <bean id="friendships_db" class="com.kunitskaya.module8.service.database.operations.FriendshipDatabaseOperations"/>
+    <bean id="likes_db" class="com.kunitskaya.module8.service.database.operations.LikeDatabaseOperations"/>
+    <bean id="posts_db" class="com.kunitskaya.module8.service.database.operations.PostDatabaseOperations"/>
+    <bean id="db_service" class="com.kunitskaya.module8.service.database.DatabaseService"/>
+
+</beans>

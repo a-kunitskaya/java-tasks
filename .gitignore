@@ -75,3 +75,6 @@ Icon
 *.log
 *.gz
 src/main/resources/module7/
+*.txt
+*.ser
+
