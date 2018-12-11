@@ -1,5 +1,10 @@
 package com.kunitskaya.module8.service.database;
 
+import com.kunitskaya.module9.highload.ColumnTypes;
+import org.apache.commons.lang3.RandomUtils;
+
+import java.util.List;
+
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class SqlQueryBuilder {
@@ -119,6 +124,34 @@ public class SqlQueryBuilder {
         stringBuilder.append("GROUP BY ")
                      .append(column)
                      .append(" ");
+        return this;
+    }
+
+    public SqlQueryBuilder createTable(String tableName, int columnsCount, List<String> columnNames) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("CREATE TABLE IF NOT EXISTS ")
+                     .append(tableName)
+                     .append("(");
+
+        for (int i = 0; i < columnsCount; i++) {
+            int randomTypeIndex = RandomUtils.nextInt(0, ColumnTypes.values().length);
+            ColumnTypes type = ColumnTypes.values()[randomTypeIndex];
+            String columnType = type.name();
+
+            if (type == ColumnTypes.VARCHAR) {
+                int charactersCount = RandomUtils.nextInt(1, 100);
+                columnType = type.name() + "(" + charactersCount + ")";
+            }
+
+            stringBuilder.append(columnNames.get(i))
+                         .append(" ")
+                         .append(columnType);
+            if (i != columnsCount - 1) {
+                stringBuilder.append(", ");
+            } else {
+                stringBuilder.append(")");
+            }
+        }
         return this;
     }
 

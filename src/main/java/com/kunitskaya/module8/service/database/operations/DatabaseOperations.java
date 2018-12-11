@@ -17,6 +17,7 @@ public class DatabaseOperations {
     protected static final String LIKES_TABLE = "likes";
     protected static final String POSTS_TABLE = "posts";
 
+
     protected Connection connection = MyFirstConnection.getInstance();
     protected SqlQueryBuilder sqlQueryBuilder = new SqlQueryBuilder();
 
