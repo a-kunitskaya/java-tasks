@@ -5,8 +5,6 @@ import org.apache.commons.lang3.RandomUtils;
 
 import java.util.List;
 
-import static com.kunitskaya.logging.ProjectLogger.LOGGER;
-
 public class SqlQueryBuilder {
     private StringBuilder stringBuilder;
 
@@ -127,15 +125,23 @@ public class SqlQueryBuilder {
         return this;
     }
 
+    /**
+     * Creates table with columns of random types
+     *
+     * @param tableName    name of the table
+     * @param columnsCount how many columns the table should have
+     * @param columnNames  names of the table columns
+     * @return SqlQueryBuilder with query
+     */
     public SqlQueryBuilder createTable(String tableName, int columnsCount, List<String> columnNames) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("CREATE TABLE IF NOT EXISTS ")
-                     .append(tableName)
-                     .append("(");
+
+        stringBuilder = new StringBuilder().append("CREATE TABLE IF NOT EXISTS ")
+                                           .append(tableName)
+                                           .append("(");
 
         for (int i = 0; i < columnsCount; i++) {
             int randomTypeIndex = RandomUtils.nextInt(0, ColumnTypes.values().length);
-            ColumnTypes type = ColumnTypes.values()[randomTypeIndex];
+            ColumnTypes type = ColumnTypes.values()[randomTypeIndex]; //get random column type
             String columnType = type.name();
 
             if (type == ColumnTypes.VARCHAR) {
@@ -157,8 +163,7 @@ public class SqlQueryBuilder {
 
     @Override
     public String toString() {
-        String query = stringBuilder.toString();
-        LOGGER.info("Executing query: " + query);
-        return query;
+        return stringBuilder.toString();
     }
 }
+
