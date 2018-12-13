@@ -56,6 +56,23 @@ public class SqlQueryBuilder {
         return this;
     }
 
+    public SqlQueryBuilder insertPrepared(String table, int valuesCount) {
+        stringBuilder = new StringBuilder().append("INSERT INTO ")
+                                           .append(table)
+                                           .append(" VALUES(");
+
+        for (int i = 0; i < valuesCount; i++) {
+            stringBuilder.append("?");
+
+            if (i != valuesCount - 1) {
+                stringBuilder.append(", ");
+            } else {
+                stringBuilder.append(")");
+            }
+        }
+        return this;
+    }
+
     public SqlQueryBuilder delete(String table) {
         stringBuilder = new StringBuilder("DELETE FROM ").append(table);
         return this;

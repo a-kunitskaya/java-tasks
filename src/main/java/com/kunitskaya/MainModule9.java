@@ -1,12 +1,13 @@
 package com.kunitskaya;
 
 import com.kunitskaya.module8.MyFirstConnection;
-import com.kunitskaya.module8.service.database.operations.DatabaseOperations;
 import com.kunitskaya.module9.AppContext;
 import com.kunitskaya.module9.highload.HighloadDatabaseOperations;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import java.util.List;
 
 public class MainModule9 {
 
@@ -27,8 +28,16 @@ public class MainModule9 {
         int tablesCount = RandomUtils.nextInt(1, 5);
         database.createRandomTables(tablesCount, MyFirstConnection.getInstance());
 
-//        2.	It creates m random rows for the i - th table, where m is an i - th element of M.
-//M is an N-dimensional array predefined by a user of this tool.
+        //2.	It creates m random rows for the i - th table, where m is an i - th element of M.
+        // M is an N-dimensional array predefined by a user of this tool.
+
+        int[][] twoDimensionalArray = {
+                {1, 2, 3},
+                {4, 5, 6, 7},
+                {8, 9, 10, 11, 12}
+        };
+
+        database.insertRandomRowsIntoAnyTable(twoDimensionalArray);
 
 
 //        4.	All settings are located in a configuration file;
@@ -36,3 +45,4 @@ public class MainModule9 {
 
     }
 }
+
