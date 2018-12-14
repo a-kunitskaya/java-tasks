@@ -7,7 +7,6 @@ import org.apache.commons.lang3.RandomUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.util.List;
 
 public class MainModule9 {
 
@@ -19,9 +18,9 @@ public class MainModule9 {
         // Task 1. (20 points) Highload Writing Console Tool
         // Create a Highload Writing Console Tool that populates
         // the database (URL/Name are configuration settings)
+
         // 1.It creates N random tables with random unique name (or names from dictionary)
         // and K random columns with unique names with type taken from Z random types
-
         // 1.3.It supports the table creation/populating via L concurrent connections
         // (from different threads or from a few instances of classes running simultaneously)
 
@@ -30,19 +29,32 @@ public class MainModule9 {
 
         //2.	It creates m random rows for the i - th table, where m is an i - th element of M.
         // M is an N-dimensional array predefined by a user of this tool.
+        int[] oneDimensionalArray = {5, 7, 8, 23, 7, 4, 7, 7, 23, 754, 57, 21, 6};
+
+        database.insertRowsFromArray(oneDimensionalArray);
 
         int[][] twoDimensionalArray = {
-                {1, 2, 3},
-                {4, 5, 6, 7},
-                {8, 9, 10, 11, 12}
+                {1, 25, 3, 5, 64, 7, 8, 2, 6, 734, 8, 3},
+                {4, 5, 436, 7, 5, 6, 324, 4, 3, 235},
+                {8, 9, 10, 11, 12, 423, 5, 12, 3, 4, 34, 3}
         };
 
-        database.insertRandomRowsIntoAnyTable(twoDimensionalArray);
+        database.insertRowsFromArray(twoDimensionalArray, 2);
 
+        int[][][] threeDimensionalArray = {
+                {
+                        {8, 9, 10, 11, 12, 423, 5, 12, 3, 4, 34, 3},
+                        {4, 5, 436, 7, 5, 6, 3247, 4, 3, 235},
+                        {1, 25, 3, 5, 64, 7, 8, 2, 6, 734, 8, 3},
 
-//        4.	All settings are located in a configuration file;
-// the path to this file is a parameter of main function.
+                },
+                {
+                        {8, 9, 10, 11, 12, 423, 5, 12, 3, 4, 34, 3},
+                        {1, 1, 25, 3, 5, 64, 7, 8, 2, 6, 734, 8, 3},
+                }
+        };
 
+        database.insertRowsFromArray(threeDimensionalArray, 2);
     }
 }
 
