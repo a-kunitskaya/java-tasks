@@ -1,6 +1,6 @@
 package com.kunitskaya;
 
-import com.kunitskaya.module8.MyFirstConnection;
+import com.kunitskaya.module8.ConnectionProvider;
 import com.kunitskaya.module9.AppContext;
 import com.kunitskaya.module9.highload.HighloadDatabaseOperations;
 import org.apache.commons.lang3.RandomUtils;
@@ -25,18 +25,18 @@ public class MainModule9 {
         // (from different threads or from a few instances of classes running simultaneously)
 
         int tablesCount = RandomUtils.nextInt(1, 5);
-        database.createRandomTables(tablesCount, MyFirstConnection.getInstance());
+        database.createRandomTables(tablesCount, ConnectionProvider.getInstance());
 
         //2.	It creates m random rows for the i - th table, where m is an i - th element of M.
         // M is an N-dimensional array predefined by a user of this tool.
         int[] oneDimensionalArray = {5, 7, 8, 23, 7, 4, 7, 7, 23, 754, 57, 21, 6};
 
-        database.insertRowsFromArray(oneDimensionalArray);
+        database.insertRowsFromArray(oneDimensionalArray, 2);
 
         int[][] twoDimensionalArray = {
-                {1, 25, 3, 5, 64, 7, 8, 2, 6, 734, 8, 3},
+                {1, 34, 546, 5, 63, 25, 3, 4, 7, 8, 2, 6, 734, 8, 3},
                 {4, 5, 436, 7, 5, 6, 324, 4, 3, 235},
-                {8, 9, 10, 11, 12, 423, 5, 12, 3, 4, 34, 3}
+                {83, 29, 4310, 111, 12, 423, 335, 12, 3, 4, 34, 3}
         };
 
         database.insertRowsFromArray(twoDimensionalArray, 2);
@@ -49,12 +49,14 @@ public class MainModule9 {
 
                 },
                 {
-                        {8, 9, 10, 11, 12, 423, 5, 12, 3, 4, 34, 3},
-                        {1, 1, 25, 3, 5, 64, 7, 8, 2, 6, 734, 8, 3},
+                        {821, 92, 110, 111, 123, 423, 5, 212, 33, 34, 134, 33},
+                        {132, 113, 235, 3, 5, 64, 327, 8, 2, 36, 734, 8, 3},
                 }
         };
 
         database.insertRowsFromArray(threeDimensionalArray, 2);
+
+        database.deleteDatabase();
     }
 }
 

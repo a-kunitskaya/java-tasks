@@ -1,8 +1,9 @@
 package com.kunitskaya.module8.service.database.operations;
 
 import com.kunitskaya.module8.ConfigProvider;
-import com.kunitskaya.module8.MyFirstConnection;
+import com.kunitskaya.module8.ConnectionProvider;
 import com.kunitskaya.module8.service.database.SqlQueryBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,17 +13,18 @@ import java.sql.Statement;
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class DatabaseOperations {
+    @Autowired
+    protected SqlQueryBuilder sqlQueryBuilder;
+
+    private static ConfigProvider configProvider = ConfigProvider.getInstance();
+
     protected static final String USERS_TABLE = "users";
     protected static final String FRIENDSHIPS_TABLE = "friendships";
     protected static final String LIKES_TABLE = "likes";
     protected static final String POSTS_TABLE = "posts";
+    protected static final String DATABASE = configProvider.getDBName();
 
-
-    protected Connection connection = MyFirstConnection.getInstance();
-    protected SqlQueryBuilder sqlQueryBuilder = new SqlQueryBuilder();
-
-    private ConfigProvider configProvider = ConfigProvider.getInstance();
-    private String projectDatabase = configProvider.getDBName();
+    protected Connection connection = ConnectionProvider.getInstance();
 
     public DatabaseOperations() {
         createProjectDatabase();
@@ -30,9 +32,9 @@ public class DatabaseOperations {
     }
 
     private void createProjectDatabase() {
-        LOGGER.info("Creating database: " + projectDatabase);
+        LOGGER.info("Creating database: " + DATABASE);
 
-        String createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS " + projectDatabase;
+        String createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS " + DATABASE;
         try (Statement statement = connection.createStatement()) {
 
             statement.execute(createDatabaseQuery);
@@ -43,9 +45,9 @@ public class DatabaseOperations {
     }
 
     private void useProjectDatabase() {
-        LOGGER.info("Switching to database: " + projectDatabase);
+        LOGGER.info("Switching to database: " + DATABASE);
 
-        String useDatabaseQuery = "USE " + projectDatabase;
+        String useDatabaseQuery = "USE " + DATABASE;
         try (Statement statement = connection.createStatement()) {
 
             statement.execute(useDatabaseQuery);
@@ -98,4 +100,15 @@ public class DatabaseOperations {
         }
     }
 
+    public void deleteDatabase() {
+        LOGGER.info("Deleting database: " + DATABASE);
+        String query = "DROP DATABASE " + DATABASE;
+
+        try (Statement statement = connection.createStatement()) {
+            statement.execute(query);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

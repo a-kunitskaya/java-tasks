@@ -4,6 +4,7 @@ import com.kunitskaya.module8.service.database.SqlQueryBuilder;
 import com.kunitskaya.module8.service.database.operations.DatabaseOperations;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,7 +17,9 @@ import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 public class HighloadDatabaseOperations extends DatabaseOperations {
 
-    private SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
+    @Autowired
+    private SqlQueryBuilder queryBuilder;
+
     private static final String ADD_TO_BATCH_MESSAGE = "Adding query to batch: ";
     private static final String BATCH_SUCCESSFUL_MESSAGE = " Successfully executed batch";
 
@@ -50,51 +53,72 @@ public class HighloadDatabaseOperations extends DatabaseOperations {
 
     private List<String> getCreateTableQueries(int tablesCount) {
         List<String> queries = new ArrayList<>();
-        List<String> tableNames = getRandomTableNames(tablesCount);
+        List<String> tableNames = getRandomNames(tablesCount);
 
         tableNames.forEach(tableName -> {
             int columnsCount = RandomUtils.nextInt(2, 8);
-            List<String> columns = getRandomColumnsNames(columnsCount);
+            List<String> columns = getRandomNames(columnsCount);
             String query = queryBuilder.createTable(tableName, columnsCount, columns).toString();
             queries.add(query);
         });
         return queries;
     }
 
-    private List<String> getRandomColumnsNames(int columnsCount) {
-        return IntStream.range(0, columnsCount)
-                        .mapToObj(i -> RandomStringUtils.randomAlphanumeric(3, 7))
+    /**
+     * Composes random strings to be used as not yet existing column/tables names
+     *
+     * @param namesCount count of required names
+     * @return random string values
+     */
+    private List<String> getRandomNames(int namesCount) {
+        return IntStream.range(0, namesCount)
+                        .mapToObj(i -> RandomStringUtils.randomAlphabetic(3, 6))
                         .collect(Collectors.toList());
     }
 
-    private List<String> getRandomTableNames(int tablesCount) {
-        return IntStream.range(0, tablesCount)
-                        .mapToObj(i -> RandomStringUtils.randomAlphabetic(1, 10))
-                        .collect(Collectors.toList());
-    }
+    public void insertRowsFromArray(int[] rowsArray, int rowsCount) {
+        List<int[]> rows = new ArrayList<>();
 
-    public void insertRowsFromArray(int[] rowsArray) {
-        insertRowsFromArray(rowsArray, 1);
+        for (int i = 0; i < rowsCount; i++) {
+            rows.add(rowsArray);
+        }
+        insertRowsFromArray(rows);
     }
 
     public void insertRowsFromArray(int[][] rowsArray, int rowsCount) {
-        int index = RandomUtils.nextInt(0, rowsArray.length);
-        int[] oneDimensionalArray = rowsArray[index];
+        List<int[]> arrays = new ArrayList<>();
 
-        insertRowsFromArray(oneDimensionalArray, rowsCount);
+        for (int i = 0; i < rowsCount; i++) {
+            int index = RandomUtils.nextInt(0, rowsArray.length);
+
+            int[] oneDimensionalArray = rowsArray[index];
+            arrays.add(oneDimensionalArray);
+        }
+        insertRowsFromArray(arrays);
     }
 
     public void insertRowsFromArray(int[][][] rowsArray, int rowsCount) {
-        int index1 = RandomUtils.nextInt(0, rowsArray.length);
-        int[][] twoDimensionalArray = rowsArray[index1];
+        List<int[]> rows = new ArrayList<>();
 
-        int index2 = RandomUtils.nextInt(0, twoDimensionalArray.length);
-        int[] oneDimensionalArray = twoDimensionalArray[index2];
+        for (int i = 0; i < rowsCount; i++) {
+            int index1 = RandomUtils.nextInt(0, rowsArray.length);
+            int[][] twoDimensionalArray = rowsArray[index1];
 
-        insertRowsFromArray(oneDimensionalArray, rowsCount);
+            int index2 = RandomUtils.nextInt(0, twoDimensionalArray.length);
+            int[] oneDimensionalArray = twoDimensionalArray[index2];
+
+            rows.add(oneDimensionalArray);
+
+        }
+        insertRowsFromArray(rows);
     }
 
-    private void insertRowsFromArray(int[] rowsArray, int rowsCount) {
+    /**
+     * Inserts values to table from array
+     *
+     * @param rowsArrays list of 1d arrays with values
+     */
+    private void insertRowsFromArray(List<int[]> rowsArrays) {
         ResultSet columnsResult = null;
         try {
             DatabaseMetaData metaData = connection.getMetaData();
@@ -106,21 +130,28 @@ public class HighloadDatabaseOperations extends DatabaseOperations {
             String query = sqlQueryBuilder.insertPrepared(tableName, columnCount).toString();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
 
-            addBatch(rowsArray, rowsCount, columnsResult, preparedStatement);
+            addBatch(columnsResult, preparedStatement, rowsArrays);
 
             int[] affectedRows = preparedStatement.executeBatch();
             LOGGER.info("Affected rows: " + affectedRows.length);
 
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             closeResult(columnsResult);
         }
     }
 
+    /**
+     * Retrieves columns of an existing table
+     *
+     * @param metaData  connection metadata
+     * @param tableName table to retrieve columns from
+     * @return table columns
+     */
     private ResultSet getTableColumns(DatabaseMetaData metaData, String tableName) {
         try {
-            return metaData.getColumns("jmp", null, tableName, null);
+            return metaData.getColumns(DATABASE, null, tableName, null);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -137,7 +168,7 @@ public class HighloadDatabaseOperations extends DatabaseOperations {
     private String getRandomExistingTableName(DatabaseMetaData metaData) {
         String tableName = null;
 
-        try (ResultSet tablesResult = metaData.getTables("jmp", null, null, null);) {
+        try (ResultSet tablesResult = metaData.getTables(DATABASE, null, null, null)) {
             int tablesCount = 0;
 
             while (tablesResult.next()) {
@@ -166,13 +197,19 @@ public class HighloadDatabaseOperations extends DatabaseOperations {
         }
     }
 
+    /**
+     * Retrieves count of columns of an existing table
+     *
+     * @param tableName table to count columns in
+     * @return the number of columns
+     */
     private int getColumnCount(String tableName) {
         int columnCount = 0;
         String rowsCountQuery = "Describe " + tableName;
         String message = "Table: %s has column with name: %s";
 
         try (Statement statement = connection.createStatement();
-             ResultSet result = statement.executeQuery(rowsCountQuery);) {
+             ResultSet result = statement.executeQuery(rowsCountQuery)) {
             while (result.next()) {
                 String column = result.getString(1);
                 LOGGER.info(String.format(message, tableName, column));
@@ -184,27 +221,26 @@ public class HighloadDatabaseOperations extends DatabaseOperations {
         return columnCount;
     }
 
-    private void addBatch(int[] rowsArray, int rowsCount, ResultSet columns, PreparedStatement preparedStatement) throws SQLException {
+    private void addBatch(ResultSet columns, PreparedStatement preparedStatement, List<int[]> rowsArrays) throws SQLException {
 
-        for (int i = 0; i < rowsCount; i++) {
+        for (int[] row : rowsArrays) {
             int index = 0;
-            columns.beforeFirst();
 
+            columns.beforeFirst();
             while (columns.next()) {
                 int dataType = Integer.parseInt(columns.getString("DATA_TYPE"));
 
-                if (index >= rowsArray.length) {
+                if (index >= row.length) {
                     throw new IllegalArgumentException("Items count in array row < table columns count");
                 }
 
                 if (dataType == ColumnTypes.VARCHAR.getCode()) {
-                    preparedStatement.setString(index + 1, String.valueOf(rowsArray[index]));
+                    preparedStatement.setString(index + 1, String.valueOf(row[index]));
                 } else {
-                    preparedStatement.setInt(index + 1, rowsArray[index]);
+                    preparedStatement.setInt(index + 1, row[index]);
                 }
                 index++;
             }
-
             LOGGER.info("Adding statement to batch: " + preparedStatement);
             preparedStatement.addBatch();
         }

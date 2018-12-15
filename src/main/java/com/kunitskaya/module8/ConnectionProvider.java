@@ -7,24 +7,22 @@ import java.sql.Statement;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
-public class MyFirstConnection {
+public class ConnectionProvider {
 
     private static ConfigProvider configProvider = ConfigProvider.getInstance();
 
     private static String databaseUrl = configProvider.getDBUrl();
     private static String username = configProvider.getDBUsername();
     private static String password = configProvider.getDBPassword();
-    private static String databaseName = configProvider.getDBName();
 
     private static Connection connection;
 
-    private MyFirstConnection() {
+    private ConnectionProvider() {
     }
 
     public static Connection getInstance() {
         if (connection == null) {
             connect();
-            useDb();
         }
         return connection;
     }
@@ -38,16 +36,6 @@ public class MyFirstConnection {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    private static void useDb() {
-        try {
-            Statement statement = connection.createStatement();
-            String useDatabaseQuery = "USE " + databaseName;
-            statement.execute(useDatabaseQuery);
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 

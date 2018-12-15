@@ -17,7 +17,7 @@ public class StatementExecutor {
     public void executeStatements(List<String> voidQueries, List<String> queriesWithResult, Class<?> resultType) {
 
         try {
-            Connection connection = MyFirstConnection.getInstance();
+            Connection connection = ConnectionProvider.getInstance();
             if (connection != null) {
                 Statement statement = connection.createStatement();
 

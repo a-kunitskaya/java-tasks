@@ -1,6 +1,6 @@
 package com.kunitskaya;
 
-import com.kunitskaya.module8.MyFirstConnection;
+import com.kunitskaya.module8.ConnectionProvider;
 import com.kunitskaya.module8.service.database.DatabaseService;
 import com.kunitskaya.module8.service.database.operations.FriendshipDatabaseOperations;
 import com.kunitskaya.module8.service.database.operations.LikeDatabaseOperations;
@@ -77,6 +77,6 @@ public class MainModule8 {
         postsDatabase.deleteFrom();
         likesDatabase.deleteFrom();
 
-        MyFirstConnection.closeConnection();
+        ConnectionProvider.closeConnection();
     }
 }

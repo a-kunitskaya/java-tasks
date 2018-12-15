@@ -16,7 +16,7 @@ public class PreparedStatementsExecutor {
         statement = String.format(statement, columns);
 
         try {
-            Connection connection = MyFirstConnection.getInstance();
+            Connection connection = ConnectionProvider.getInstance();
             PreparedStatement prepStatement = connection.prepareStatement(statement);
             prepStatement.setString(1, param);
 
