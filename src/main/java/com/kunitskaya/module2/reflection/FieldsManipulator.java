@@ -41,7 +41,7 @@ public class FieldsManipulator {
                 }
             }
         } else {
-            String message = "Could not fill in fields of %s. \n Instance type to get values from (%s) is different from instance type to fill in (%s)";
+            String message = "Could not fill in fields of %s. \n Instance type to get values from(%s) is different from instance type to fill in (%s)";
             throw new IllegalArgumentException(String.format(message, name, modelClazz, clazz));
         }
     }

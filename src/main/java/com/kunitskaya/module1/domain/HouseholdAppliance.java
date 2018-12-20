@@ -4,16 +4,17 @@ import com.kunitskaya.module1.HomeLocation;
 import com.kunitskaya.module1.Pluggable;
 import com.kunitskaya.module2.annotations.ThisCodeSmells;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
-public abstract class HouseholdAppliance implements Pluggable {
+public abstract class HouseholdAppliance implements Pluggable, Serializable {
     public static final String PLUGIN_MESSAGE = "Plugging in %s instance...";
     public static final String UNPLUG_MESSAGE = "Unplugging %s instance...";
 
     @ThisCodeSmells(reviewer = "David")
-    private Integer powerConsumption;
+    private transient Integer powerConsumption;
 
     @ThisCodeSmells(reviewer = "Robin")
     private Boolean isPluggedIn;
@@ -27,7 +28,6 @@ public abstract class HouseholdAppliance implements Pluggable {
         } else {
             this.powerConsumption = powerConsumption;
         }
-
         String nonDigitPattern = "\\D+";
         if (color.isEmpty() || !color.matches(nonDigitPattern)) {
             throw new IllegalArgumentException("Color should consist of > 0 word characters");
@@ -43,6 +43,13 @@ public abstract class HouseholdAppliance implements Pluggable {
         } else {
             this.powerConsumption = powerConsumption;
         }
+    }
+
+    public HouseholdAppliance(Integer powerConsumption, Boolean isPluggedIn, String color, HomeLocation location) {
+        this.powerConsumption = powerConsumption;
+        this.isPluggedIn = isPluggedIn;
+        this.color = color;
+        this.location = location;
     }
 
     public HouseholdAppliance() {

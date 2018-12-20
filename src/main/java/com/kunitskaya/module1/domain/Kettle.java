@@ -5,10 +5,24 @@ import com.kunitskaya.module1.HomeLocation;
 import java.util.Objects;
 
 public class Kettle extends HouseholdAppliance {
-    private Double volume;
+    private transient Double volume;
 
     public Kettle(Integer powerConsumption, String color, HomeLocation location, Double volume) {
         super(powerConsumption, color, location);
+        this.volume = volume;
+    }
+
+    public Kettle(Integer powerConsumption, Double volume) {
+        super(powerConsumption);
+        this.volume = volume;
+    }
+
+    public Kettle(Integer powerConsumption, Boolean isPluggedIn, String color, HomeLocation location, Double volume) {
+        super(powerConsumption, isPluggedIn, color, location);
+        this.volume = volume;
+    }
+
+    public Kettle(Double volume) {
         this.volume = volume;
     }
 

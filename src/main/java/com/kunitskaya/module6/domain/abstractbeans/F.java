@@ -25,3 +25,4 @@ public class F {
         LOGGER.info("Calling @PreDestroy on bean F");
     }
 }
+
