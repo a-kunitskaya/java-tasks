@@ -76,74 +76,21 @@ public class UserDatabaseOperations extends DatabaseOperations {
     public List<String> getPopularUsers(String periodFrom, int likesCount, int friendshipsCount) {
 
         String message = "Found popular user: %s, likes from: %s: %s, friendships: %s";
-        Map<String, Integer> likes = getUsersWithLikes(periodFrom, likesCount);
-        Map<String, Integer> friendships = getUsersWithFriendships(friendshipsCount);
         List<String> users = new ArrayList<>();
 
-        for (Map.Entry<String, Integer> userLikes : likes.entrySet()) {
-            friendships.entrySet()
-                       .stream()
-                       .filter(f -> f.getValue() >= friendshipsCount)
-                       .filter(l -> userLikes.getValue() >= likesCount)
-                       .peek(u -> LOGGER.info(String.format(message, u.getKey(), periodFrom, userLikes.getValue(), u.getValue())))
-                       .map(Map.Entry::getKey)
-                       .forEach(users::add);
-        }
+        String queryNotPrepared = "select name " +
+                "from users" +
+                "join likes " +
+                "on users.id = likes.userid" +
+                "join friendships " +
+                "on users.id = friendships.userid1" +
+                "where (select count(likes.userid) from likes where likes.timestamp > 2025-03-00) > 100" +
+                "AND (select count(friendships.userid1) from friendships where friendships.timestamp  > 2025-03-00) > 100";
+
+        String query;
+
+
         return users;
     }
 
-    private Map<String, Integer> getUsersWithLikes(String periodFrom, int likesCount) {
-        Map<String, Integer> likesPerUser = new HashMap<>();
-
-        String query = sqlQueryBuilder.select()
-                                      .distinct(USERS_TABLE.concat(".name") + ", count(*)")
-                                      .from(USERS_TABLE)
-                                      .join(LIKES_TABLE)
-                                      .on(USERS_TABLE, "id", LIKES_TABLE, "userid")
-                                      .where(LIKES_TABLE.concat(".timestamp > ") + periodFrom)
-                                      .groupBy(USERS_TABLE.concat(".name"))
-                                      .having("COUNT(*) > " + likesCount)
-                                      .toString();
-
-        try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet1 = statement.executeQuery(query);
-            while (resultSet1.next()) {
-                String user = resultSet1.getString(1);
-                int likes = resultSet1.getInt(2);
-                if (likes > 100) {
-                    likesPerUser.put(user, likes);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return likesPerUser;
-    }
-
-    private Map<String, Integer> getUsersWithFriendships(int friendshipsCount) {
-        Map<String, Integer> friendshipsPerUser = new HashMap<>();
-
-        String query = sqlQueryBuilder.select()
-                                      .distinct(USERS_TABLE.concat(".name") + ", count(*)")
-                                      .from(USERS_TABLE)
-                                      .join(FRIENDSHIPS_TABLE)
-                                      .on(USERS_TABLE, "id", FRIENDSHIPS_TABLE, "userid1")
-                                      .groupBy(USERS_TABLE.concat(".name"))
-                                      .having("COUNT(*) > " + friendshipsCount)
-                                      .toString();
-
-        try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet1 = statement.executeQuery(query);
-            while (resultSet1.next()) {
-                String user = resultSet1.getString(1);
-                int friendships = resultSet1.getInt(2);
-                if (friendships > 100) {
-                    friendshipsPerUser.put(user, friendships);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return friendshipsPerUser;
-    }
 }
