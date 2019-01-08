@@ -245,4 +245,12 @@ public class HighloadDatabaseOperations extends DatabaseOperations {
             preparedStatement.addBatch();
         }
     }
+
+    public void populateTableFromArray(String...paths) {
+
+    }
+
+    public void createRandomTables(String path) {
+
+    }
 }

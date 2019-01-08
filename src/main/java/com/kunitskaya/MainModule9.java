@@ -7,6 +7,8 @@ import org.apache.commons.lang3.RandomUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.nio.file.Paths;
+
 
 public class MainModule9 {
 
@@ -55,6 +57,9 @@ public class MainModule9 {
         };
 
         database.insertRowsFromArray(threeDimensionalArray, 2);
+
+        String arrayPath1 = Paths.get("src", "main", "resources", "3d_array.json").toString();
+        database.populateTableFromArray(arrayPath1);
 
         database.deleteDatabase();
     }
