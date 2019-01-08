@@ -3,10 +3,8 @@ package com.kunitskaya.module8.service.database.operations;
 
 import com.kunitskaya.module8.domain.User;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -77,18 +75,30 @@ public class UserDatabaseOperations extends DatabaseOperations {
 
     public List<String> getPopularUsers(String date, int likesCount, int friendshipsCount) {
         List<String> users = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date1 = null;
+        Timestamp sqlDate = null;
+        try {
+            date1 = dateFormat.parse(date);
+            sqlDate = new Timestamp(date1.getTime());
+
+        } catch (ParseException e) {
+
+        }
 
         String query = "select distinct(users.name) from users " +
-                "join(select userid, count(userid) from likes group by  likes.userid) as l on users.id = l.userid " +
-                "join (select userid1, count(userid1)from friendships group by  friendships.userid1) as f on users.id = f.userid1 " +
-                "where (select count(likes.userid) from likes where likes.timestamp > ?) > ? " +
-                "AND (select count(friendships.userid1) from friendships where friendships.timestamp > ?) > ?";
+                "join(select userid, count(userid) as lc from likes where likes.timestamp > ? group by likes.userid) " +
+                "as l on users.id = l.userid " +
+                "join (select userid1, count(userid1) as fc from friendships where timestamp > ? group by  friendships.userid1) " +
+                "as f on users.id = f.userid1 " +
+                "where lc > ? " +
+                "AND fc > ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, likesCount);
-            preparedStatement.setObject(2, date);
-            preparedStatement.setInt(3, friendshipsCount);
-            preparedStatement.setObject(4, date);
+            preparedStatement.setTimestamp(1, sqlDate);
+            preparedStatement.setTimestamp(2, sqlDate);
+            preparedStatement.setInt(3, likesCount);
+            preparedStatement.setInt(4, friendshipsCount);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
