@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
@@ -79,18 +78,17 @@ public class UserDatabaseOperations extends DatabaseOperations {
     public List<String> getPopularUsers(String date, int likesCount, int friendshipsCount) {
         List<String> users = new ArrayList<>();
 
-        String query = "select name " +
-                "from users " +
-                "join likes " +
-                "on users.id = likes.userid " +
-                "join friendships " +
-                "on users.id = friendships.userid1 " +
-                "where (select count(likes.userid) from likes where likes.timestamp > " + date + ") > ? " +
-                "AND (select count(friendships.userid1) from friendships where friendships.timestamp > " + date + ") > ?";
+        String query = "select distinct(users.name) from users " +
+                "join(select userid, count(userid) from likes group by  likes.userid) as l on users.id = l.userid " +
+                "join (select userid1, count(userid1)from friendships group by  friendships.userid1) as f on users.id = f.userid1 " +
+                "where (select count(likes.userid) from likes where likes.timestamp > ?) > ? " +
+                "AND (select count(friendships.userid1) from friendships where friendships.timestamp > ?) > ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, likesCount);
-            preparedStatement.setInt(2, friendshipsCount);
+            preparedStatement.setObject(2, date);
+            preparedStatement.setInt(3, friendshipsCount);
+            preparedStatement.setObject(4, date);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -101,6 +99,6 @@ public class UserDatabaseOperations extends DatabaseOperations {
             e.printStackTrace();
         }
 
-        return users.stream().distinct().collect(Collectors.toList());
+        return users;
     }
 }
