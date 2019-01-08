@@ -10,6 +10,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -69,7 +71,8 @@ public class MainModule8 {
 
         // 3. Program should print out all names (only distinct) of users
         // who has more when 100 friends and 100 likes in March 2025.
-        List<String> popularUsers = usersDatabase.getPopularUsers("2025-00-00", 100, 100);
+        ZonedDateTime date = ZonedDateTime.of(2025, 3, 1, 0, 0, 0, 0, ZoneId.systemDefault());
+        List<String> popularUsers = usersDatabase.getPopularUsers(date, 100, 100);
         LOGGER.info("Popular users: " + popularUsers.toString());
 
         usersDatabase.deleteFrom();

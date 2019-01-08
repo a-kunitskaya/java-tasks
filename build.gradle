@@ -28,10 +28,8 @@ dependencies {
     compile group: 'javax.el', name: 'javax.el-api', version: '3.0.1-b06'
     compile group: 'org.glassfish.web', name: 'el-impl', version: '2.2.1-b05'
 
-
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
-
+    
     //JDBC
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.13'
-
 }
