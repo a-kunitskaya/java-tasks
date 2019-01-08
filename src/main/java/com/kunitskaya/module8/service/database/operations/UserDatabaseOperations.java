@@ -3,9 +3,12 @@ package com.kunitskaya.module8.service.database.operations;
 
 import com.kunitskaya.module8.domain.User;
 
-import java.sql.*;
-import java.text.ParseException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -73,18 +76,9 @@ public class UserDatabaseOperations extends DatabaseOperations {
         addUserWithPreparedStatement(user.getId(), user.getName(), user.getSurname(), user.getBirthDate());
     }
 
-    public List<String> getPopularUsers(String date, int likesCount, int friendshipsCount) {
+    public List<String> getPopularUsers(ZonedDateTime date, int likesCount, int friendshipsCount) {
         List<String> users = new ArrayList<>();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date1 = null;
-        Timestamp sqlDate = null;
-        try {
-            date1 = dateFormat.parse(date);
-            sqlDate = new Timestamp(date1.getTime());
-
-        } catch (ParseException e) {
-
-        }
+        long timestamp = date.toEpochSecond();
 
         String query = "select distinct(users.name) from users " +
                 "join(select userid, count(userid) as lc from likes where likes.timestamp > ? group by likes.userid) " +
@@ -95,8 +89,8 @@ public class UserDatabaseOperations extends DatabaseOperations {
                 "AND fc > ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setTimestamp(1, sqlDate);
-            preparedStatement.setTimestamp(2, sqlDate);
+            preparedStatement.setLong(1, timestamp);
+            preparedStatement.setLong(2, timestamp);
             preparedStatement.setInt(3, likesCount);
             preparedStatement.setInt(4, friendshipsCount);
             ResultSet resultSet = preparedStatement.executeQuery();
