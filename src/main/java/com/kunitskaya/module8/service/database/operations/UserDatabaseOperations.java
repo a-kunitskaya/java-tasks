@@ -8,7 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
@@ -46,7 +49,7 @@ public class UserDatabaseOperations extends DatabaseOperations {
 
     public void addUserWithPreparedStatement(int id, String name, String surname, Date birthDate) {
         String query = sqlQueryBuilder.insertPrepared(USERS_TABLE, String.valueOf(id), name, surname, birthDate.toString())
-                                      .toString();
+                .toString();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
@@ -73,24 +76,31 @@ public class UserDatabaseOperations extends DatabaseOperations {
         addUserWithPreparedStatement(user.getId(), user.getName(), user.getSurname(), user.getBirthDate());
     }
 
-    public List<String> getPopularUsers(String periodFrom, int likesCount, int friendshipsCount) {
-
-        String message = "Found popular user: %s, likes from: %s: %s, friendships: %s";
+    public List<String> getPopularUsers(String date, int likesCount, int friendshipsCount) {
         List<String> users = new ArrayList<>();
 
-        String queryNotPrepared = "select name " +
-                "from users" +
+        String query = "select name " +
+                "from users " +
                 "join likes " +
-                "on users.id = likes.userid" +
+                "on users.id = likes.userid " +
                 "join friendships " +
-                "on users.id = friendships.userid1" +
-                "where (select count(likes.userid) from likes where likes.timestamp > 2025-03-00) > 100" +
-                "AND (select count(friendships.userid1) from friendships where friendships.timestamp  > 2025-03-00) > 100";
+                "on users.id = friendships.userid1 " +
+                "where (select count(likes.userid) from likes where likes.timestamp > " + date + ") > ? " +
+                "AND (select count(friendships.userid1) from friendships where friendships.timestamp > " + date + ") > ?";
 
-        String query;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, likesCount);
+            preparedStatement.setInt(2, friendshipsCount);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
+            while (resultSet.next()) {
+                String userName = resultSet.getString(1);
+                users.add(userName);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-        return users;
+        return users.stream().distinct().collect(Collectors.toList());
     }
-
 }

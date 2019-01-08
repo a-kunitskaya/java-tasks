@@ -72,11 +72,11 @@ public class MainModule8 {
         List<String> popularUsers = usersDatabase.getPopularUsers("2025-03-00", 100, 100);
         LOGGER.info("Popular users: " + popularUsers.toString());
 
-       // usersDatabase.deleteFrom();
-      //  friendshipsDatabase.deleteFrom();
-      //  postsDatabase.deleteFrom();
-       // likesDatabase.deleteFrom();
+        usersDatabase.deleteFrom();
+        friendshipsDatabase.deleteFrom();
+        postsDatabase.deleteFrom();
+        likesDatabase.deleteFrom();
 
-       // MyFirstConnection.closeConnection();
+        MyFirstConnection.closeConnection();
     }
 }
