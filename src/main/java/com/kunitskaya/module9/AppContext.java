@@ -1,7 +1,9 @@
 package com.kunitskaya.module9;
 
 import com.kunitskaya.module8.service.database.SqlQueryBuilder;
-import com.kunitskaya.module9.highload.HighloadDatabaseOperations;
+import com.kunitskaya.module9.database.HighloadDatabaseOperations;
+import com.kunitskaya.module9.entity.HighloadConfiguration;
+import com.kunitskaya.module9.service.JsonMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

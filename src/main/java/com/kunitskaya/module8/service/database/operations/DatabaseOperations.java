@@ -26,36 +26,6 @@ public class DatabaseOperations {
 
     protected Connection connection = ConnectionProvider.getInstance();
 
-    public DatabaseOperations() {
-        createProjectDatabase();
-        useProjectDatabase();
-    }
-
-    private void createProjectDatabase() {
-        LOGGER.info("Creating database: " + DATABASE);
-
-        String createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS " + DATABASE;
-        try (Statement statement = connection.createStatement()) {
-
-            statement.execute(createDatabaseQuery);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void useProjectDatabase() {
-        LOGGER.info("Switching to database: " + DATABASE);
-
-        String useDatabaseQuery = "USE " + DATABASE;
-        try (Statement statement = connection.createStatement()) {
-
-            statement.execute(useDatabaseQuery);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     protected void deleteFrom(String tableName) {
         String query = sqlQueryBuilder.delete(tableName)
                                       .toString();

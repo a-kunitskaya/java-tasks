@@ -1,4 +1,4 @@
-package com.kunitskaya.module9.highload;
+package com.kunitskaya.module9.database;
 
 import com.kunitskaya.module8.service.database.SqlQueryBuilder;
 import com.kunitskaya.module8.service.database.operations.DatabaseOperations;

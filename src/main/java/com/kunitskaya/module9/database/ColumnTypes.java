@@ -1,4 +1,4 @@
-package com.kunitskaya.module9.highload;
+package com.kunitskaya.module9.database;
 
 public enum ColumnTypes {
     VARCHAR(12),

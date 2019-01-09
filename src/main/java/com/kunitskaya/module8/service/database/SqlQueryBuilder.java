@@ -1,6 +1,6 @@
 package com.kunitskaya.module8.service.database;
 
-import com.kunitskaya.module9.highload.ColumnTypes;
+import com.kunitskaya.module9.database.ColumnTypes;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.util.List;
