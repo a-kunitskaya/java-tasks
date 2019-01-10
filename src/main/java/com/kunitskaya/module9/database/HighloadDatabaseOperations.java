@@ -2,6 +2,7 @@ package com.kunitskaya.module9.database;
 
 import com.kunitskaya.module8.service.database.SqlQueryBuilder;
 import com.kunitskaya.module8.service.database.operations.DatabaseOperations;
+import com.kunitskaya.module9.entity.HighloadConfiguration;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +28,60 @@ public class HighloadDatabaseOperations extends DatabaseOperations {
         super();
     }
 
-    public void createRandomTables(int tablesCount, Connection... connections) {
-        List<String> queries = getCreateTableQueries(tablesCount);
+//    public void createRandomTables(int tablesCount, Connection... connections) {
+//        List<String> queries = getCreateTableQueries(tablesCount);
+//
+//        for (Connection connection1 : connections) {
+//            try (Statement statement = connection1.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)) {
+//                queries.stream()
+//                       .peek(q -> LOGGER.info(ADD_TO_BATCH_MESSAGE + q))
+//                       .forEach(q -> {
+//                           try {
+//                               statement.addBatch(q);
+//                           } catch (SQLException e) {
+//                               e.printStackTrace();
+//                           }
+//                       });
+//
+//                statement.executeBatch();
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//            LOGGER.info(BATCH_SUCCESSFUL_MESSAGE);
+//        }
+//    }
+//
+//    public void createRandomTables(HighloadConfiguration configuration, Connection... connections) {
+//        List<String> queries = getCreateTableQueries(configuration);
+//
+//        for (Connection connection1 : connections) {
+//            try (Statement statement = connection1.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)) {
+//                queries.stream()
+//                       .peek(q -> LOGGER.info(ADD_TO_BATCH_MESSAGE + q))
+//                       .forEach(q -> {
+//                           try {
+//                               statement.addBatch(q);
+//                           } catch (SQLException e) {
+//                               e.printStackTrace();
+//                           }
+//                       });
+//
+//                statement.executeBatch();
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//            LOGGER.info(BATCH_SUCCESSFUL_MESSAGE);
+//        }
+//    }
+
+
+    public void createRandomTables(HighloadConfiguration configuration, Connection... connections) {
+        List<String> queries = getCreateTableQueries(configuration);
 
         Arrays.stream(connections)
-              .forEach(connection -> {
-                  try (Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)) {
+              .parallel()
+              .forEach(c -> {
+                  try (Statement statement = c.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)) {
                       queries.stream()
                              .peek(q -> LOGGER.info(ADD_TO_BATCH_MESSAGE + q))
                              .forEach(q -> {
@@ -51,14 +100,14 @@ public class HighloadDatabaseOperations extends DatabaseOperations {
               });
     }
 
-    private List<String> getCreateTableQueries(int tablesCount) {
+    private List<String> getCreateTableQueries(HighloadConfiguration configuration) {
         List<String> queries = new ArrayList<>();
-        List<String> tableNames = getRandomNames(tablesCount);
+        List<String> tableNames = getRandomNames(configuration.getnTables());
 
         tableNames.forEach(tableName -> {
-            int columnsCount = RandomUtils.nextInt(2, 8);
+            int columnsCount = configuration.getkColumnsCount();
             List<String> columns = getRandomNames(columnsCount);
-            String query = queryBuilder.createTable(tableName, columnsCount, columns).toString();
+            String query = queryBuilder.createTable(configuration, tableName, columns).toString();
             queries.add(query);
         });
         return queries;
@@ -234,7 +283,7 @@ public class HighloadDatabaseOperations extends DatabaseOperations {
                     throw new IllegalArgumentException("Items count in array row < table columns count");
                 }
 
-                if (dataType == ColumnTypes.VARCHAR.getCode()) {
+                if (dataType == SqlTypes.VARCHAR.getCode()) {
                     preparedStatement.setString(index + 1, String.valueOf(row[index]));
                 } else {
                     preparedStatement.setInt(index + 1, row[index]);
@@ -246,11 +295,7 @@ public class HighloadDatabaseOperations extends DatabaseOperations {
         }
     }
 
-    public void populateTableFromArray(String...paths) {
-
-    }
-
-    public void createRandomTables(String path) {
+    public void populateTableFromArray(String path) {
 
     }
 }

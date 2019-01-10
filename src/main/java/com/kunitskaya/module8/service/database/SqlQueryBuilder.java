@@ -1,6 +1,7 @@
 package com.kunitskaya.module8.service.database;
 
-import com.kunitskaya.module9.database.ColumnTypes;
+import com.kunitskaya.module9.database.SqlTypes;
+import com.kunitskaya.module9.entity.HighloadConfiguration;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.util.List;
@@ -142,26 +143,52 @@ public class SqlQueryBuilder {
         return this;
     }
 
-    /**
-     * Creates table with columns of random types
-     *
-     * @param tableName    name of the table
-     * @param columnsCount how many columns the table should have
-     * @param columnNames  names of the table columns
-     * @return SqlQueryBuilder with query
-     */
-    public SqlQueryBuilder createTable(String tableName, int columnsCount, List<String> columnNames) {
+//    public SqlQueryBuilder createTable(HighloadConfiguration configuration, String tableName, List<String> columnNames) {
+//
+//        stringBuilder = new StringBuilder().append("CREATE TABLE IF NOT EXISTS ")
+//                                           .append(tableName)
+//                                           .append("(");
+//
+//        for (int i = 0; i < configuration.getkColumnsCount(); i++) {
+//            int randomTypeIndex = RandomUtils.nextInt(0, SqlTypes.values().length);
+//
+//            SqlTypes type = SqlTypes.values()[randomTypeIndex]; //get random column type
+//            String columnType = type.name();
+//
+//            if (type == SqlTypes.VARCHAR) {
+//                int charactersCount = RandomUtils.nextInt(1, 100);
+//                columnType = type.name() + "(" + charactersCount + ")";
+//            }
+//
+//            stringBuilder.append(columnNames.get(i))
+//                         .append(" ")
+//                         .append(columnType);
+//            if (i != configuration.getkColumnsCount() - 1) {
+//                stringBuilder.append(", ");
+//            } else {
+//                stringBuilder.append(")");
+//            }
+//        }
+//        return this;
+//    }
+
+    public SqlQueryBuilder createTable(HighloadConfiguration configuration, String tableName, List<String> columnNames) {
 
         stringBuilder = new StringBuilder().append("CREATE TABLE IF NOT EXISTS ")
                                            .append(tableName)
                                            .append("(");
 
-        for (int i = 0; i < columnsCount; i++) {
-            int randomTypeIndex = RandomUtils.nextInt(0, ColumnTypes.values().length);
-            ColumnTypes type = ColumnTypes.values()[randomTypeIndex]; //get random column type
+        List<String> types = configuration.getTypes();
+
+        for (int i = 0; i < configuration.getkColumnsCount(); i++) {
+            int randomTypeIndex = RandomUtils.nextInt(0, types.size());
+
+            String type = types.get(randomTypeIndex); //get random column type
+
+
             String columnType = type.name();
 
-            if (type == ColumnTypes.VARCHAR) {
+            if (type == SqlTypes.VARCHAR) {
                 int charactersCount = RandomUtils.nextInt(1, 100);
                 columnType = type.name() + "(" + charactersCount + ")";
             }
@@ -169,7 +196,7 @@ public class SqlQueryBuilder {
             stringBuilder.append(columnNames.get(i))
                          .append(" ")
                          .append(columnType);
-            if (i != columnsCount - 1) {
+            if (i != configuration.getkColumnsCount() - 1) {
                 stringBuilder.append(", ");
             } else {
                 stringBuilder.append(")");
