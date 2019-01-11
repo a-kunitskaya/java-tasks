@@ -22,7 +22,7 @@ public enum SqlTypes {
         return javaType;
     }
 
-    public SqlTypes getTypeByJavaType(String javaType) {
+    public static SqlTypes getTypeByJavaType(String javaType) {
         return Arrays.stream(values())
                      .filter(t -> t.getJavaType().equals(javaType))
                      .findFirst()

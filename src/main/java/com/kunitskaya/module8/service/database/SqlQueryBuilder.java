@@ -183,19 +183,20 @@ public class SqlQueryBuilder {
         for (int i = 0; i < configuration.getkColumnsCount(); i++) {
             int randomTypeIndex = RandomUtils.nextInt(0, types.size());
 
-            String type = types.get(randomTypeIndex); //get random column type
+            String javaType = types.get(randomTypeIndex);
+            SqlTypes sqlType = SqlTypes.getTypeByJavaType(javaType);
 
-
-            String columnType = type.name();
-
-            if (type == SqlTypes.VARCHAR) {
-                int charactersCount = RandomUtils.nextInt(1, 100);
-                columnType = type.name() + "(" + charactersCount + ")";
-            }
-
+            int charactersCount = RandomUtils.nextInt(1, 100);
             stringBuilder.append(columnNames.get(i))
                          .append(" ")
-                         .append(columnType);
+                         .append(sqlType);
+
+            if (sqlType == SqlTypes.VARCHAR) {
+                stringBuilder.append("(")
+                             .append(charactersCount)
+                             .append(")");
+            }
+
             if (i != configuration.getkColumnsCount() - 1) {
                 stringBuilder.append(", ");
             } else {

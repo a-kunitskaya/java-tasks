@@ -17,6 +17,7 @@ public class HighloadConfiguration {
     @JsonProperty("L_connections_count")
     private int lConnectionsCount;
 
+
     public int getnTables() {
         return nTables;
     }
