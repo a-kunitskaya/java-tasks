@@ -26,7 +26,7 @@ public class DatabaseOperations {
 
     protected Connection connection = ConnectionProvider.getInstance();
 
-    protected void deleteFrom(String tableName) {
+    public void deleteFrom(String tableName) {
         String query = sqlQueryBuilder.delete(tableName)
                                       .toString();
 

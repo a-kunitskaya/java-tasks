@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class HighloadConfiguration {
+public abstract class HighloadConfiguration {
     @JsonProperty("N_tables_count")
     private int nTables;
 
@@ -17,6 +17,8 @@ public class HighloadConfiguration {
     @JsonProperty("L_connections_count")
     private int lConnectionsCount;
 
+    @JsonProperty("m_rows_count")
+    private int mRowsCount;
 
     public int getnTables() {
         return nTables;
@@ -50,6 +52,14 @@ public class HighloadConfiguration {
         this.lConnectionsCount = lConnectionsCount;
     }
 
+    public int getmRowsCount() {
+        return mRowsCount;
+    }
+
+    public void setmRowsCount(int mRowsCount) {
+        this.mRowsCount = mRowsCount;
+    }
+
     @Override
     public String toString() {
         return "HighloadConfiguration{" +
@@ -57,6 +67,7 @@ public class HighloadConfiguration {
                 ", kColumnsCount=" + kColumnsCount +
                 ", types=" + types +
                 ", lConnectionsCount=" + lConnectionsCount +
+                ", mRowsCount=" + mRowsCount +
                 '}';
     }
 }

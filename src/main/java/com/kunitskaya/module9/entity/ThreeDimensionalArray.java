@@ -4,21 +4,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Arrays;
 
-public class HighloadOneDimensionalArray extends HighloadConfiguration {
+public class ThreeDimensionalArray extends HighloadConfiguration {
     @JsonProperty("M_array")
-    private int[] array;
+    private int[][][] array;
 
-    public int[] getArray() {
+    public int[][][] getArray() {
         return array;
     }
 
-    public void setArray(int[] array) {
+    public void setArray(int[][][] array) {
         this.array = array;
     }
 
     @Override
     public String toString() {
-        return "HighloadOneDimensionalArray{" +
+        return "ThreeDimensionalArray{" +
                 "array=" + Arrays.toString(array) +
                 "} " + super.toString();
     }
