@@ -1,5 +1,6 @@
 package com.kunitskaya;
 
+import com.kunitskaya.logging.ProjectLogger;
 import com.kunitskaya.module8.ConfigProvider;
 import com.kunitskaya.module9.AppContext;
 import com.kunitskaya.module9.database.HighloadDatabaseOperations;
@@ -7,13 +8,14 @@ import com.kunitskaya.module9.entity.OneDimensionalArray;
 import com.kunitskaya.module9.entity.ThreeDimensionalArray;
 import com.kunitskaya.module9.entity.TwoDimensionalArray;
 import com.kunitskaya.module9.service.JsonMapper;
+import org.apache.logging.log4j.message.StringMapMessage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.nio.file.Paths;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+
+import static com.kunitskaya.logging.ProjectLogger.LOGGER;
 
 
 public class MainModule9 {
@@ -39,16 +41,22 @@ public class MainModule9 {
 
         //2.	It creates m random rows for the i - th table, where m is an i - th element of M.
         // M is an N-dimensional array predefined by a user of this tool.
+        String populateTableMessage = "Populating table from array of '%s' dimensions";
+        LOGGER.info(String.format(populateTableMessage, 1));
         database.populateTableFromArray(oneDimensionalArray);
 
         String twoDimensionalArrayPath = Paths.get("src", "main", "resources", "module9", "2d_array.json").toString();
         JsonMapper<TwoDimensionalArray> jsonMapper2 = new JsonMapper<>();
-        TwoDimensionalArray twoDimensionalArray = jsonMapper2.mapFromJson(oneDimensionalArrayPath, TwoDimensionalArray.class);
+        TwoDimensionalArray twoDimensionalArray = jsonMapper2.mapFromJson(twoDimensionalArrayPath, TwoDimensionalArray.class);
+
+        LOGGER.info(String.format(populateTableMessage, 2));
         database.populateTableFromArray(twoDimensionalArray);
 
         String threeDimensionalArrayPath = Paths.get("src", "main", "resources", "module9", "3d_array.json").toString();
         JsonMapper<ThreeDimensionalArray> jsonMapper3 = new JsonMapper<>();
-        ThreeDimensionalArray threeDimensionalArray = jsonMapper3.mapFromJson(oneDimensionalArrayPath, ThreeDimensionalArray.class);
+        ThreeDimensionalArray threeDimensionalArray = jsonMapper3.mapFromJson(threeDimensionalArrayPath, ThreeDimensionalArray.class);
+
+        LOGGER.info(String.format(populateTableMessage, 3));
         database.populateTableFromArray(threeDimensionalArray);
     }
 }

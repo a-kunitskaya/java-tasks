@@ -1,7 +1,6 @@
 package com.kunitskaya.module9.database;
 
 import com.kunitskaya.module8.ConfigProvider;
-import com.kunitskaya.module8.ConnectionProvider;
 import com.kunitskaya.module8.service.database.SqlQueryBuilder;
 import com.kunitskaya.module8.service.database.operations.DatabaseOperations;
 import com.kunitskaya.module9.entity.HighloadConfiguration;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -116,7 +114,6 @@ public class HighloadDatabaseOperations extends DatabaseOperations {
         return null;
     }
 
-
     /**
      * Retrieves a random table name from the tables existing in DB
      *
@@ -143,16 +140,6 @@ public class HighloadDatabaseOperations extends DatabaseOperations {
         }
 
         return tableName;
-    }
-
-    private void closeResult(ResultSet result) {
-        if (result != null) {
-            try {
-                result.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     /**
@@ -199,38 +186,35 @@ public class HighloadDatabaseOperations extends DatabaseOperations {
                 }
                 index++;
             }
-            LOGGER.info("Adding statement to batch: " + preparedStatement);
+            LOGGER.info(ADD_TO_BATCH_MESSAGE + preparedStatement);
             preparedStatement.addBatch();
         }
     }
 
-    public void populateTableFromArray(HighloadConfiguration configuration, Connection... connections) {
+    public void populateTableFromArray(HighloadConfiguration configuration) {
         List<int[]> arrays = getOneDimensionalArrayList(configuration);
+        List<Connection> connections = getConnections(configuration);
 
-        Arrays.stream(connections)
-              .parallel()
-              .forEach(c -> {
-                  try {
-                      DatabaseMetaData metaData = connection.getMetaData();
-                      String tableName = getRandomExistingTableName(metaData);
+        connections.parallelStream()
+                   .forEach(c -> {
+                       try {
+                           DatabaseMetaData metaData = connection.getMetaData();
+                           String tableName = getRandomExistingTableName(metaData);
 
-                      int columnCount = getColumnCount(tableName);
-                      ResultSet columnsResult = getTableColumns(metaData, tableName);
+                           int columnCount = getColumnCount(tableName);
+                           ResultSet columnsResult = getTableColumns(metaData, tableName);
 
-                      String query = sqlQueryBuilder.insertPrepared(tableName, columnCount).toString();
-                      PreparedStatement preparedStatement = connection.prepareStatement(query);
+                           String query = sqlQueryBuilder.insertPrepared(tableName, columnCount).toString();
+                           PreparedStatement preparedStatement = connection.prepareStatement(query);
 
-                      addBatch(columnsResult, preparedStatement, arrays);
+                           addBatch(columnsResult, preparedStatement, arrays);
 
-                      int[] affectedRows = preparedStatement.executeBatch();
-                      LOGGER.info("Affected rows: " + affectedRows.length);
-
-                      closeResult(columnsResult);
-
-                  } catch (SQLException e) {
-                      e.printStackTrace();
-                  }
-              });
+                           int[] affectedRows = preparedStatement.executeBatch();
+                           LOGGER.info("Affected rows: " + affectedRows.length);
+                       } catch (SQLException e) {
+                           e.printStackTrace();
+                       }
+                   });
 
     }
 
@@ -268,4 +252,3 @@ public class HighloadDatabaseOperations extends DatabaseOperations {
     }
 
 }
-
