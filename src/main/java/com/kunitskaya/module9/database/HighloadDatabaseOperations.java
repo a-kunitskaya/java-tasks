@@ -1,5 +1,7 @@
 package com.kunitskaya.module9.database;
 
+import com.kunitskaya.module8.ConfigProvider;
+import com.kunitskaya.module8.ConnectionProvider;
 import com.kunitskaya.module8.service.database.SqlQueryBuilder;
 import com.kunitskaya.module8.service.database.operations.DatabaseOperations;
 import com.kunitskaya.module9.entity.HighloadConfiguration;
@@ -13,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -24,6 +25,8 @@ public class HighloadDatabaseOperations extends DatabaseOperations {
 
     @Autowired
     private SqlQueryBuilder queryBuilder;
+    @Autowired
+    private ConfigProvider configProvider;
 
     private static final String ADD_TO_BATCH_MESSAGE = "Adding query to batch: ";
     private static final String BATCH_SUCCESSFUL_MESSAGE = " Successfully executed batch";
@@ -32,29 +35,45 @@ public class HighloadDatabaseOperations extends DatabaseOperations {
         super();
     }
 
-    public void createRandomTables(HighloadConfiguration configuration, Connection... connections) {
+    public void createRandomTables(HighloadConfiguration configuration) {
+        List<Connection> connections = getConnections(configuration);
+
         List<String> queries = getCreateTableQueries(configuration);
 
-        Arrays.stream(connections)
-              .parallel()
-              .forEach(c -> {
-                  try (Statement statement = c.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)) {
-                      queries.stream()
-                             .peek(q -> LOGGER.info(ADD_TO_BATCH_MESSAGE + q))
-                             .forEach(q -> {
-                                 try {
-                                     statement.addBatch(q);
-                                 } catch (SQLException e) {
-                                     e.printStackTrace();
-                                 }
-                             });
+        connections.parallelStream()
+                   .forEach(c -> {
+                       try (Statement statement = c.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)) {
+                           queries.stream()
+                                  .peek(q -> LOGGER.info(ADD_TO_BATCH_MESSAGE + q))
+                                  .forEach(q -> {
+                                      try {
+                                          statement.addBatch(q);
+                                      } catch (SQLException e) {
+                                          e.printStackTrace();
+                                      }
+                                  });
 
-                      statement.executeBatch();
-                  } catch (SQLException e) {
-                      e.printStackTrace();
-                  }
-                  LOGGER.info(BATCH_SUCCESSFUL_MESSAGE);
-              });
+                           statement.executeBatch();
+                       } catch (SQLException e) {
+                           e.printStackTrace();
+                       }
+                       LOGGER.info(BATCH_SUCCESSFUL_MESSAGE);
+                   });
+    }
+
+    private List<Connection> getConnections(HighloadConfiguration configuration) {
+        int connectionsCount = configuration.getlConnectionsCount();
+        List<Connection> connections = new ArrayList<>();
+
+        for (int i = 0; i < connectionsCount; i++) {
+            try {
+                Connection connection = DriverManager.getConnection(configProvider.getDBUrl(), configProvider.getDBUsername(), configProvider.getDBPassword());
+                connections.add(connection);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return connections;
     }
 
     private List<String> getCreateTableQueries(HighloadConfiguration configuration) {
@@ -185,8 +204,8 @@ public class HighloadDatabaseOperations extends DatabaseOperations {
         }
     }
 
-    public void populateTableFromArray(OneDimensionalArray configuration, Connection... connections) {
-        List<int[]> arrays = getOneDimentionalArrayList(configuration);
+    public void populateTableFromArray(HighloadConfiguration configuration, Connection... connections) {
+        List<int[]> arrays = getOneDimensionalArrayList(configuration);
 
         Arrays.stream(connections)
               .parallel()
@@ -215,24 +234,21 @@ public class HighloadDatabaseOperations extends DatabaseOperations {
 
     }
 
-    public List<int[]> getOneDimentionalArrayList(HighloadConfiguration configuration) {
+    public List<int[]> getOneDimensionalArrayList(HighloadConfiguration configuration) {
         List<int[]> arrays = new ArrayList<>();
         int rowsCount = configuration.getmRowsCount();
-
+        int[] oneDimensionalArray;
 
         for (int i = 0; i < rowsCount; i++) {
 
             if (configuration instanceof OneDimensionalArray) {
-                int[] array = ((OneDimensionalArray) configuration).getArray();
-                arrays.add(array);
+                oneDimensionalArray = ((OneDimensionalArray) configuration).getArray();
 
             } else if (configuration instanceof TwoDimensionalArray) {
                 int[][] array = ((TwoDimensionalArray) configuration).getArray();
 
                 int index = RandomUtils.nextInt(0, array.length);
-                int[] oneDimensionalArray = array[index];
-
-                arrays.add(oneDimensionalArray);
+                oneDimensionalArray = array[index];
 
             } else if (configuration instanceof ThreeDimensionalArray) {
                 int[][][] array = ((ThreeDimensionalArray) configuration).getArray();
@@ -241,12 +257,15 @@ public class HighloadDatabaseOperations extends DatabaseOperations {
                 int[][] twoDimensionalArray = array[index1];
 
                 int index2 = RandomUtils.nextInt(0, twoDimensionalArray.length);
-                int[] oneDimensionalArray = twoDimensionalArray[index2];
+                oneDimensionalArray = twoDimensionalArray[index2];
 
-                arrays.add(oneDimensionalArray);
+            } else {
+                throw new IllegalArgumentException("No implementation is found for the specified array type");
             }
+            arrays.add(oneDimensionalArray);
         }
         return arrays;
     }
+
 }
 
